@@ -1,12 +1,178 @@
 {
   "path": ".",
-  "variables": {},
-  "outputs": {},
+  "variables": {
+    "app_config_collections": {
+      "name": "app_config_collections",
+      "type": "list(object({\n    name          = string\n    collection_id = string\n    description   = optional(string, \"\")\n    tags          = optional(string, \"\")\n  }))",
+      "description": "A list of collections to be added to the App Configuration instance",
+      "default": [],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 53
+      }
+    },
+    "app_config_name": {
+      "name": "app_config_name",
+      "type": "string",
+      "description": "Name for the App Configuration service instance",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.app_config.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 20
+      }
+    },
+    "app_config_plan": {
+      "name": "app_config_plan",
+      "type": "string",
+      "description": "Plan for the App Configuration service instance",
+      "default": "lite",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.app_config.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 25
+      }
+    },
+    "app_config_service_endpoints": {
+      "name": "app_config_service_endpoints",
+      "type": "string",
+      "description": "Service Endpoints for the App Configuration service instance",
+      "default": "public",
+      "source": [
+        "ibm_resource_instance.app_config.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 36
+      },
+      "computed": true
+    },
+    "app_config_tags": {
+      "name": "app_config_tags",
+      "type": "list(string)",
+      "description": "Optional list of tags to be added to the App Config instance.",
+      "default": [],
+      "source": [
+        "ibm_resource_instance.app_config.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 47
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "region": {
+      "name": "region",
+      "type": "string",
+      "description": "The region to provision the resources.",
+      "default": "us-south",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.app_config.location"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 10
+      },
+      "cloud_data_type": "region",
+      "immutable": true
+    },
+    "resource_group_id": {
+      "name": "resource_group_id",
+      "type": "string",
+      "description": "The resource group ID where resources will be provisioned.",
+      "required": true,
+      "source": [
+        "ibm_resource_instance.app_config.resource_group_id"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 5
+      },
+      "cloud_data_type": "resource_group",
+      "immutable": true,
+      "computed": true,
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
+    }
+  },
+  "outputs": {
+    "app_config_collection_ids": {
+      "name": "app_config_collection_ids",
+      "description": "List of IDs for the collections in the App Configuration instance",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 10
+      }
+    },
+    "app_config_guid": {
+      "name": "app_config_guid",
+      "description": "GUID of the App Configuration instance",
+      "value": "ibm_resource_instance.app_config.guid",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 5
+      },
+      "type": "TypeString"
+    }
+  },
   "required_core": [
     "\u003e= 1.3.0"
   ],
-  "required_providers": {},
-  "managed_resources": {},
+  "required_providers": {
+    "ibm": {
+      "source": "IBM-Cloud/ibm",
+      "version_constraints": [
+        "\u003e= 1.49.0, \u003c 2.0.0"
+      ]
+    }
+  },
+  "managed_resources": {
+    "ibm_app_config_collection.collections": {
+      "mode": "managed",
+      "type": "ibm_app_config_collection",
+      "name": "collections",
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 22
+      }
+    },
+    "ibm_resource_instance.app_config": {
+      "mode": "managed",
+      "type": "ibm_resource_instance",
+      "name": "app_config",
+      "attributes": {
+        "location": "region",
+        "name": "app_config_name",
+        "plan": "app_config_plan",
+        "resource_group_id": "resource_group_id",
+        "service_endpoints": "app_config_service_endpoints",
+        "tags": "app_config_tags"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 5
+      }
+    }
+  },
   "data_resources": {},
   "module_calls": {}
 }
