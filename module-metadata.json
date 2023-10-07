@@ -8,7 +8,7 @@
       "default": [],
       "pos": {
         "filename": "variables.tf",
-        "line": 53
+        "line": 58
       }
     },
     "app_config_name": {
@@ -21,21 +21,21 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 20
+        "line": 25
       }
     },
     "app_config_plan": {
       "name": "app_config_plan",
       "type": "string",
       "description": "Plan for the App Configuration service instance",
-      "default": "lite",
+      "default": "standardv2",
       "required": true,
       "source": [
         "ibm_resource_instance.app_config.plan"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 25
+        "line": 30
       }
     },
     "app_config_service_endpoints": {
@@ -48,7 +48,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 36
+        "line": 41
       },
       "computed": true
     },
@@ -62,7 +62,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 47
+        "line": 52
       },
       "min_length": 1,
       "max_length": 128,

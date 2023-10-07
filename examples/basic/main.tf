@@ -11,7 +11,7 @@ module "resource_group" {
 }
 
 ########################################################################################################################
-# COS instance
+# App Config
 ########################################################################################################################
 
 module "app_config" {
@@ -20,12 +20,4 @@ module "app_config" {
   region            = var.region
   app_config_name   = "${var.prefix}-app-config"
   app_config_tags   = var.resource_tags
-
-  app_config_collections = [
-    {
-      name          = "${var.prefix}-collection",
-      collection_id = "${var.prefix}-collection"
-      description   = "Collection for ${var.prefix}"
-    }
-  ]
 }
