@@ -17,6 +17,16 @@ output "resource_group_name" {
   value       = var.resource_group
 }
 
+output "app_config_guid" {
+  description = "App Configuration GUID"
+  value       = module.app_config.app_config_guid
+}
+
+output "app_config_collection_ids" {
+  description = "App Configuration Collection IDs"
+  value       = module.app_config.app_config_collection_ids
+}
+
 output "resource_tags" {
   description = "List of resource tags"
   value       = var.resource_tags

@@ -11,6 +11,11 @@ variable "region" {
   description = "The region to provision the resources."
   type        = string
   default     = "us-south"
+
+  validation {
+    condition     = contains(["us-east", "us-south", "eu-gb", "au-syd"], var.region)
+    error_message = "Value for region must be one of the following: ${join(", ", ["us-east", "us-south", "eu-gb", "au-syd"])}"
+  }
 }
 
 ########################################################################################################################
@@ -25,10 +30,10 @@ variable "app_config_name" {
 variable "app_config_plan" {
   type        = string
   description = "Plan for the App Configuration service instance"
-  default     = "lite"
+  default     = "standardv2"
 
   validation {
-    condition     = contains(["lite", "standard", "enterprise"], var.app_config_plan)
+    condition     = contains(["lite", "standardv2", "enterprise"], var.app_config_plan)
     error_message = "Value for plan must be one of the following: \"lite\", \"standard\", or \"enterprise\"."
   }
 }
