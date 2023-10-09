@@ -27,13 +27,13 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-* [terraform-ibm-module-template](#terraform-ibm-module-template)
+* [terraform-ibm-app-configuration](#terraform-ibm-app-configuration)
 * [Examples](./examples)
     * [Basic example](./examples/basic)
     * [Complete example](./examples/complete)
 * [Contributing](#contributing)
 
-## terraform-ibm-module-template
+## terraform-ibm-app-configuration
 <!-- END OVERVIEW HOOK -->
 
 ### Usage
@@ -85,7 +85,7 @@ statement instead the previous block.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, <1.6.0 |
 
 ### Modules
 
