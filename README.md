@@ -32,8 +32,6 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
     * [Basic example](./examples/basic)
     * [Complete example](./examples/complete)
 * [Contributing](#contributing)
-
-## terraform-ibm-app-configuration
 <!-- END OVERVIEW HOOK -->
 
 ### Usage
