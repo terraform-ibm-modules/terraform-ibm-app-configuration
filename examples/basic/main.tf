@@ -15,9 +15,11 @@ module "resource_group" {
 ########################################################################################################################
 
 module "app_config" {
-  source            = "../.."
-  resource_group_id = module.resource_group.resource_group_id
-  region            = var.region
-  app_config_name   = "${var.prefix}-app-config"
-  app_config_tags   = var.resource_tags
+  source                       = "../.."
+  resource_group_id            = module.resource_group.resource_group_id
+  region                       = var.region
+  app_config_name              = "${var.prefix}-app-config"
+  app_config_tags              = var.resource_tags
+  app_config_plan              = "lite"
+  app_config_service_endpoints = "public-and-private"
 }
