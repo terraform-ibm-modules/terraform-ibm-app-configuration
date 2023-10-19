@@ -1,13 +1,10 @@
-<!-- Update the title -->
-# Terraform Modules Template Project
+# Terraform IBM App Configuration
 
 [![Stable (Adopted)](https://img.shields.io/badge/Status-Stable%20(Adopted)-yellowgreen?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-app-configuration?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/releases/latest)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-
-<!-- Add a description of module(s) in this repo -->
 
 Create an App Configuration instance and optionally allows for multiple App Configuration Collections to be created.
 
@@ -28,8 +25,6 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
     * [Basic example](./examples/basic)
     * [Complete example](./examples/complete)
 * [Contributing](#contributing)
-
-## terraform-ibm-app-configuration
 <!-- END OVERVIEW HOOK -->
 
 ### Usage
@@ -37,7 +32,7 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
 ```hcl
 module "app_config" {
   source                       = "terraform-ibm-modules/app-configuration/ibm"
-  version                      = "latest" # Replace "latest" with a release version to lock into a specific release
+  version                      = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
   resource_group_id            = "65xxxxxxxxxxxxxxxa3fd"
   region                       = "us-south"
   app_config_name              = "my-app-config-name"
@@ -82,7 +77,7 @@ For more information on access and permissions, see <https://cloud.ibm.com/docs/
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, < 1.6.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, <1.6.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0, < 2.0.0 |
 
 ### Modules
@@ -100,9 +95,9 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_app_config_collections"></a> [app\_config\_collections](#input\_app\_config\_collections) | A list of collections to be added to the App Configuration instance | <pre>list(object({<br>    name          = string<br>    collection_id = string<br>    description   = optional(string, "")<br>    tags          = optional(string, "")<br>  }))</pre> | `[]` | no |
+| <a name="input_app_config_collections"></a> [app\_config\_collections](#input\_app\_config\_collections) | A list of collections to be added to the App Configuration instance | <pre>list(object({<br>    name          = string<br>    collection_id = string<br>    description   = optional(string, null)<br>    tags          = optional(string, null)<br>  }))</pre> | `[]` | no |
 | <a name="input_app_config_name"></a> [app\_config\_name](#input\_app\_config\_name) | Name for the App Configuration service instance | `string` | n/a | yes |
-| <a name="input_app_config_plan"></a> [app\_config\_plan](#input\_app\_config\_plan) | Plan for the App Configuration service instance | `string` | `"standardv2"` | no |
+| <a name="input_app_config_plan"></a> [app\_config\_plan](#input\_app\_config\_plan) | Plan for the App Configuration service instance | `string` | `"lite"` | no |
 | <a name="input_app_config_service_endpoints"></a> [app\_config\_service\_endpoints](#input\_app\_config\_service\_endpoints) | Service Endpoints for the App Configuration service instance | `string` | `"public"` | no |
 | <a name="input_app_config_tags"></a> [app\_config\_tags](#input\_app\_config\_tags) | Optional list of tags to be added to the App Config instance. | `list(string)` | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the resources. | `string` | `"us-south"` | no |

@@ -30,11 +30,11 @@ variable "app_config_name" {
 variable "app_config_plan" {
   type        = string
   description = "Plan for the App Configuration service instance"
-  default     = "standardv2"
+  default     = "lite"
 
   validation {
     condition     = contains(["lite", "standardv2", "enterprise"], var.app_config_plan)
-    error_message = "Value for plan must be one of the following: \"lite\", \"standard\", or \"enterprise\"."
+    error_message = "Value for plan must be one of the following: \"lite\", \"standardv2\", or \"enterprise\"."
   }
 }
 
@@ -44,8 +44,8 @@ variable "app_config_service_endpoints" {
   default     = "public"
 
   validation {
-    condition     = contains(["public", "private", "public-and-private"], var.app_config_service_endpoints)
-    error_message = "Value for service endpoints must be one of the following: \"public\", \"private\", or \"public-and-private\"."
+    condition     = contains(["public", "public-and-private"], var.app_config_service_endpoints)
+    error_message = "Value for service endpoints must be one of the following: \"public\" or \"public-and-private\"."
   }
 }
 
@@ -60,8 +60,8 @@ variable "app_config_collections" {
   type = list(object({
     name          = string
     collection_id = string
-    description   = optional(string, "")
-    tags          = optional(string, "")
+    description   = optional(string, null)
+    tags          = optional(string, null)
   }))
   default = []
 }
