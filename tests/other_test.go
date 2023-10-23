@@ -8,8 +8,6 @@ import (
 )
 
 func TestRunBasicExample(t *testing.T) {
-	t.Parallel()
-
 	options := setupOptions(t, "app-conf-basic", "examples/basic")
 
 	output, err := options.RunTestConsistency()
