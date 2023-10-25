@@ -11,14 +11,13 @@ module "resource_group" {
 }
 
 ########################################################################################################################
-# COS instance
+# App Config
 ########################################################################################################################
 
-resource "ibm_resource_instance" "cos_instance" {
-  name              = "${var.prefix}-cos"
+module "app_config" {
+  source            = "../.."
   resource_group_id = module.resource_group.resource_group_id
-  service           = "cloud-object-storage"
-  plan              = "standard"
-  location          = "global"
-  tags              = var.resource_tags
+  region            = var.region
+  app_config_name   = "${var.prefix}-app-config"
+  app_config_tags   = var.resource_tags
 }
