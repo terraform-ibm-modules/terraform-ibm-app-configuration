@@ -8,7 +8,7 @@ variable "resource_group_id" {
 }
 
 variable "region" {
-  description = "The region to provision the resources."
+  description = "The region to provision the App Configuration service, valid regions are us-south, us-east, eu-gb, and au-syd."
   type        = string
   default     = "us-south"
 
@@ -29,7 +29,7 @@ variable "app_config_name" {
 
 variable "app_config_plan" {
   type        = string
-  description = "Plan for the App Configuration service instance"
+  description = "Plan for the App Configuration service instance, valid plans are lite, standardv2, and enterprise."
   default     = "lite"
 
   validation {
@@ -40,8 +40,8 @@ variable "app_config_plan" {
 
 variable "app_config_service_endpoints" {
   type        = string
-  description = "Service Endpoints for the App Configuration service instance"
-  default     = "public"
+  description = "Service Endpoints for the App Configuration service instance, valid endpoints are public or public-and-private."
+  default     = "public-and-private"
 
   validation {
     condition     = contains(["public", "public-and-private"], var.app_config_service_endpoints)

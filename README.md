@@ -16,7 +16,6 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
 -->
 <!-- ## Reference architectures -->
 
-
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
@@ -26,6 +25,8 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
     * [Complete example](./examples/complete)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
+
+## terraform-ibm-app-configuration
 
 ### Usage
 
@@ -97,10 +98,10 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_config_collections"></a> [app\_config\_collections](#input\_app\_config\_collections) | A list of collections to be added to the App Configuration instance | <pre>list(object({<br>    name          = string<br>    collection_id = string<br>    description   = optional(string, null)<br>    tags          = optional(string, null)<br>  }))</pre> | `[]` | no |
 | <a name="input_app_config_name"></a> [app\_config\_name](#input\_app\_config\_name) | Name for the App Configuration service instance | `string` | n/a | yes |
-| <a name="input_app_config_plan"></a> [app\_config\_plan](#input\_app\_config\_plan) | Plan for the App Configuration service instance | `string` | `"lite"` | no |
-| <a name="input_app_config_service_endpoints"></a> [app\_config\_service\_endpoints](#input\_app\_config\_service\_endpoints) | Service Endpoints for the App Configuration service instance | `string` | `"public"` | no |
+| <a name="input_app_config_plan"></a> [app\_config\_plan](#input\_app\_config\_plan) | Plan for the App Configuration service instance, valid plans are lite, standardv2, and enterprise. | `string` | `"lite"` | no |
+| <a name="input_app_config_service_endpoints"></a> [app\_config\_service\_endpoints](#input\_app\_config\_service\_endpoints) | Service Endpoints for the App Configuration service instance, valid endpoints are public or public-and-private. | `string` | `"public-and-private"` | no |
 | <a name="input_app_config_tags"></a> [app\_config\_tags](#input\_app\_config\_tags) | Optional list of tags to be added to the App Config instance. | `list(string)` | `[]` | no |
-| <a name="input_region"></a> [region](#input\_region) | The region to provision the resources. | `string` | `"us-south"` | no |
+| <a name="input_region"></a> [region](#input\_region) | The region to provision the App Configuration service, valid regions are us-south, us-east, eu-gb, and au-syd. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
 
 ### Outputs

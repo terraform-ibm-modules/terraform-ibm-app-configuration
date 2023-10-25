@@ -2,11 +2,6 @@
 # App Config module
 ##############################################################################
 
-locals {
-  # tflint-ignore: terraform_unused_declarations
-  validate_endpoint = var.app_config_service_endpoints == "public-and-private" && var.app_config_plan != "enterprise" ? tobool("The endpoint type 'public-and-private' is only available if the value for var.app_config_plan is 'enterprise'.") : true
-}
-
 resource "ibm_resource_instance" "app_config" {
   resource_group_id = var.resource_group_id
   location          = var.region
