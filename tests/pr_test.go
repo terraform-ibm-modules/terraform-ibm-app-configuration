@@ -21,7 +21,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		"eu-gb",
 		"au-syd",
 	}
-	rand.Seed(time.Now().Unix())
+	rand.New(rand.NewSource(time.Now().Unix()))
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
 		TerraformDir:  dir,
