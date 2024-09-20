@@ -14,6 +14,36 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
+##############################################################################
+# Get Cloud Account ID
+##############################################################################
+
+data "ibm_iam_account_settings" "iam_account_settings" {
+}
+
+##############################################################################
+# VPC
+##############################################################################
+resource "ibm_is_vpc" "example_vpc" {
+  name           = "${var.prefix}-vpc"
+  resource_group = module.resource_group.resource_group_id
+  tags           = var.resource_tags
+}
+
+##############################################################################
+# Create CBR Zone
+##############################################################################
+module "cbr_zone" {
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.2.0"
+  name             = "${var.prefix}-VPC-network-zone"
+  zone_description = "CBR Network zone representing VPC"
+  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  addresses = [{
+    type  = "vpc", # to bind a specific vpc to the zone
+    value = ibm_is_vpc.example_vpc.crn,
+  }]
+}
+
 ########################################################################################################################
 # App Config
 ########################################################################################################################
@@ -30,6 +60,31 @@ module "app_config" {
       name          = "${var.prefix}-collection",
       collection_id = "${var.prefix}-collection"
       description   = "Collection for ${var.prefix}"
+    }
+  ]
+
+  cbr_rules = [
+    {
+      description      = "${var.prefix}-APP-CONF access only from vpc"
+      enforcement_mode = "enabled"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      tags = [
+        {
+          name  = "test-name"
+          value = "test-value"
+        }
+      ]
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
     }
   ]
 }
