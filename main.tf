@@ -52,7 +52,7 @@ module "cbr_rule" {
       },
       {
         name     = "serviceName"
-        value    = "App Configuration"
+        value    = "apprapp"
         operator = "stringEquals"
       }
     ],
