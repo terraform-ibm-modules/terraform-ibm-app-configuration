@@ -89,3 +89,14 @@ module "app_config" {
     }
   ]
 }
+module "scc_wp_config_aggregator" {
+  source = "../../modules/scc_wp_config_aggregator"
+
+  app_config_instance_guid        = module.app_config.app_config_guid
+  region                          = var.region
+  enterprise_id                   = var.enterprise_id
+  template_id                     = var.template_id
+  enterprise_trusted_profile_id  = var.enterprise_trusted_profile_id
+
+  depends_on = [module.app_config]
+}

@@ -1,3 +1,7 @@
+variable "enterprise_trusted_profile_id" {
+  type        = string
+  description = "Trusted profile ID for the Enterprise App Config aggregator"
+}
 variable "ibmcloud_api_key" {
   type        = string
   description = "The IBM Cloud API Key"
@@ -27,3 +31,13 @@ variable "resource_tags" {
   description = "Optional list of tags to be added to created resources"
   default     = []
 }
+variable "enterprise_id" {
+  description = "Enterprise ID for App Configuration aggregator"
+  type        = string
+}
+
+variable "template_id" {
+  description = "Trusted Profile Template ID for App Configuration aggregator"
+  type        = string
+}
+
