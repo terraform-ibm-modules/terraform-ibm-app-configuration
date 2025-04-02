@@ -1,3 +1,7 @@
+output "app_config_crn" {
+  value = ibm_resource_instance.app_config.crn
+}
+
 output "app_config_guid" {
   description = "GUID of the App Configuration instance"
   value       = module.app_config.app_config_guid
