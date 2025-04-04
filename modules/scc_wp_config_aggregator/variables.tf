@@ -20,6 +20,9 @@ variable "template_id" {
 
 variable "enterprise_trusted_profile_id" {
   type        = string
+  description = "Trusted Profile ID used to authorize resource collection scoping"
+}
+variable "general_trusted_profile_id" {
+  type        = string
   description = "Trusted Profile ID used to authorize resource collection"
 }
-

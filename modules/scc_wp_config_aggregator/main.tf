@@ -13,7 +13,7 @@ resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
   region                      = var.region
   resource_collection_enabled = true
   resource_collection_regions = ["all"]
-  trusted_profile_id          = var.enterprise_trusted_profile_id
+  trusted_profile_id          = var.general_trusted_profile_id
 
   additional_scope {
     type          = "Enterprise"
