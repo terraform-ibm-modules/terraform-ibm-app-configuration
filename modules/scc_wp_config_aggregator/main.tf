@@ -1,3 +1,13 @@
+resource "null_resource" "debug_vars" {
+  provisioner "local-exec" {
+    command = <<EOT
+echo "📦 Template ID: ${var.template_id}"
+echo "🏢 Enterprise ID: ${var.enterprise_id}"
+echo "🔐 Trusted Profile ID: ${var.enterprise_trusted_profile_id}"
+EOT
+  }
+}
+
 resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
   instance_id                 = var.app_config_instance_guid
   region                      = var.region

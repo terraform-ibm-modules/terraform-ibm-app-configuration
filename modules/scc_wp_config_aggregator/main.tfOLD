@@ -4,5 +4,15 @@ resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
   resource_collection_enabled = true
   resource_collection_regions = ["all"]
   trusted_profile_id          = var.enterprise_trusted_profile_id
+
+  additional_scope {
+    type          = "Enterprise"
+    enterprise_id = var.enterprise_id
+
+    profile_template {
+      id                 = var.template_id
+      trusted_profile_id = var.enterprise_trusted_profile_id
+    }
+  }
 }
 
