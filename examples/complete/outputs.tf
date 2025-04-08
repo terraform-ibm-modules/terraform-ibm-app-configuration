@@ -1,10 +1,6 @@
 ##############################################################################
 # Outputs
 ##############################################################################
-output "scc_wp_config_aggregator_id" {
-  description = "ID of the SCC-WP Config Aggregator"
-  value       = module.scc_wp_config_aggregator.scc_wp_config_aggregator_id
-}
 
 output "region" {
   description = "The region all resources were provisioned in"
