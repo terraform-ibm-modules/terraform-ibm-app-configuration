@@ -2,6 +2,7 @@
 # Outputs
 ########################################################################################################################
 output "app_config_crn" {
+  description = "The CRN of the App Configuration instance"
   value = ibm_resource_instance.app_config.crn
 }
 

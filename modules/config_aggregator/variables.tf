@@ -13,7 +13,7 @@ variable "enterprise_id" {
   description = "Enterprise ID to scope the Config Aggregator"
 }
 
-variable "template_id" {
+variable "trusted_profile_template_id" {
   type        = string
   description = "Trusted Profile Template ID used for additional scope"
 }
@@ -22,6 +22,7 @@ variable "enterprise_trusted_profile_id" {
   type        = string
   description = "Trusted Profile ID used to authorize resource collection scoping"
 }
+
 variable "general_trusted_profile_id" {
   type        = string
   description = "Trusted Profile ID used to authorize resource collection"
