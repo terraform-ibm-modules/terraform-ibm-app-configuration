@@ -62,7 +62,6 @@ This submodule enables the following behavior:
 
 - [IBM Cloud App Configuration Documentation](https://cloud.ibm.com/docs/app-configuration)
 - [Terraform IBM Provider](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/config_aggregator_settings)
-- [IBM Cloud IAM Trusted Profiles](https://cloud.ibm.com/docs/account?topic=account-iamtrustedprofile)
 
 ## Notes
 
