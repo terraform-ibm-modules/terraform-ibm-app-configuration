@@ -11,7 +11,6 @@ import (
 )
 
 // Use existing resource group
-const resourceGroup = "geretain-test-app-config"
 const completeExampleDir = "examples/complete"
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
@@ -23,11 +22,10 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 	}
 	rand.New(rand.NewSource(time.Now().Unix()))
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:       t,
-		TerraformDir:  dir,
-		Prefix:        prefix,
-		Region:        validRegions[rand.Intn(len(validRegions))],
-		ResourceGroup: resourceGroup,
+		Testing:      t,
+		TerraformDir: dir,
+		Prefix:       prefix,
+		Region:       validRegions[rand.Intn(len(validRegions))],
 	})
 	return options
 }
