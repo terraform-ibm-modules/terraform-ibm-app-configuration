@@ -1,58 +1,63 @@
-##############################################################################
+########################################################################################################################
 # Common variables
-##############################################################################
+########################################################################################################################
 
-variable "resource_group_id" {
+variable "ibmcloud_api_key" {
   type        = string
-  description = "The resource group ID where resources will be provisioned."
+  description = "The IBM Cloud API key used to provision resources."
+  sensitive   = true
 }
 
-variable "region" {
-  description = "The region to provision the App Configuration service, valid regions are us-south, us-east, eu-gb, and au-syd."
+variable "provider_visibility" {
+  description = "Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints)."
   type        = string
-  default     = "us-south"
+  default     = "public"
+  nullable    = false
 
   validation {
-    condition     = contains(["us-east", "us-south", "eu-gb", "au-syd"], var.region)
-    error_message = "Value for region must be one of the following: ${join(", ", ["us-east", "us-south", "eu-gb", "au-syd"])}"
+    condition     = contains(["public", "private", "public-and-private"], var.provider_visibility)
+    error_message = "Invalid value for 'provider_visibility'. Allowed values are 'public', 'private', or 'public-and-private'."
   }
 }
 
+variable "existing_resource_group_name" {
+  type        = string
+  description = "The name of an existing resource group to provision resource in."
+  default     = "Default"
+  nullable    = false
+}
+
+variable "region" {
+  type        = string
+  description = "The region to provision resources to."
+  default     = "us-south"
+  nullable    = false
+}
+
 ########################################################################################################################
-# App Config Instance Variables
+# App Config variables
 ########################################################################################################################
+
 
 variable "app_config_name" {
   type        = string
   description = "Name for the App Configuration service instance"
+  default     = "app_config"
+  nullable    = false
 }
 
 variable "app_config_plan" {
   type        = string
   description = "Plan for the App Configuration service instance, valid plans are lite, standardv2, and enterprise."
   default     = "lite"
-
-  validation {
-    condition     = contains(["lite", "standardv2", "enterprise"], var.app_config_plan)
-    error_message = "Value for plan must be one of the following: \"lite\", \"standardv2\", or \"enterprise\"."
-  }
+  nullable    = false
 }
 
 variable "app_config_service_endpoints" {
   type        = string
   description = "Service Endpoints for the App Configuration service instance, valid endpoints are public or public-and-private."
   default     = "public-and-private"
-
-  validation {
-    condition     = contains(["public", "public-and-private"], var.app_config_service_endpoints)
-    error_message = "Value for service endpoints must be one of the following: \"public\" or \"public-and-private\"."
-  }
-}
-
-variable "app_config_tags" {
-  type        = list(string)
-  description = "Optional list of tags to be added to the App Config instance."
-  default     = []
+  nullable    = false
 }
 
 variable "app_config_collections" {
@@ -64,21 +69,19 @@ variable "app_config_collections" {
     tags          = optional(string, null)
   }))
   default = []
+}
 
-  validation {
-    condition = (
-      var.app_config_plan != "lite" ||
-      length(var.app_config_collections) <= 1
-    )
-    error_message = "When using the 'lite' plan, you can define at most 1 App Configuration collection."
-  }
+variable "app_config_tags" {
+  type        = list(string)
+  description = "Optional list of tags to be added to the App Config instance."
+  default     = []
 }
 
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
 
-variable "cbr_rules" {
+variable "app_config_cbr_rules" {
   type = list(object({
     description = string
     account_id  = string
@@ -95,5 +98,5 @@ variable "cbr_rules" {
   }))
   description = "The list of context-based restriction rules to create."
   default     = []
-  # Validation happens in the rule module
+  nullable    = false
 }
