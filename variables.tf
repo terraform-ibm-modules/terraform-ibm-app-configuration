@@ -13,8 +13,8 @@ variable "region" {
   default     = "us-south"
 
   validation {
-    condition     = contains(["us-east", "us-south", "eu-gb", "au-syd"], var.region)
-    error_message = "Value for region must be one of the following: ${join(", ", ["us-east", "us-south", "eu-gb", "au-syd"])}"
+    condition     = contains(["jp-osa", "au-syd", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor"], var.region)
+    error_message = "Value for region must be one of the following: ${join(", ", ["jp-osa", "au-syd", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor"])}"
   }
 }
 
@@ -33,7 +33,7 @@ variable "app_config_plan" {
   default     = "lite"
 
   validation {
-    condition     = contains(["lite", "standardv2", "enterprise"], var.app_config_plan)
+    condition     = contains(["lite", "basic", "standardv2", "enterprise"], var.app_config_plan)
     error_message = "Value for plan must be one of the following: \"lite\", \"standardv2\", or \"enterprise\"."
   }
 }

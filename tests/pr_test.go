@@ -45,7 +45,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 }
 
 func TestRunCompleteExample(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 
 	options := setupOptions(t, "app-conf", completeExampleDir)
 
@@ -55,7 +55,7 @@ func TestRunCompleteExample(t *testing.T) {
 }
 
 func TestRunUpgradeExample(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 
 	options := setupOptions(t, "app-conf-upg", completeExampleDir)
 
@@ -109,7 +109,7 @@ func provisionPreReq(t *testing.T) (string, *terraform.Options, error) {
 }
 
 func TestFullyConfigurable(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 
 	prefix, existingTerraformOptions, existErr := provisionPreReq(t)
 	appConfigCollection := []map[string]any{
@@ -170,7 +170,7 @@ func TestFullyConfigurable(t *testing.T) {
 }
 
 func TestUpgradeFullyConfigurable(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 
 	prefix, existingTerraformOptions, existErr := provisionPreReq(t)
 	appConfigCollection := []map[string]any{
