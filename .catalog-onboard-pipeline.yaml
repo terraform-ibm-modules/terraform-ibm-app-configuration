@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+offerings:
+  - name: deploy-arch-ibm-app-config
+    kind: solution
+    catalog_id:
+    offering_id:
+    variations:
+      - name: fully-configurable
+        mark_ready: true
+        install_type: fullstack
+        scc:
+          instance_id:
+          region: us-south
+          scope_resource_group_var_name: existing_resource_group_name

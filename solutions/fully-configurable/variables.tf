@@ -98,5 +98,4 @@ variable "app_config_cbr_rules" {
   }))
   description = "The list of context-based restriction rules to create."
   default     = []
-  nullable    = false
 }

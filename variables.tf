@@ -34,7 +34,7 @@ variable "app_config_plan" {
 
   validation {
     condition     = contains(["lite", "basic", "standardv2", "enterprise"], var.app_config_plan)
-    error_message = "Value for plan must be one of the following: \"lite\", \"standardv2\", or \"enterprise\"."
+    error_message = "Value for plan must be one of the following: \"lite\", \"basic\", \"standardv2\", or \"enterprise\"."
   }
 }
 

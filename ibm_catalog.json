@@ -5,19 +5,18 @@
         "label": "Cloud automation for App Configuration",
         "product_kind": "solution",
         "tags": [
-          "compute",
-          "target_terraform",
-          "terraform",
-          "solution",
-          "support_ibm",
-          "ibm_beta",
-          "virtualservers"
+            "devops",
+            "integration",
+            "ibm_created",
+            "terraform",
+            "solution",
+            "support_ibm",
+            "ibmCloudCatalog"
         ],
         "keywords": [
           "terraform",
-          "virtualservers",
-          "vsi",
-          "servers",
+          "appconfig",
+          "app configuration",
           "solution",
           "IaC",
           "infrastructure as code"
@@ -150,7 +149,7 @@
                   },
                   {
                     "displayname": "standard",
-                    "value": "standard"
+                    "value": "standardv2"
                   },
                   {
                     "displayname": "enterprise",
@@ -160,6 +159,7 @@
               },
               {
                 "key": "app_config_service_endpoints",
+                "required": true,
                 "options": [
                   {
                     "displayname": "public",
@@ -179,15 +179,6 @@
               },
               {
                 "key": "app_config_cbr_rules"
-              }
-            ],
-            "iam_permissions": [
-              {
-                "service_name": "is",
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ]
               }
             ],
             "architecture": {
@@ -218,10 +209,10 @@
                 {
                   "diagram": {
                     "caption": "Virtual server instance",
-                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-landing-zone-vsi/main/reference-architecture/vsi.svg",
+                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architecture/app_config.svg",
                     "type": "image/svg+xml"
                   },
-                  "description": "This architecture supports creating and configuring IBM Virtual server instance resources."
+                  "description": "**App Configuration on IBM Cloud** <br/> <br/> <b>Description</b> <br/> This deployable architecture automates the provisioning of IBM Cloud App Configuration along with initial collection to help you manage feature flags and dynamic properties at scale. It simplifies onboarding by preconfiguring key resources and provides optional support for defining Context-Based Restrictions (CBR) to enhance security and control access based on network policies."
                 }
               ]
             }
