@@ -8,7 +8,7 @@ variable "resource_group_id" {
 }
 
 variable "region" {
-  description = "The region to provision the App Configuration service, valid regions are us-south, us-east, eu-gb, and au-syd."
+  description = "The region to provision the App Configuration service, valid regions are au-syd, jp-osa, jp-tok, eu-de, eu-gb, eu-es, us-east, us-south, ca-tor."
   type        = string
   default     = "us-south"
 
@@ -29,7 +29,7 @@ variable "app_config_name" {
 
 variable "app_config_plan" {
   type        = string
-  description = "Plan for the App Configuration service instance, valid plans are lite, standardv2, and enterprise."
+  description = "Plan for the App Configuration service instance, valid plans are lite, basic, standardv2, and enterprise."
   default     = "lite"
 
   validation {
