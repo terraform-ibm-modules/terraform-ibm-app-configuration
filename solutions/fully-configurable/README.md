@@ -1,7 +1,6 @@
-# IBM Cloud App Configuration Fully Configurable DA
+# Cloud automation of App Configuration
 
-This Terraform configuration provides a fully deployable architecture for setting up IBM Cloud App Configuration along with:
+This solution supports provisioning and configuring the following infrastructure:
 
-- A Resource Group
 - App Config instance and collections
-- Optional Context-Based Restrictions (CBR)
+- Optional context-based restrictions (CBR)

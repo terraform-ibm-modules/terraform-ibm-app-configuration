@@ -1,4 +1,4 @@
-# Configuring Context-Based Restrictions (CBRs)
+# Configuring context-based restrictions (CBRs)
 
 The `app_config_cbr_rules` input variable allows you to provide a rule for the target service to enforce access restrictions for the service based on the context of access requests. Contexts are criteria that include the network location of access requests, the endpoint type from where the request is sent, etc.
 
@@ -22,7 +22,7 @@ The `app_config_cbr_rules` input variable allows you to provide a rule for the t
       - `report` - The restrictions are evaluated and reported, but not enforced.
 
 
-### Example Rule For Context-Based Restrictions Configuration
+### Example Rule For context-based restrictions Configuration
 
 ```hcl
 [
