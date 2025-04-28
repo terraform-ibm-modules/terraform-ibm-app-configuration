@@ -1,7 +1,7 @@
 {
     "products": [
       {
-        "name": "deploy-arch-ibm-app-config",
+        "name": "deploy-arch-ibm-apprapp",
         "label": "Cloud automation for App Configuration",
         "product_kind": "solution",
         "tags": [
