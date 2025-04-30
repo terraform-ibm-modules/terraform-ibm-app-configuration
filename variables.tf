@@ -67,6 +67,34 @@ variable "app_config_collections" {
 }
 
 ##############################################################
+# Configuration aggregator
+##############################################################
+
+variable "enable_config_aggregator" {
+  description = "Set to true to enable configuration aggregator. By setting to true a trusted profile will be created with the required access to which is used to record configuration data from all resources across regions in your account. [Learn more](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator)."
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "config_aggregator_trusted_profile_name" {
+  description = "The name to give the trusted profile that will be created if `enable_config_aggregator` is set to `true`"
+  type        = string
+  default     = "config-aggregator-trusted-profile"
+
+  validation {
+    condition     = var.enable_config_aggregator ? var.config_aggregator_trusted_profile_name != null : true
+    error_message = "'config_aggregator_trusted_profile_name' cannot be null if 'enable_config_aggregator' is true."
+  }
+}
+
+variable "config_aggregator_resource_collection_regions" {
+  type        = list(string)
+  description = "From which region do you want to collect configuration data? Only applies if `enable_config_aggregator` is set to true."
+  default     = ["all"]
+}
+
+##############################################################
 # Context-based restriction (CBR)
 ##############################################################
 

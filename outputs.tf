@@ -26,3 +26,12 @@ output "app_config_collection_ids" {
   description = "List of IDs for the collections in the App Configuration instance"
   value       = [for obj in ibm_app_config_collection.collections : obj.collection_id]
 }
+
+##############################################################################
+# Configuration aggregator
+##############################################################################
+
+output "config_aggregator_trusted_profile_id" {
+  description = "ID of the config aggregator trusted profile"
+  value       = var.enable_config_aggregator ? module.config_aggregator_trusted_profile[0].profile_id : null
+}
