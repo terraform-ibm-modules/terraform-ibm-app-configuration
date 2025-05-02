@@ -22,7 +22,7 @@ The `app_config_cbr_rules` input variable allows you to provide a rule for the t
       - `report` - The restrictions are evaluated and reported, but not enforced.
 
 
-### Example Rule For context-based restrictions Configuration
+### Example Rule For context-based restrictions configuration
 
 ```hcl
 [

@@ -3,8 +3,8 @@ apiVersion: v1
 offerings:
   - name: deploy-arch-ibm-apprapp
     kind: solution
-    catalog_id: # to be updated
-    offering_id: # to be updated
+    catalog_id: 7df1e4ca-d54c-4fd0-82ce-3d13247308cd
+    offering_id: 045c1169-d15a-4046-ae81-aa3d3348421f
     variations:
       - name: fully-configurable
         mark_ready: true

@@ -1,3 +1,7 @@
+locals {
+  prefix = var.prefix != null ? (trimspace(var.prefix) != "" ? "${trimspace(var.prefix)}-" : "") : ""
+}
+
 #######################################################################################################################
 # Resource Group
 #######################################################################################################################
@@ -14,7 +18,7 @@ module "app_config" {
   source                       = "../.."
   resource_group_id            = module.resource_group.resource_group_id
   region                       = var.region
-  app_config_name              = var.app_config_name
+  app_config_name              = "${local.prefix}${var.app_config_name}"
   app_config_plan              = var.app_config_plan
   app_config_service_endpoints = var.app_config_service_endpoints
   app_config_tags              = var.app_config_tags
