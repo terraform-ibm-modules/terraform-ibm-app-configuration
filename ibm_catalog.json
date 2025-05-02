@@ -189,24 +189,16 @@
               "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
               "features": [
                 {
-                  "title": "App Configuration instance creation",
-                  "description": "Yes"
-                },
-                {
-                  "title": "New resource group creation",
-                  "description": "No"
+                  "title": "App Configuration instance with Collections",
+                  "description": "Creates App Configuration instance. Collections can be created and configured for the instance"
                 },
                 {
                   "title": "Use existing resource group",
-                  "description": "Yes"
-                },
-                {
-                  "title": "App Config Collection creation",
-                  "description": "Yes"
+                  "description": "Supports deployment into an existing IBM Cloud resource group."
                 },
                 {
                   "title": "CBR Enhanced Security",
-                  "description": "Yes"
+                  "description": "Enforces network-based access control through context-based restrictions (CBR) rules."
                 }
               ],
               "diagrams": [
