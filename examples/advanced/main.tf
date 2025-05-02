@@ -1,7 +1,3 @@
-##############################################################################
-# Complete example
-##############################################################################
-
 ########################################################################################################################
 # Resource group
 ########################################################################################################################
@@ -33,6 +29,7 @@ resource "ibm_is_vpc" "example_vpc" {
 ##############################################################################
 # Create CBR Zone
 ##############################################################################
+
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
   version          = "1.28.0"
@@ -50,12 +47,12 @@ module "cbr_zone" {
 ########################################################################################################################
 
 module "app_config" {
-  source            = "../.."
-  resource_group_id = module.resource_group.resource_group_id
-  region            = var.region
-  app_config_name   = "${var.prefix}-app-config"
-  app_config_tags   = var.resource_tags
-
+  source                   = "../.."
+  resource_group_id        = module.resource_group.resource_group_id
+  region                   = var.region
+  app_config_name          = "${var.prefix}-app-config"
+  app_config_tags          = var.resource_tags
+  enable_config_aggregator = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
   app_config_collections = [
     {
       name          = "${var.prefix}-collection",
@@ -63,7 +60,6 @@ module "app_config" {
       description   = "Collection for ${var.prefix}"
     }
   ]
-
   cbr_rules = [
     {
       description      = "${var.prefix}-APP-CONF access only from vpc"

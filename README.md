@@ -21,8 +21,8 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
 ## Overview
 * [terraform-ibm-app-configuration](#terraform-ibm-app-configuration)
 * [Examples](./examples)
+    * [Advanced example](./examples/advanced)
     * [Basic example](./examples/basic)
-    * [Complete example](./examples/complete)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
@@ -79,19 +79,24 @@ For more information on access and permissions, see <https://cloud.ibm.com/docs/
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.65.0, < 2.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.76.1, < 2.0.0 |
 
 ### Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.28.0 |
+| <a name="module_config_aggregator_trusted_profile"></a> [config\_aggregator\_trusted\_profile](#module\_config\_aggregator\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
+| <a name="module_config_aggregator_trusted_profile_enterprise"></a> [config\_aggregator\_trusted\_profile\_enterprise](#module\_config\_aggregator\_trusted\_profile\_enterprise) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
+| <a name="module_config_aggregator_trusted_profile_template"></a> [config\_aggregator\_trusted\_profile\_template](#module\_config\_aggregator\_trusted\_profile\_template) | terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template | 2.2.0 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
 | [ibm_app_config_collection.collections](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/app_config_collection) | resource |
+| [ibm_config_aggregator_settings.config_aggregator_settings](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/config_aggregator_settings) | resource |
+| [ibm_iam_custom_role.template_assignment_reader](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/iam_custom_role) | resource |
 | [ibm_resource_instance.app_config](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_instance) | resource |
 
 ### Inputs
@@ -104,6 +109,13 @@ For more information on access and permissions, see <https://cloud.ibm.com/docs/
 | <a name="input_app_config_service_endpoints"></a> [app\_config\_service\_endpoints](#input\_app\_config\_service\_endpoints) | Service Endpoints for the App Configuration service instance, valid endpoints are public or public-and-private. | `string` | `"public-and-private"` | no |
 | <a name="input_app_config_tags"></a> [app\_config\_tags](#input\_app\_config\_tags) | Optional list of tags to be added to the App Config instance. | `list(string)` | `[]` | no |
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The list of context-based restriction rules to create. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_config_aggregator_enterprise_account_group_ids_to_assign"></a> [config\_aggregator\_enterprise\_account\_group\_ids\_to\_assign](#input\_config\_aggregator\_enterprise\_account\_group\_ids\_to\_assign) | A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `enable_config_aggregator` is true and a value is being passed for `config_aggregator_enterprise_id`. | `list(string)` | <pre>[<br/>  "all"<br/>]</pre> | no |
+| <a name="input_config_aggregator_enterprise_id"></a> [config\_aggregator\_enterprise\_id](#input\_config\_aggregator\_enterprise\_id) | If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID). | `string` | `null` | no |
+| <a name="input_config_aggregator_enterprise_trusted_profile_name"></a> [config\_aggregator\_enterprise\_trusted\_profile\_name](#input\_config\_aggregator\_enterprise\_trusted\_profile\_name) | The name to give the enterprise viewer trusted profile with that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`. | `string` | `"config-aggregator-enterprise-trusted-profile"` | no |
+| <a name="input_config_aggregator_enterprise_trusted_profile_template_name"></a> [config\_aggregator\_enterprise\_trusted\_profile\_template\_name](#input\_config\_aggregator\_enterprise\_trusted\_profile\_template\_name) | The name to give the trusted profile template that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`. | `string` | `"config-aggregator-trusted-profile-template"` | no |
+| <a name="input_config_aggregator_resource_collection_regions"></a> [config\_aggregator\_resource\_collection\_regions](#input\_config\_aggregator\_resource\_collection\_regions) | From which region do you want to collect configuration data? Only applies if `enable_config_aggregator` is set to true. | `list(string)` | <pre>[<br/>  "all"<br/>]</pre> | no |
+| <a name="input_config_aggregator_trusted_profile_name"></a> [config\_aggregator\_trusted\_profile\_name](#input\_config\_aggregator\_trusted\_profile\_name) | The name to give the trusted profile that will be created if `enable_config_aggregator` is set to `true`. | `string` | `"config-aggregator-trusted-profile"` | no |
+| <a name="input_enable_config_aggregator"></a> [enable\_config\_aggregator](#input\_enable\_config\_aggregator) | Set to true to enable configuration aggregator. By setting to true a trusted profile will be created with the required access to record configuration data from all resources across regions in your account. [Learn more](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator). | `bool` | `false` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision the App Configuration service, valid regions are us-south, us-east, eu-gb, and au-syd. | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
 
@@ -116,6 +128,9 @@ For more information on access and permissions, see <https://cloud.ibm.com/docs/
 | <a name="output_app_config_crn"></a> [app\_config\_crn](#output\_app\_config\_crn) | CRN of the App Configuration instance |
 | <a name="output_app_config_guid"></a> [app\_config\_guid](#output\_app\_config\_guid) | GUID of the App Configuration instance |
 | <a name="output_app_config_id"></a> [app\_config\_id](#output\_app\_config\_id) | ID of the App Configuration instance |
+| <a name="output_config_aggregator_enterprise_trusted_profile_id"></a> [config\_aggregator\_enterprise\_trusted\_profile\_id](#output\_config\_aggregator\_enterprise\_trusted\_profile\_id) | ID of the config aggregator trusted profile for enterprise access |
+| <a name="output_config_aggregator_enterprise_trusted_profile_template_id"></a> [config\_aggregator\_enterprise\_trusted\_profile\_template\_id](#output\_config\_aggregator\_enterprise\_trusted\_profile\_template\_id) | ID of the config aggregator trusted profile enterprise template ID |
+| <a name="output_config_aggregator_trusted_profile_id"></a> [config\_aggregator\_trusted\_profile\_id](#output\_config\_aggregator\_trusted\_profile\_id) | ID of the config aggregator trusted profile |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
