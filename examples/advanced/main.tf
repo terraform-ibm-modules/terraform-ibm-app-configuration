@@ -53,7 +53,6 @@ module "app_config" {
   app_config_name          = "${var.prefix}-app-config"
   app_config_tags          = var.resource_tags
   enable_config_aggregator = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
-
   app_config_collections = [
     {
       name          = "${var.prefix}-collection",
@@ -61,7 +60,6 @@ module "app_config" {
       description   = "Collection for ${var.prefix}"
     }
   ]
-
   cbr_rules = [
     {
       description      = "${var.prefix}-APP-CONF access only from vpc"
