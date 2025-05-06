@@ -15,7 +15,8 @@ import (
 
 // Use existing resource group
 const resourceGroup = "geretain-test-resources"
-const completeExampleDir = "examples/complete"
+const advancedExampleDir = "examples/advanced"
+
 const fullyConfigFlavorDir = "solutions/fully-configurable"
 
 var validRegions = []string{
@@ -47,7 +48,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "app-conf", completeExampleDir)
+	options := setupOptions(t, "app-conf", advancedExampleDir)
 
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -57,7 +58,7 @@ func TestRunCompleteExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "app-conf-upg", completeExampleDir)
+	options := setupOptions(t, "app-conf-upg", advancedExampleDir)
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
