@@ -83,6 +83,12 @@ variable "enable_config_aggregator" {
   type        = bool
   default     = false
   nullable    = false
+
+  # Lite plan does not support enabling Config Aggregator as mention in doc : https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
+  validation {
+    condition     = !(var.enable_config_aggregator && var.app_config_plan == "lite")
+    error_message = "The configuration aggregator cannot be enabled when the app_config_plan is set to 'lite'. Please use a different plan (e.g., 'basic', 'standardv2', or 'enterprise')."
+  }
 }
 
 variable "config_aggregator_trusted_profile_name" {

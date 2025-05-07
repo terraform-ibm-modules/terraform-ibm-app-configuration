@@ -114,6 +114,7 @@ func TestFullyConfigurable(t *testing.T) {
 		{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
 		{Name: "app_config_tags", Value: appConfigTags, DataType: "list(string)"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 	}
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
@@ -165,6 +166,7 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 		{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
 		{Name: "app_config_tags", Value: appConfigTags, DataType: "list(string)"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 	}
 	err := options.RunSchematicUpgradeTest()
 	assert.Nil(t, err, "This should not have errored")
