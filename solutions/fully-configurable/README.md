@@ -6,6 +6,7 @@ This solution supports provisioning and configuring the following infrastructure
 
 - App Config instance and collections
 - Optional context-based restrictions (CBR)
+- Configuration aggregator
 
 ![app-configuration-deployable-architecture](../../reference-architecture/app_configuration.svg)
 
