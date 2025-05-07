@@ -23,7 +23,7 @@
         "short_description": "Creates and configures an App Configuration service on IBM Cloud",
         "long_description": "This deployable architecture automates the provisioning of IBM Cloud App Configuration along with initial collection to help you manage feature flags and dynamic properties at scale. It also includes support for configuration aggregators, enabling centralized monitoring and management of configurations across multiple App Configuration instances. It simplifies onboarding by preconfiguring key resources and provides support for defining context-based restrictions (CBR) to enhance security and control access based on network policies. Ideal for teams adopting feature flagging, experimentation, or remote configuration strategies in cloud-native applications, this solution accelerates setup while following IBM Cloud best practices. Refer [this](https://cloud.ibm.com/docs/app-configuration) for more information.",
         "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/blob/main/README.md",
-        "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/images/app_config-icon.png",
+        "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/refs/heads/13296-fully-configurable-da/images/app_config-icon.png",
         "provider_name": "IBM",
         "features": [
           {
@@ -234,7 +234,7 @@
                 {
                   "diagram": {
                     "caption": "App Configuration",
-                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architecture/app_configuration.svg",
+                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/refs/heads/13296-fully-configurable-da/reference-architecture/app_configuration.svg",
                     "type": "image/svg+xml"
                   },
                   "description": "**App Configuration on IBM Cloud** <br/> <br/> <b>Description</b> <br/> This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
