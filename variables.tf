@@ -8,13 +8,13 @@ variable "resource_group_id" {
 }
 
 variable "region" {
-  description = "The region to provision the App Configuration service, valid regions are us-south, us-east, eu-gb, and au-syd."
+  description = "The region to provision the App Configuration service, valid regions are au-syd, jp-osa, jp-tok, eu-de, eu-gb, eu-es, us-east, us-south, ca-tor, br-sao."
   type        = string
   default     = "us-south"
 
   validation {
-    condition     = contains(["us-east", "us-south", "eu-gb", "au-syd"], var.region)
-    error_message = "Value for region must be one of the following: ${join(", ", ["us-east", "us-south", "eu-gb", "au-syd"])}"
+    condition     = contains(["au-syd", "jp-osa", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor", "br-sao"], var.region)
+    error_message = "Value for region must be one of the following: ${join(", ", ["jp-osa", "au-syd", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor", "br-sao"])}"
   }
 }
 
@@ -29,12 +29,12 @@ variable "app_config_name" {
 
 variable "app_config_plan" {
   type        = string
-  description = "Plan for the App Configuration service instance, valid plans are lite, standardv2, and enterprise."
+  description = "Plan for the App Configuration service instance, valid plans are lite, basic, standardv2, and enterprise."
   default     = "lite"
 
   validation {
-    condition     = contains(["lite", "standardv2", "enterprise"], var.app_config_plan)
-    error_message = "Value for plan must be one of the following: \"lite\", \"standardv2\", or \"enterprise\"."
+    condition     = contains(["lite", "standardv2", "basic", "enterprise"], var.app_config_plan)
+    error_message = "Value for plan must be one of the following: \"lite\", \"basic\", \"standardv2\", or \"enterprise\"."
   }
 }
 
@@ -64,6 +64,14 @@ variable "app_config_collections" {
     tags          = optional(string, null)
   }))
   default = []
+
+  validation {
+    condition = (
+      var.app_config_plan != "lite" ||
+      length(var.app_config_collections) <= 1
+    )
+    error_message = "When using the 'lite' plan, you can define at most 1 App Configuration collection."
+  }
 }
 
 ##############################################################
@@ -75,6 +83,12 @@ variable "enable_config_aggregator" {
   type        = bool
   default     = false
   nullable    = false
+
+  # Lite plan does not support enabling Config Aggregator as mention in doc : https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
+  validation {
+    condition     = !(var.enable_config_aggregator && var.app_config_plan == "lite")
+    error_message = "The configuration aggregator cannot be enabled when the app_config_plan is set to 'lite'. Please use a different plan (e.g., 'basic', 'standardv2', or 'enterprise')."
+  }
 }
 
 variable "config_aggregator_trusted_profile_name" {

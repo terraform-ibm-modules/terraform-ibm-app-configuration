@@ -1,0 +1,252 @@
+{
+    "products": [
+      {
+        "name": "deploy-arch-ibm-apprapp",
+        "label": "Cloud automation for App Configuration",
+        "product_kind": "solution",
+        "tags": [
+            "dev_ops",
+            "ibm_created",
+            "terraform",
+            "solution",
+            "support_ibm"
+        ],
+        "keywords": [
+          "terraform",
+          "appconfig",
+          "app configuration",
+          "solution",
+          "IaC",
+          "infrastructure as code"
+        ],
+        "short_description": "Creates and configures an App Configuration service on IBM Cloud",
+        "long_description": "This deployable architecture automates the provisioning of IBM Cloud App Configuration along with initial collection to help you manage feature flags and dynamic properties at scale. It also includes support for configuration aggregators, enabling centralized monitoring and management of configurations across multiple App Configuration instances. It simplifies onboarding by preconfiguring key resources and provides support for defining context-based restrictions (CBR) to enhance security and control access based on network policies. Ideal for teams adopting feature flagging, experimentation, or remote configuration strategies in cloud-native applications, this solution accelerates setup while following IBM Cloud best practices. Refer [this](https://cloud.ibm.com/docs/app-configuration) for more information.",
+        "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/blob/main/README.md",
+        "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/images/app_config-icon.png",
+        "provider_name": "IBM",
+        "features": [
+          {
+            "title": "Provision Collection",
+            "description": "Supports creation of collection to help manage feature flags and dynamic properties at scale."
+          },
+          {
+            "title": "CBR Enhanced Security",
+            "description": "Provides support for defining context-based restrictions (CBR) to enhance security and control access based on network policies."
+          },
+          {
+            "title": "Configuration Aggregator",
+            "description": "Supports creation and management of configuration aggregator to manage configurations across multiple App Configuration instances."
+          }
+        ],
+        "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in that repository [https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/issues](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/issues). Please note this product is not supported via the IBM Cloud Support Center.",
+        "flavors": [
+          {
+            "label": "Fully configurable",
+            "name": "fully-configurable",
+            "install_type": "fullstack",
+            "working_directory": "solutions/fully-configurable",
+            "compliance": {
+              "authority": "scc-v3",
+              "profiles": [
+                {
+                  "profile_name": "IBM Cloud Framework for Financial Services",
+                  "profile_version": "1.7.0"
+                }
+              ]
+            },
+            "configuration": [
+              {
+                "key": "ibmcloud_api_key"
+              },
+              {
+                "key": "prefix",
+                "required": true
+              },
+              {
+                "key": "existing_resource_group_name",
+                "required": true,
+                "custom_config": {
+                  "type": "resource_group",
+                  "grouping": "deployment",
+                  "original_grouping": "deployment",
+                  "config_constraints": {
+                    "identifier": "rg_name"
+                  }
+                }
+              },
+              {
+                "key": "region",
+                "required": true,
+                "options": [
+                  {
+                    "displayname": "Osaka (jp-osa)",
+                    "value": "jp-osa"
+                  },
+                  {
+                    "displayname": "Sydney (au-syd)",
+                    "value": "au-syd"
+                  },
+                  {
+                    "displayname": "Tokyo (jp-tok)",
+                    "value": "jp-tok"
+                  },
+                  {
+                    "displayname": "Frankfurt (eu-de)",
+                    "value": "eu-de"
+                  },
+                  {
+                    "displayname": "London (eu-gb)",
+                    "value": "eu-gb"
+                  },
+                  {
+                    "displayname": "Madrid (eu-es)",
+                    "value": "eu-es"
+                  },
+                  {
+                    "displayname": "Dallas (us-south)",
+                    "value": "us-south"
+                  },
+                  {
+                    "displayname": "Toronto (ca-tor)",
+                    "value": "ca-tor"
+                  },
+                  {
+                    "displayname": "Washington DC (us-east)",
+                    "value": "us-east"
+                  },
+                  {
+                    "displayname": "Sao Paulo (br-sao)",
+                    "value": "br-sao"
+                  }
+                ]
+              },
+              {
+                "key": "app_config_name"
+              },
+              {
+                "key": "app_config_plan",
+                "required": true,
+                "options": [
+                  {
+                    "displayname": "lite",
+                    "value": "lite"
+                  },
+                  {
+                    "displayname": "basic",
+                    "value": "basic"
+                  },
+                  {
+                    "displayname": "standard",
+                    "value": "standardv2"
+                  },
+                  {
+                    "displayname": "enterprise",
+                    "value": "enterprise"
+                  }
+                ]
+              },
+              {
+                "key": "app_config_service_endpoints",
+                "options": [
+                  {
+                    "displayname": "public",
+                    "value": "public"
+                  },
+                  {
+                    "displayname": "public-and-private",
+                    "value": "public-and-private"
+                  }
+                ]
+              },
+              {
+                "key": "app_config_collections"
+              },
+              {
+                "key": "app_config_tags",
+                "custom_config": {
+                  "grouping": "deployment",
+                  "original_grouping": "deployment",
+                  "config_constraints": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "key": "enable_config_aggregator"
+              },
+              {
+                "key": "config_aggregator_trusted_profile_name"
+              },
+              {
+                "key": "config_aggregator_resource_collection_regions"
+              },
+              {
+                "key": "config_aggregator_enterprise_id"
+              },
+              {
+                "key": "config_aggregator_enterprise_trusted_profile_name"
+              },
+              {
+                "key": "config_aggregator_enterprise_trusted_profile_template_name"
+              },
+              {
+                "key": "config_aggregator_enterprise_account_group_ids_to_assign"
+              },
+              {
+                "key": "app_config_cbr_rules"
+              },
+              {
+                "key": "provider_visibility",
+                "hidden": true,
+                "options": [
+                  {
+                    "displayname": "private",
+                    "value": "private"
+                  },
+                  {
+                    "displayname": "public",
+                    "value": "public"
+                  },
+                  {
+                    "displayname": "public-and-private",
+                    "value": "public-and-private"
+                  }
+                ]
+              }
+            ],
+            "architecture": {
+              "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
+              "features": [
+                {
+                  "title": "App Configuration instance with Collections",
+                  "description": "Creates App Configuration instance. Collections can be created and configured for the instance"
+                },
+                {
+                  "title": "Use existing resource group",
+                  "description": "Supports deployment into an existing IBM Cloud resource group."
+                },
+                {
+                  "title": "CBR Enhanced Security",
+                  "description": "Enforces network-based access control through context-based restrictions (CBR) rules."
+                },
+                {
+                  "title": "Configuration Aggregator",
+                  "description": "Enables the creation and management of configuration aggregator to consolidate and monitor configurations across multiple App Configuration instances."
+                }
+              ],
+              "diagrams": [
+                {
+                  "diagram": {
+                    "caption": "App Configuration",
+                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architecture/app_configuration.svg",
+                    "type": "image/svg+xml"
+                  },
+                  "description": "**App Configuration on IBM Cloud** <br/> <br/> <b>Description</b> <br/> This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+}
