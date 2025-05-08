@@ -53,7 +53,6 @@ module "app_config" {
   app_config_name          = "${var.prefix}-app-config"
   app_config_tags          = var.resource_tags
   enable_config_aggregator = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
-  app_config_plan          = var.app_config_plan
   app_config_collections = [
     {
       name          = "${var.prefix}-collection",

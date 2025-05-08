@@ -36,11 +36,15 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 
 	rand.New(rand.NewSource(time.Now().Unix()))
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:       t,
-		TerraformDir:  dir,
-		Prefix:        prefix,
-		Region:        validRegions[rand.Intn(len(validRegions))],
-		ResourceGroup: resourceGroup,
+		Testing:      t,
+		TerraformDir: dir,
+		Prefix:       prefix,
+		Region:       validRegions[rand.Intn(len(validRegions))],
+		/*
+		 Comment out the 'ResourceGroup' input to force this tests to create a unique resource group. This is because
+		 there is a restriction with the Event Notification service, which allows only one Lite plan instance per resource group.
+		*/
+		// ResourceGroup:      resourceGroup,
 	})
 	return options
 }
@@ -109,7 +113,7 @@ func TestFullyConfigurable(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "app_config_name", Value: "test-app-config", DataType: "string"},
-		{Name: "app_config_plan", Value: "basic", DataType: "string"},
+		{Name: "app_config_plan", Value: "standardv2", DataType: "string"},
 		{Name: "app_config_service_endpoints", Value: "public", DataType: "string"},
 		{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
 		{Name: "app_config_tags", Value: appConfigTags, DataType: "list(string)"},
@@ -161,7 +165,7 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "app_config_name", Value: "test-app-config", DataType: "string"},
-		{Name: "app_config_plan", Value: "basic", DataType: "string"},
+		{Name: "app_config_plan", Value: "standardv2", DataType: "string"},
 		{Name: "app_config_service_endpoints", Value: "public", DataType: "string"},
 		{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
 		{Name: "app_config_tags", Value: appConfigTags, DataType: "list(string)"},
@@ -169,5 +173,8 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 	}
 	err := options.RunSchematicUpgradeTest()
+	if !options.UpgradeTestSkipped {
+		assert.Nil(t, err, "This should not have errored")
+	}
 	assert.Nil(t, err, "This should not have errored")
 }

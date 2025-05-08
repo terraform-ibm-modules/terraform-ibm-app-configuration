@@ -27,9 +27,3 @@ variable "resource_tags" {
   description = "Optional list of tags to be added to created resources"
   default     = []
 }
-
-variable "app_config_plan" {
-  type        = string
-  description = "Plan for the App Configuration service instance, valid plans are lite, basic, standardv2, and enterprise."
-  default     = "basic"
-}

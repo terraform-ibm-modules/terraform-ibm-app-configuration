@@ -30,7 +30,7 @@ variable "app_config_name" {
 variable "app_config_plan" {
   type        = string
   description = "Plan for the App Configuration service instance, valid plans are lite, basic, standardv2, and enterprise."
-  default     = "lite"
+  default     = "basic"
 
   validation {
     condition     = contains(["lite", "standardv2", "basic", "enterprise"], var.app_config_plan)

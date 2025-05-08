@@ -30,7 +30,7 @@ variable "existing_resource_group_name" {
 variable "prefix" {
   type        = string
   nullable    = true
-  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-0205-cos"
+  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-us-south. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/solutions/fully-configurable/DA-prefix.md)."
 
   validation {
     # - null and empty string is allowed
@@ -63,14 +63,14 @@ variable "region" {
 variable "app_config_name" {
   type        = string
   description = "Name for the App Configuration service instance"
-  default     = "app_config"
+  default     = "app-config"
   nullable    = false
 }
 
 variable "app_config_plan" {
   type        = string
-  description = "Plan for the App Configuration service instance, valid plans are lite, standardv2, and enterprise."
-  default     = "lite"
+  description = "Plan for the App Configuration service instance"
+  default     = "standardv2"
   nullable    = false
 }
 
@@ -82,7 +82,7 @@ variable "app_config_service_endpoints" {
 }
 
 variable "app_config_collections" {
-  description = "A list of collections to be added to the App Configuration instance"
+  description = "(Optional, list) A list of collections to be added to the App Configuration instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/solutions/fully-configurable/DA-collections.md)."
   type = list(object({
     name          = string
     collection_id = string
@@ -161,6 +161,6 @@ variable "app_config_cbr_rules" {
     }))) }))
     enforcement_mode = string
   }))
-  description = "The list of context-based restriction rules to create."
+  description = "(Optional, list) A list of context-based restrictions rules to create. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/solutions/fully-configurable/DA-cbr_rules.md)."
   default     = []
 }

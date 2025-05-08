@@ -5,8 +5,7 @@
         "label": "Cloud automation for App Configuration",
         "product_kind": "solution",
         "tags": [
-            "devops",
-            "integration",
+            "dev_ops",
             "ibm_created",
             "terraform",
             "solution",
@@ -122,8 +121,7 @@
                 ]
               },
               {
-                "key": "app_config_name",
-                "required": true
+                "key": "app_config_name"
               },
               {
                 "key": "app_config_plan",
@@ -149,7 +147,6 @@
               },
               {
                 "key": "app_config_service_endpoints",
-                "required": true,
                 "options": [
                   {
                     "displayname": "public",
@@ -165,7 +162,14 @@
                 "key": "app_config_collections"
               },
               {
-                "key": "app_config_tags"
+                "key": "app_config_tags",
+                "custom_config": {
+                  "grouping": "deployment",
+                  "original_grouping": "deployment",
+                  "config_constraints": {
+                    "type": "string"
+                  }
+                }
               },
               {
                 "key": "enable_config_aggregator"

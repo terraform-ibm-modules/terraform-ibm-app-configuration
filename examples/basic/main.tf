@@ -20,5 +20,4 @@ module "app_config" {
   region            = var.region
   app_config_name   = "${var.prefix}-app-config"
   app_config_tags   = var.resource_tags
-  app_config_plan   = var.app_config_plan
 }
