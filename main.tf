@@ -40,7 +40,7 @@ resource "ibm_app_config_collection" "collections" {
 module "config_aggregator_trusted_profile" {
   count                       = var.enable_config_aggregator ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.1"
+  version                     = "2.3.0"
   trusted_profile_name        = var.config_aggregator_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   trusted_profile_identity = {
@@ -90,7 +90,7 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 module "config_aggregator_trusted_profile_enterprise" {
   count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.1"
+  version                     = "2.3.0"
   trusted_profile_name        = var.config_aggregator_enterprise_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator for enterprise accounts"
 
@@ -130,7 +130,7 @@ module "config_aggregator_trusted_profile_enterprise" {
 module "config_aggregator_trusted_profile_template" {
   count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
-  version                     = "2.2.0"
+  version                     = "2.3.0"
   template_name               = var.config_aggregator_enterprise_trusted_profile_template_name
   template_description        = "Trusted Profile template for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   profile_name                = var.config_aggregator_trusted_profile_name
@@ -190,7 +190,7 @@ resource "ibm_config_aggregator_settings" "config_aggregator_settings" {
 module "cbr_rule" {
   count            = length(var.cbr_rules) > 0 ? length(var.cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.28.0"
+  version          = "1.31.0"
   rule_description = var.cbr_rules[count.index].description
   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules[count.index].rule_contexts
