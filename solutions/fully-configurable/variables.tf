@@ -90,6 +90,14 @@ variable "app_config_collections" {
     tags          = optional(string, null)
   }))
   default = []
+
+  validation {
+    condition = (
+      var.app_config_plan != "lite" ||
+      length(var.app_config_collections) <= 1
+    )
+    error_message = "When using the 'lite' plan, you can define at most 1 App Configuration collection."
+  }
 }
 
 variable "app_config_tags" {
@@ -103,12 +111,23 @@ variable "enable_config_aggregator" {
   type        = bool
   default     = false
   nullable    = false
+
+  # Lite plan does not support enabling Config Aggregator as mention in doc : https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
+  validation {
+    condition     = !(var.enable_config_aggregator && var.app_config_plan == "lite")
+    error_message = "The configuration aggregator cannot be enabled when the app_config_plan is set to 'lite'. Please use a different plan (e.g., 'basic', 'standardv2', or 'enterprise')."
+  }
 }
 
 variable "config_aggregator_trusted_profile_name" {
-  description = "The name to give the trusted profile that will be created if `enable_config_aggregator` is set to `true`."
+  description = "The name to give the trusted profile that will be created if `enable_config_aggregator` is set to `true`. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
   type        = string
   default     = "config-aggregator-trusted-profile"
+
+  validation {
+    condition     = var.enable_config_aggregator ? var.config_aggregator_trusted_profile_name != null : true
+    error_message = "'config_aggregator_trusted_profile_name' cannot be null if 'enable_config_aggregator' is true."
+  }
 }
 
 variable "config_aggregator_resource_collection_regions" {
@@ -121,18 +140,33 @@ variable "config_aggregator_enterprise_id" {
   type        = string
   description = "If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID). "
   default     = null
+
+  validation {
+    condition     = !var.enable_config_aggregator ? var.config_aggregator_enterprise_id == null : true
+    error_message = "A value can only be passed for 'config_aggregator_enterprise_id' if 'enable_config_aggregator' is true."
+  }
 }
 
 variable "config_aggregator_enterprise_trusted_profile_name" {
-  description = "The name to give the enterprise viewer trusted profile with that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`."
+  description = "The name to give the enterprise viewer trusted profile with that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
   type        = string
   default     = "config-aggregator-enterprise-trusted-profile"
+
+  validation {
+    condition     = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? var.config_aggregator_enterprise_trusted_profile_name != null : true
+    error_message = "'config_aggregator_enterprise_trusted_profile_name' cannot be null if 'enable_config_aggregator' is true and a value is being passed for 'config_aggregator_enterprise_id'."
+  }
 }
 
 variable "config_aggregator_enterprise_trusted_profile_template_name" {
-  description = "The name to give the trusted profile template that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`."
+  description = "The name to give the trusted profile template that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
   type        = string
   default     = "config-aggregator-trusted-profile-template"
+
+  validation {
+    condition     = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? var.config_aggregator_enterprise_trusted_profile_template_name != null : true
+    error_message = "'config_aggregator_enterprise_trusted_profile_template_name' cannot be null if 'enable_config_aggregator' is true and a value is being passed for 'config_aggregator_enterprise_id'."
+  }
 }
 
 variable "config_aggregator_enterprise_account_group_ids_to_assign" {
@@ -140,6 +174,11 @@ variable "config_aggregator_enterprise_account_group_ids_to_assign" {
   default     = ["all"]
   description = "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `enable_config_aggregator` is true and a value is being passed for `config_aggregator_enterprise_id`."
   nullable    = false
+
+  validation {
+    condition     = contains(var.config_aggregator_enterprise_account_group_ids_to_assign, "all") ? length(var.config_aggregator_enterprise_account_group_ids_to_assign) == 1 : true
+    error_message = "When specifying 'all' in the list, you cannot add any other values to the list"
+  }
 }
 
 ##############################################################

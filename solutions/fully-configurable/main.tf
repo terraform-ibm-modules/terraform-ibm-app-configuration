@@ -24,11 +24,11 @@ module "app_config" {
   app_config_tags                                            = var.app_config_tags
   app_config_collections                                     = var.app_config_collections
   enable_config_aggregator                                   = var.enable_config_aggregator
-  config_aggregator_trusted_profile_name                     = var.config_aggregator_trusted_profile_name
+  config_aggregator_trusted_profile_name                     = "${local.prefix}${var.config_aggregator_trusted_profile_name}"
   config_aggregator_resource_collection_regions              = var.config_aggregator_resource_collection_regions
   config_aggregator_enterprise_id                            = var.config_aggregator_enterprise_id
-  config_aggregator_enterprise_trusted_profile_name          = var.config_aggregator_enterprise_trusted_profile_name
-  config_aggregator_enterprise_trusted_profile_template_name = var.config_aggregator_enterprise_trusted_profile_template_name
+  config_aggregator_enterprise_trusted_profile_name          = "${local.prefix}${var.config_aggregator_enterprise_trusted_profile_name}"
+  config_aggregator_enterprise_trusted_profile_template_name = "${local.prefix}${var.config_aggregator_enterprise_trusted_profile_template_name}"
   config_aggregator_enterprise_account_group_ids_to_assign   = var.config_aggregator_enterprise_account_group_ids_to_assign
   cbr_rules                                                  = var.app_config_cbr_rules
 }
