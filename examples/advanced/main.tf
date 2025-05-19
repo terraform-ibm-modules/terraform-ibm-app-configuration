@@ -47,14 +47,13 @@ module "cbr_zone" {
 ########################################################################################################################
 
 module "app_config" {
-  source                   = "../.."
-  resource_group_id        = module.resource_group.resource_group_id
-  region                   = var.region
-  app_config_name          = "${var.prefix}-app-config"
-  app_config_tags          = var.resource_tags
-  enable_config_aggregator = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
-  app_config_plan          = "standardv2"
-  # config_aggregator_trusted_profile_name should not changed in order to prevent a breaking change. For more information please check https://github.com/terraform-ibm-modules/terraform-ibm-trusted-profile/releases/tag/v3.0.0 .
+  source                                 = "../.."
+  resource_group_id                      = module.resource_group.resource_group_id
+  region                                 = var.region
+  app_config_name                        = "${var.prefix}-app-config"
+  app_config_tags                        = var.resource_tags
+  enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
+  app_config_plan                        = "standardv2"
   config_aggregator_trusted_profile_name = "${var.prefix}-config-aggregator-trusted-profile"
   app_config_collections = [
     {
