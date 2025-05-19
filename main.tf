@@ -47,6 +47,7 @@ module "config_aggregator_trusted_profile" {
     identifier    = ibm_resource_instance.app_config.crn
     identity_type = "crn"
   }
+  # unique_identifier should not be updated as it will create a breaking change for trusted profile. For more information please check https://github.com/terraform-ibm-modules/terraform-ibm-trusted-profile/releases/tag/v3.0.0 .
   trusted_profile_policies = [
     {
       unique_identifier  = "config-aggregator-trusted-profile-0"
