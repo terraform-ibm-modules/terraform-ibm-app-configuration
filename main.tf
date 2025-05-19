@@ -40,21 +40,24 @@ resource "ibm_app_config_collection" "collections" {
 module "config_aggregator_trusted_profile" {
   count                       = var.enable_config_aggregator ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.1"
+  version                     = "3.0.0"
   trusted_profile_name        = var.config_aggregator_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   trusted_profile_identity = {
     identifier    = ibm_resource_instance.app_config.crn
     identity_type = "crn"
   }
+  # unique_identifier should not be updated as it will create a breaking change for trusted profile. For more information please check https://github.com/terraform-ibm-modules/terraform-ibm-trusted-profile/releases/tag/v3.0.0 .
   trusted_profile_policies = [
     {
+      unique_identifier  = "config-aggregator-trusted-profile-0"
       roles              = ["Viewer", "Service Configuration Reader"]
       account_management = true
       description        = "All Account Management Services"
     },
     {
-      roles = ["Viewer", "Service Configuration Reader", "Reader"]
+      unique_identifier = "config-aggregator-trusted-profile-1"
+      roles             = ["Viewer", "Service Configuration Reader", "Reader"]
       resource_attributes = [{
         name     = "serviceType"
         value    = "service"
@@ -64,7 +67,8 @@ module "config_aggregator_trusted_profile" {
     }
   ]
   trusted_profile_links = [{
-    cr_type = "VSI"
+    unique_identifier = "config-aggregator-trusted-profile-0"
+    cr_type           = "VSI"
     links = [{
       crn = ibm_resource_instance.app_config.crn
     }]
@@ -90,7 +94,7 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 module "config_aggregator_trusted_profile_enterprise" {
   count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.1"
+  version                     = "3.0.0"
   trusted_profile_name        = var.config_aggregator_enterprise_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator for enterprise accounts"
 
@@ -101,7 +105,8 @@ module "config_aggregator_trusted_profile_enterprise" {
 
   trusted_profile_policies = [
     {
-      roles = ["Viewer", local.custom_role]
+      unique_identifier = "config-aggregator-trusted-profile-0"
+      roles             = ["Viewer", local.custom_role]
       resource_attributes = [{
         name     = "service_group_id"
         value    = "IAM"
@@ -110,7 +115,8 @@ module "config_aggregator_trusted_profile_enterprise" {
       description = "IAM access with custom role"
     },
     {
-      roles = ["Viewer"]
+      unique_identifier = "config-aggregator-trusted-profile-1"
+      roles             = ["Viewer"]
       resources = [{
         service = "enterprise"
       }]
@@ -119,7 +125,8 @@ module "config_aggregator_trusted_profile_enterprise" {
   ]
 
   trusted_profile_links = [{
-    cr_type = "VSI"
+    unique_identifier = "config-aggregator-trusted-profile-0"
+    cr_type           = "VSI"
     links = [{
       crn = ibm_resource_instance.app_config.crn
     }]
