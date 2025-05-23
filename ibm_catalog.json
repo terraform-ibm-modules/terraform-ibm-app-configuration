@@ -64,7 +64,7 @@
               },
               {
                 "key": "existing_resource_group_name",
-                "required": true,
+                "display_name": "resource_group",
                 "custom_config": {
                   "type": "resource_group",
                   "grouping": "deployment",
@@ -244,7 +244,41 @@
                   "description": "**App Configuration on IBM Cloud** <br/> <br/> <b>Description</b> <br/> This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
                 }
               ]
+            },
+            "dependencies": [
+            {
+              "name": "deploy-arch-ibm-account-infra-base",
+              "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default. When you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "flavors": [
+                "resource-group-only",
+                "resource-groups-with-account-settings"
+              ],
+              "default_flavor": "resource-group-only",
+              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
+              "input_mapping": [
+                {
+                  "dependency_output": "workload_resource_group_name",
+                  "version_input": "existing_resource_group_name"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "provider_visibility",
+                  "version_input": "provider_visibility",
+                  "reference_version": true
+                }
+              ],
+              "optional": true,
+              "on_by_default": false,
+              "version": "v3.0.7"
             }
+          ],
+          "dependency_version_2": true,
+          "terraform_version": "1.10.5"
           }
         ]
       }
