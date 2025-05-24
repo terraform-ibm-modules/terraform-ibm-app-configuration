@@ -137,7 +137,7 @@ module "config_aggregator_trusted_profile_enterprise" {
 module "config_aggregator_trusted_profile_template" {
   count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
-  version                     = "2.2.0"
+  version                     = "3.0.0"
   template_name               = var.config_aggregator_enterprise_trusted_profile_template_name
   template_description        = "Trusted Profile template for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   profile_name                = var.config_aggregator_trusted_profile_name
