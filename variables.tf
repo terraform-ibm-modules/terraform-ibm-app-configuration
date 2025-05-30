@@ -153,6 +153,18 @@ variable "config_aggregator_enterprise_account_group_ids_to_assign" {
   }
 }
 
+variable "config_aggregator_enterprise_account_ids_to_assign" {
+  type        = list(string)
+  default     = []
+  description = "A list of enterprise account IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all accounts. Only applies if `enable_config_aggregator` is true and a value is being passed for `config_aggregator_enterprise_id`."
+  nullable    = false
+
+  validation {
+    condition     = contains(var.config_aggregator_enterprise_account_ids_to_assign, "all") ? length(var.config_aggregator_enterprise_account_ids_to_assign) == 1 : true
+    error_message = "When specifying 'all' in the list, you cannot add any other values to the list"
+  }
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

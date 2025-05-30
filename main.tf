@@ -135,15 +135,22 @@ module "config_aggregator_trusted_profile_enterprise" {
 
 # If enterprise account, create trusted profile template
 module "config_aggregator_trusted_profile_template" {
-  count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
-  source                      = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
-  version                     = "3.0.0"
-  template_name               = var.config_aggregator_enterprise_trusted_profile_template_name
-  template_description        = "Trusted Profile template for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
-  profile_name                = var.config_aggregator_trusted_profile_name
-  profile_description         = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
-  identity_crn                = ibm_resource_instance.app_config.crn
+  count                = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
+  source               = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
+  version              = "3.1.0"
+  template_name        = var.config_aggregator_enterprise_trusted_profile_template_name
+  template_description = "Trusted Profile template for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
+  profile_name         = var.config_aggregator_trusted_profile_name
+  profile_description  = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
+  identities = [
+    {
+      type       = "crn"
+      iam_id     = "crn-${ibm_resource_instance.app_config.crn}"
+      identifier = ibm_resource_instance.app_config.crn
+    }
+  ]
   account_group_ids_to_assign = var.config_aggregator_enterprise_account_group_ids_to_assign
+  account_ids_to_assign       = var.config_aggregator_enterprise_account_ids_to_assign
   policy_templates = [
     {
       name        = "identity-access"
