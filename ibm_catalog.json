@@ -193,6 +193,9 @@
                 "key": "config_aggregator_enterprise_account_group_ids_to_assign"
               },
               {
+                "key": "config_aggregator_enterprise_account_ids_to_assign"
+              },
+              {
                 "key": "app_config_cbr_rules"
               },
               {
