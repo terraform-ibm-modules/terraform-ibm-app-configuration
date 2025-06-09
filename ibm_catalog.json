@@ -217,6 +217,22 @@
                 ]
               }
             ],
+            "iam_permissions": [
+              {
+                "service_name": "resource-group",
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::role:Viewer"
+                ]
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::role:Administrator",
+                  "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+                ],
+                "service_name": "apprapp",
+                "notes": "Required for provisioning the App Configuration instance."
+              }
+            ],
             "architecture": {
               "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
               "features": [
