@@ -355,7 +355,7 @@
               "optional": true,
               "on_by_default": true,
               "version": "v3.0.3"
-            },
+            }
           ],
           "dependency_version_2": true,
           "terraform_version": "1.10.5"
