@@ -94,7 +94,7 @@ variable "enable_config_aggregator" {
 variable "config_aggregator_trusted_profile_name" {
   description = "The name to give the trusted profile that will be created if `enable_config_aggregator` is set to `true`."
   type        = string
-  default     = "config-aggregator-trusted-profile"
+  default     = null
 
   validation {
     condition     = var.enable_config_aggregator ? var.config_aggregator_trusted_profile_name != null : true
