@@ -9,7 +9,7 @@
             "ibm_created",
             "terraform",
             "solution",
-            "support_ibm"
+            "target_terraform"
         ],
         "keywords": [
           "terraform",
@@ -26,12 +26,16 @@
         "provider_name": "IBM",
         "features": [
           {
-            "title": "Provision Collection",
+            "title": "Collection",
             "description": "Supports creation of collection to help manage feature flags and dynamic properties at scale."
           },
           {
             "title": "CBR Enhanced Security",
             "description": "Provides support for defining context-based restrictions (CBR) to enhance security and control access based on network policies."
+          },
+          {
+            "title": "Trusted Profile",
+            "description": "Creates trusted profile needed with required access for configuration aggregator."
           },
           {
             "title": "Configuration Aggregator",
@@ -43,6 +47,7 @@
           {
             "label": "Fully configurable",
             "name": "fully-configurable",
+            "index": 1,
             "install_type": "fullstack",
             "working_directory": "solutions/fully-configurable",
             "compliance": {
@@ -192,7 +197,13 @@
                 ]
               },
               {
-                "key": "app_config_collections"
+                "key": "app_config_collections",
+                "type": "array",
+                "custom_config": {
+                  "type": "textarea",
+                  "grouping": "deployment",
+                  "original_grouping": "deployment"
+                }
               },
               {
                 "key": "app_config_tags",
@@ -229,7 +240,13 @@
                 "key": "config_aggregator_enterprise_account_ids_to_assign"
               },
               {
-                "key": "app_config_cbr_rules"
+                "key": "cbr_rules",
+                "type": "array",
+                "custom_config": {
+                  "type": "textarea",
+                  "grouping": "deployment",
+                  "original_grouping": "deployment"
+                }
               },
               {
                 "key": "provider_visibility",
@@ -270,21 +287,9 @@
               "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
               "features": [
                 {
-                  "title": "App Configuration instance with Collections",
-                  "description": "Creates App Configuration instance. Collections can be created and configured for the instance"
-                },
-                {
-                  "title": "Use existing resource group",
-                  "description": "Supports deployment into an existing IBM Cloud resource group."
-                },
-                {
-                  "title": "CBR Enhanced Security",
-                  "description": "Enforces network-based access control through context-based restrictions (CBR) rules."
-                },
-                {
-                  "title": "Configuration Aggregator",
-                  "description": "Enables the creation and management of configuration aggregator to consolidate and monitor configurations across multiple App Configuration instances."
-                }
+                  "title": " ",
+                  "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
+  }
               ],
               "diagrams": [
                 {
