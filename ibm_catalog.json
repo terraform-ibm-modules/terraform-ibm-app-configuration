@@ -287,22 +287,15 @@
                 "role_crns": [
                   "crn:v1:bluemix:public:iam::::role:Administrator"
                 ],
-                "service_name": "iam-identity",
-                "notes": "Administrator access is required in the resource group you want to provision in."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::role:Administrator"
-                ],
                 "service_name": "All Account Management services",
-                "notes": "[Optional] Only required if you are consuming Account Configuration deployable architecture which creates resource group."
+                "notes": "[Optional] Only required if you are consuming Account Configuration deployable architecture which creates resource group or have enabled `enable_config_aggregator` flag."
               },
               {
                 "role_crns": [
                   "crn:v1:bluemix:public:iam::::role:Administrator"
                 ],
                 "service_name": "All Identity and Access enabled services",
-                "notes": "[Optional] Only required if you have enabled `enable_config_aggregator` flag that creates trusted profile for authentication or consuming Account Configuration deployable architecture which creates resource group with account settings."
+                "notes": "[Optional] Only required if you are consuming Account Configuration deployable architecture which creates resource group with account setting or have enabled `enable_config_aggregator` flag that creates trusted profile for authentication."
               },
               {
                 "role_crns": [
