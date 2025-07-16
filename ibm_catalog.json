@@ -303,7 +303,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "atracker",
-                "notes": "[Optional] Required for consuming Observability deployable architecture which sets up Activity Tracker Event Routing."
+                "notes": "[Optional] Required for consuming Activity Tracker Event Routing deployable architecture."
               },
               {
                 "role_crns": [
@@ -311,7 +311,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "sysdig-monitor",
-                "notes": "[Optional] Required for consuming Observability deployable architecture which sets up Cloud Monitoring."
+                "notes": "[Optional] Required for consuming Cloud Monitoring deployable architecture."
               },
               {
                 "role_crns": [
@@ -319,7 +319,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "logs",
-                "notes": "[Optional] Required for consuming Observability deployable architecture which sets up Cloud Logs."
+                "notes": "[Optional] Required for consuming Cloud Logs deployable architecture."
               },
               {
                 "role_crns": [
@@ -327,7 +327,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "hs-crypto",
-                "notes": "[Optional] Required for enabling Hyper Protect Crypto Services in Observability deployable architecture."
+                "notes": "[Optional] Required for enabling Hyper Protect Crypto Services in Event Routing and Cloud Logs deployable architecture."
               },
               {
                 "role_crns": [
@@ -335,7 +335,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "kms",
-                "notes": "[Optional] Required for enabling KMS encryption in Observability deployable architecture."
+                "notes": "[Optional] Required for enabling KMS encryption in Event Routing and Cloud Logs deployable architecture."
               },
               {
                 "role_crns": [
@@ -343,7 +343,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "cloud-object-storage",
-                "notes": "[Optional] Required for enabling COS in Observability deployable architecture."
+                "notes": "[Optional] Required for enabling COS in Event Routing and Cloud Logs deployable architecture."
               }
             ],
             "architecture": {
