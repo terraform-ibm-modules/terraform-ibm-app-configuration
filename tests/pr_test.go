@@ -30,6 +30,8 @@ var validRegions = []string{
 	"us-south",
 	"ca-tor",
 	"br-sao",
+	"eu-fr2",
+	"ca-mon"
 }
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
