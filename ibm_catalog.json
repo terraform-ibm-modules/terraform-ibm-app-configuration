@@ -9,7 +9,8 @@
             "ibm_created",
             "terraform",
             "solution",
-            "support_ibm"
+            "target_terraform",
+            "converged_infra"
         ],
         "keywords": [
           "terraform",
@@ -26,12 +27,16 @@
         "provider_name": "IBM",
         "features": [
           {
-            "title": "Provision Collection",
-            "description": "Supports creation of collection to help manage feature flags and dynamic properties at scale."
+            "title": "Collection",
+            "description": "Supports creation of one or more collections depending on the plan to help manage feature flags and dynamic properties at scale."
           },
           {
             "title": "CBR Enhanced Security",
             "description": "Provides support for defining context-based restrictions (CBR) to enhance security and control access based on network policies."
+          },
+          {
+            "title": "Trusted Profile",
+            "description": "Creates trusted profile needed with required access for configuration aggregator."
           },
           {
             "title": "Configuration Aggregator",
@@ -43,6 +48,7 @@
           {
             "label": "Fully configurable",
             "name": "fully-configurable",
+            "index": 1,
             "install_type": "fullstack",
             "working_directory": "solutions/fully-configurable",
             "compliance": {
@@ -192,7 +198,13 @@
                 ]
               },
               {
-                "key": "app_config_collections"
+                "key": "app_config_collections",
+                "type": "array",
+                "custom_config": {
+                  "type": "textarea",
+                  "grouping": "deployment",
+                  "original_grouping": "deployment"
+                }
               },
               {
                 "key": "app_config_tags",
@@ -229,7 +241,13 @@
                 "key": "config_aggregator_enterprise_account_ids_to_assign"
               },
               {
-                "key": "app_config_cbr_rules"
+                "key": "cbr_rules",
+                "type": "array",
+                "custom_config": {
+                  "type": "textarea",
+                  "grouping": "deployment",
+                  "original_grouping": "deployment"
+                }
               },
               {
                 "key": "provider_visibility",
@@ -252,10 +270,11 @@
             ],
             "iam_permissions": [
               {
-                "service_name": "resource-group",
                 "role_crns": [
                   "crn:v1:bluemix:public:iam::::role:Viewer"
-                ]
+                ],
+                "service_name": "Resource group only",
+                "notes": "Viewer access is required in the resource group you want to provision in."
               },
               {
                 "role_crns": [
@@ -264,27 +283,77 @@
                 ],
                 "service_name": "apprapp",
                 "notes": "Required for provisioning the App Configuration instance."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::role:Administrator"
+                ],
+                "service_name": "All Account Management services",
+                "notes": "[Optional] Required for consuming Account Configuration deployable architecture which creates resource group or enabling `enable_config_aggregator` flag."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::role:Administrator"
+                ],
+                "service_name": "All Identity and Access enabled services",
+                "notes": "[Optional] Required for consuming Account Configuration deployable architecture which creates resource group with account setting or enabling `enable_config_aggregator` flag that creates trusted profile for authentication."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+                  "crn:v1:bluemix:public:iam::::role:Editor"
+                ],
+                "service_name": "atracker",
+                "notes": "[Optional] Required for consuming Activity Tracker Event Routing deployable architecture."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                  "crn:v1:bluemix:public:iam::::role:Editor"
+                ],
+                "service_name": "sysdig-monitor",
+                "notes": "[Optional] Required for consuming Cloud Monitoring deployable architecture."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                  "crn:v1:bluemix:public:iam::::role:Editor"
+                ],
+                "service_name": "logs",
+                "notes": "[Optional] Required for consuming Cloud Logs deployable architecture."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                  "crn:v1:bluemix:public:iam::::role:Editor"
+                ],
+                "service_name": "hs-crypto",
+                "notes": "[Optional] Required for enabling Hyper Protect Crypto Services in Event Routing and Cloud Logs deployable architecture."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                  "crn:v1:bluemix:public:iam::::role:Editor"
+                ],
+                "service_name": "kms",
+                "notes": "[Optional] Required for enabling KMS encryption in Event Routing and Cloud Logs deployable architecture."
+              },
+              {
+                "role_crns": [
+                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                  "crn:v1:bluemix:public:iam::::role:Editor"
+                ],
+                "service_name": "cloud-object-storage",
+                "notes": "[Optional] Required for enabling COS in Event Routing and Cloud Logs deployable architecture."
               }
             ],
             "architecture": {
               "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
               "features": [
                 {
-                  "title": "App Configuration instance with Collections",
-                  "description": "Creates App Configuration instance. Collections can be created and configured for the instance"
-                },
-                {
-                  "title": "Use existing resource group",
-                  "description": "Supports deployment into an existing IBM Cloud resource group."
-                },
-                {
-                  "title": "CBR Enhanced Security",
-                  "description": "Enforces network-based access control through context-based restrictions (CBR) rules."
-                },
-                {
-                  "title": "Configuration Aggregator",
-                  "description": "Enables the creation and management of configuration aggregator to consolidate and monitor configurations across multiple App Configuration instances."
-                }
+                  "title": " ",
+                  "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
+  }
               ],
               "diagrams": [
                 {
@@ -307,7 +376,10 @@
                 "resource-groups-with-account-settings"
               ],
               "default_flavor": "resource-group-only",
+              "version": "v3.0.7",
               "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
+              "optional": true,
+              "on_by_default": false,
               "input_mapping": [
                 {
                   "dependency_output": "workload_resource_group_name",
@@ -323,23 +395,58 @@
                   "version_input": "provider_visibility",
                   "reference_version": true
                 }
-              ],
-              "optional": true,
-              "on_by_default": false,
-              "version": "v3.0.7"
+              ]
             },
             {
-              "name": "deploy-arch-ibm-observability",
-              "description": "Enable to provision and configure IBM Cloud Logs, Cloud Monitoring, Metrics routing and Activity Tracker event routing for analysing logs and metrics generated by the App Configuration instance.",
-              "flavors": [
-                "instances"
-              ],
-              "id": "a3137d28-79e0-479d-8a24-758ebd5a0eab-global",
+              "name": "deploy-arch-ibm-cloud-logs",
+              "description": "Provision and configure IBM Cloud Logs (ICL) instance which can be used for analysing logs generated by App Configuration instance. ",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "id": "63d8ae58-fbf3-41ce-b844-0fb5b85882ab-global",
+              "version": "v1.5.6",
+              "optional": true,
+              "on_by_default": true,
               "input_mapping": [
                 {
-                  "dependency_output": "cloud_monitoring_crn",
-                  "version_input": "existing_monitoring_crn"
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "existing_resource_group_name",
+                  "version_input": "existing_resource_group_name",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "logs_routing_tenant_regions",
+                  "version_input": "logs_routing_tenant_regions",
+                  "reference_version": true
+                }
+              ]
+            },
+            {
+              "name": "deploy-arch-ibm-cloud-monitoring",
+              "description": "Provision and configure IBM Cloud Monitoring for metrics generated by the App Configuration instance.",
+              "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
+              "version": "v1.3.0",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_input": "enable_platform_metrics",
+                  "version_input": "enable_platform_metrics",
+                  "reference_version": true
                 },
                 {
                   "dependency_input": "prefix",
@@ -350,21 +457,32 @@
                   "dependency_input": "region",
                   "version_input": "region",
                   "reference_version": true
-                },
-                {
-                  "dependency_input": "enable_platform_metrics",
-                  "version_input": "enable_platform_metrics",
-                  "reference_version": true
-                },
-                {
-                  "dependency_input": "logs_routing_tenant_regions",
-                  "version_input": "logs_routing_tenant_regions",
-                  "reference_version": true
                 }
+              ]
+            },
+            {
+              "name": "deploy-arch-ibm-activity-tracker",
+              "description": "Provision and configure Activity Tracker event routing for routing cloud events generated by the App Configuration instance to a Cloud logs target instance.",
+              "id": "918453c3-4f97-4583-8c4a-83ef12fc7916-global",
+              "version": "v1.1.4",
+              "flavors": [
+                "fully-configurable"
               ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "optional": true,
               "on_by_default": true,
-              "version": "v3.0.3"
+              "input_mapping": [
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                }
+              ]
             }
           ],
           "dependency_version_2": true,
