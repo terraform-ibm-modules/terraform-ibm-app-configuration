@@ -27,7 +27,7 @@
         "provider_name": "IBM",
         "features": [
           {
-            "title": "Collection",
+            "title": "Collections",
             "description": "Supports creation of one or more collections depending on the plan to help manage feature flags and dynamic properties at scale."
           },
           {
@@ -43,7 +43,7 @@
             "description": "Supports creation and management of configuration aggregator to manage configurations across multiple App Configuration instances."
           }
         ],
-        "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in that repository [https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/issues](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/issues). Please note this product is not supported via the IBM Cloud Support Center.",
+        "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in that repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/issues). Please note this product is not supported via the IBM Cloud Support Center.",
         "flavors": [
           {
             "label": "Fully configurable",
@@ -289,14 +289,14 @@
                   "crn:v1:bluemix:public:iam::::role:Administrator"
                 ],
                 "service_name": "All Account Management services",
-                "notes": "[Optional] Required for consuming Account Configuration deployable architecture which creates resource group or enabling `enable_config_aggregator` flag."
+                "notes": "[Optional] Required for consuming Account Configuration deployable architecture which creates resource group or creating trusted profile for app configuration aggregator."
               },
               {
                 "role_crns": [
                   "crn:v1:bluemix:public:iam::::role:Administrator"
                 ],
                 "service_name": "All Identity and Access enabled services",
-                "notes": "[Optional] Required for consuming Account Configuration deployable architecture which creates resource group with account setting or enabling `enable_config_aggregator` flag that creates trusted profile for authentication."
+                "notes": "[Optional] Required for consuming Account Configuration deployable architecture which creates resource group with account setting or creating trusted profile for app configuration aggregator."
               },
               {
                 "role_crns": [
@@ -304,7 +304,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "atracker",
-                "notes": "[Optional] Required for consuming Activity Tracker Event Routing deployable architecture."
+                "notes": "[Optional] Required if you are consuming Observability deployable architecture which sets up Activity Tracker Event Routing."
               },
               {
                 "role_crns": [
@@ -312,7 +312,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "sysdig-monitor",
-                "notes": "[Optional] Required for consuming Cloud Monitoring deployable architecture."
+                "notes": "[Optional] Required for consuming Observability deployable architecture which sets up Cloud monitoring."
               },
               {
                 "role_crns": [
@@ -320,7 +320,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "logs",
-                "notes": "[Optional] Required for consuming Cloud Logs deployable architecture."
+                "notes": "[Optional] Required for consuming Observability deployable architecture which sets up Cloud logs."
               },
               {
                 "role_crns": [
@@ -328,7 +328,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "hs-crypto",
-                "notes": "[Optional] Required for enabling Hyper Protect Crypto Services in Event Routing and Cloud Logs deployable architecture."
+                "notes": "[Optional] Required if you are creating/configuring keys in an existing Hyper Protect Crypto Services (HPCS) instance for encryption."
               },
               {
                 "role_crns": [
@@ -336,7 +336,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "kms",
-                "notes": "[Optional] Required for enabling KMS encryption in Event Routing and Cloud Logs deployable architecture."
+                "notes": "[Optional] Required if KMS encryption is enabled to encrypt the Object Storage bucket used for storing flow logs."
               },
               {
                 "role_crns": [
@@ -344,7 +344,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "cloud-object-storage",
-                "notes": "[Optional] Required for enabling COS in Event Routing and Cloud Logs deployable architecture."
+                "notes": "[Optional] Required if you are enabling VPC flow logs."
               }
             ],
             "architecture": {
@@ -362,7 +362,7 @@
                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architecture/app_configuration.svg",
                     "type": "image/svg+xml"
                   },
-                  "description": "**App Configuration on IBM Cloud** <br/> <br/> <b>Description</b> <br/> This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
+                  "description": "This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
                 }
               ]
             },
@@ -399,7 +399,7 @@
             },
             {
               "name": "deploy-arch-ibm-observability",
-              "description": "Enable to provision and configure IBM Cloud Logs, Cloud Monitoring, Metrics routing and Activity Tracker event routing for analysing logs and metrics generated by the App Configuration instance.",
+              "description": "Configure IBM Cloud Logs, Cloud Monitoring, Metrics routing and Activity Tracker event routing for analysing logs and metrics generated by the App Configuration instance.",
               "flavors": [
                 "instances"
               ],
