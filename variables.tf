@@ -8,13 +8,13 @@ variable "resource_group_id" {
 }
 
 variable "region" {
-  description = "The region to provision the App Configuration service, valid regions are au-syd, jp-osa, jp-tok, eu-de, eu-gb, eu-es, us-east, us-south, ca-tor, br-sao, eu-fr2."
+  description = "The region to provision the App Configuration service, valid regions are au-syd, jp-osa, jp-tok, eu-de, eu-gb, eu-es, us-east, us-south, ca-tor, br-sao, eu-fr2, ca-mon."
   type        = string
   default     = "us-south"
 
   validation {
-    condition     = contains(["au-syd", "jp-osa", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor", "br-sao", "eu-fr2"], var.region)
-    error_message = "Value for region must be one of the following: ${join(", ", ["jp-osa", "au-syd", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor", "br-sao", "eu-fr2"])}"
+    condition     = contains(["au-syd", "jp-osa", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor", "br-sao", "eu-fr2", "ca-mon"], var.region)
+    error_message = "Value for region must be one of the following: ${join(", ", ["jp-osa", "au-syd", "jp-tok", "eu-de", "eu-gb", "eu-es", "us-east", "us-south", "ca-tor", "br-sao", "eu-fr2", "ca-mon"])}"
   }
 }
 
