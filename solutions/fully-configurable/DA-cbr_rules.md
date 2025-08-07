@@ -28,8 +28,8 @@ The `cbr_rules` input variable allows you to provide a rule for the target servi
 [
   {
     description      = "Restrict access to App Config from trusted network"
-    account_id       = "<AccountID>"
-    enforcement_mode = "enabled"
+    account_id       = "<REPLACE ME>"
+    enforcement_mode = "report"
     tags = [
       {
         name  = "env"
@@ -41,7 +41,7 @@ The `cbr_rules` input variable allows you to provide a rule for the target servi
         attributes = [
           {
             name  = "networkZoneId"
-            value = "<NetworkZoneID>"
+            value = "<REPLACE ME>"
           },
           {
             "name" : "endpointType",
