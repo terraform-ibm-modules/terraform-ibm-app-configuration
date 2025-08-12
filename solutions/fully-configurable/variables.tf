@@ -29,7 +29,7 @@ variable "existing_resource_group_name" {
 variable "prefix" {
   type        = string
   nullable    = true
-  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-us-south. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/solutions/fully-configurable/DA-prefix.md)."
+  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-us-south. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/prefix.md)."
 
   validation {
     # - null and empty string is allowed
@@ -49,7 +49,7 @@ variable "prefix" {
 
 variable "region" {
   type        = string
-  description = "The region to provision resources to."
+  description = "The region to provision all resources in. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/region) about how to select different regions for different services."
   default     = "us-south"
   nullable    = false
 }
@@ -61,14 +61,14 @@ variable "region" {
 
 variable "app_config_name" {
   type        = string
-  description = "Name for the App Configuration service instance"
+  description = "Name for the App Configuration service instance."
   default     = "app-config"
   nullable    = false
 }
 
 variable "app_config_plan" {
   type        = string
-  description = "Plan for the App Configuration service instance"
+  description = "Plan for the App Configuration service instance."
   default     = "standardv2"
   nullable    = false
 }
@@ -196,7 +196,7 @@ variable "config_aggregator_enterprise_account_ids_to_assign" {
 # Context-based restriction (CBR)
 ##############################################################
 
-variable "app_config_cbr_rules" {
+variable "cbr_rules" {
   type = list(object({
     description = string
     account_id  = string
