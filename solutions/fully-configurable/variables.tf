@@ -61,14 +61,14 @@ variable "region" {
 
 variable "app_config_name" {
   type        = string
-  description = "Name for the App Configuration service instance"
+  description = "Name for the App Configuration service instance."
   default     = "app-config"
   nullable    = false
 }
 
 variable "app_config_plan" {
   type        = string
-  description = "Plan for the App Configuration service instance"
+  description = "Plan for the App Configuration service instance."
   default     = "standardv2"
   nullable    = false
 }
