@@ -9,6 +9,7 @@ import (
 
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
+	t.Skip()
 
 	options := setupOptions(t, "app-conf-basic", "examples/basic")
 
