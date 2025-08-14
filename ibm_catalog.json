@@ -403,7 +403,7 @@
                 }
               ],
               "optional": true,
-              "on_by_default": true,
+              "on_by_default": false,
               "version": "v3.0.7"
             },
             {
@@ -450,7 +450,7 @@
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "optional": true,
-              "on_by_default": false,
+              "on_by_default": true,
               "input_mapping": [
                 {
                   "dependency_input": "enable_platform_metrics",
@@ -479,7 +479,7 @@
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "optional": true,
-              "on_by_default": false,
+              "on_by_default": true,
               "input_mapping": [
                 {
                   "dependency_input": "prefix",
