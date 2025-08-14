@@ -193,6 +193,7 @@ func TestApprappDefaultConfiguration(t *testing.T) {
 			"region": validRegions[rand.Intn(len(validRegions))],
 		},
 	)
+	options.SkipInfrastructureDeployment = true
 
 	err := options.RunAddonTest()
 	require.NoError(t, err)
