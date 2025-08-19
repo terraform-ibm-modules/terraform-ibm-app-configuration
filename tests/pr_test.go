@@ -55,7 +55,6 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 
 func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
-	t.Skip()
 
 	options := setupOptions(t, "app-conf", advancedExampleDir)
 
@@ -66,7 +65,7 @@ func TestRunCompleteExample(t *testing.T) {
 
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
-	t.Skip()
+
 	// Verify ibmcloud_api_key variable is set
 	checkVariable := "TF_VAR_ibmcloud_api_key"
 	val, present := os.LookupEnv(checkVariable)
@@ -120,7 +119,7 @@ func TestFullyConfigurable(t *testing.T) {
 
 func TestUpgradeFullyConfigurable(t *testing.T) {
 	t.Parallel()
-	t.Skip()
+
 	// Verify ibmcloud_api_key variable is set
 	checkVariable := "TF_VAR_ibmcloud_api_key"
 	val, present := os.LookupEnv(checkVariable)
@@ -193,7 +192,6 @@ func TestApprappDefaultConfiguration(t *testing.T) {
 			"region": validRegions[rand.Intn(len(validRegions))],
 		},
 	)
-	options.SkipInfrastructureDeployment = true
 
 	err := options.RunAddonTest()
 	require.NoError(t, err)
@@ -201,7 +199,6 @@ func TestApprappDefaultConfiguration(t *testing.T) {
 
 // TestDependencyPermutations runs dependency permutations for the Event Notifications and all its dependencies
 func TestApprappDependencyPermutations(t *testing.T) {
-	t.Skip()
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
 		Testing: t,
 		Prefix:  "app-per",
