@@ -329,7 +329,7 @@
                   "crn:v1:bluemix:public:iam::::role:Editor"
                 ],
                 "service_name": "logs",
-                "notes": "[Optional] Required to create an instance of Cloud logs."
+                "notes": "[Optional] Required to create an instance of Cloud Logs."
               },
               {
                 "role_crns": [
