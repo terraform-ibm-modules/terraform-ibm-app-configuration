@@ -210,7 +210,7 @@
                 "key": "app_config_collections",
                 "type": "array",
                 "custom_config": {
-                  "type": "textarea",
+                  "type": "code_editor",
                   "grouping": "deployment",
                   "original_grouping": "deployment"
                 }
@@ -253,7 +253,7 @@
                 "key": "cbr_rules",
                 "type": "array",
                 "custom_config": {
-                  "type": "textarea",
+                  "type": "code_editor",
                   "grouping": "deployment",
                   "original_grouping": "deployment"
                 }
@@ -491,8 +491,8 @@
           ],
           "dependency_version_2": true,
           "terraform_version": "1.10.5"
-          }
-        ]
-      }
-    ]
+        }
+      ]
+    }
+  ]
 }
