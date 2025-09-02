@@ -9,6 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
@@ -63,6 +65,7 @@ func TestRunCompleteExample(t *testing.T) {
 
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
+
 	// Verify ibmcloud_api_key variable is set
 	checkVariable := "TF_VAR_ibmcloud_api_key"
 	val, present := os.LookupEnv(checkVariable)
@@ -116,6 +119,7 @@ func TestFullyConfigurable(t *testing.T) {
 
 func TestUpgradeFullyConfigurable(t *testing.T) {
 	t.Parallel()
+
 	// Verify ibmcloud_api_key variable is set
 	checkVariable := "TF_VAR_ibmcloud_api_key"
 	val, present := os.LookupEnv(checkVariable)
@@ -167,4 +171,48 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 		assert.Nil(t, err, "This should not have errored")
 	}
 	assert.Nil(t, err, "This should not have errored")
+}
+
+func TestApprappDefaultConfiguration(t *testing.T) {
+	t.Parallel()
+
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        "app-def",
+		ResourceGroup: resourceGroup,
+		QuietMode:     true, // Suppress logs except on failure
+	})
+
+	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+		options.Prefix,
+		"deploy-arch-ibm-apprapp",
+		"fully-configurable",
+		map[string]interface{}{
+			"prefix": options.Prefix,
+			"region": validRegions[rand.Intn(len(validRegions))],
+		},
+	)
+
+	err := options.RunAddonTest()
+	require.NoError(t, err)
+}
+
+// TestDependencyPermutations runs dependency permutations for the Event Notifications and all its dependencies
+func TestApprappDependencyPermutations(t *testing.T) {
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing: t,
+		Prefix:  "app-per",
+		AddonConfig: cloudinfo.AddonConfig{
+			OfferingName:   "deploy-arch-ibm-apprapp",
+			OfferingFlavor: "fully-configurable",
+			Inputs: map[string]interface{}{
+				"prefix":                       "app-per",
+				"region":                       validRegions[rand.Intn(len(validRegions))],
+				"existing_resource_group_name": resourceGroup,
+			},
+		},
+	})
+
+	err := options.RunAddonPermutationTest()
+	assert.NoError(t, err, "Dependency permutation test should not fail")
 }
