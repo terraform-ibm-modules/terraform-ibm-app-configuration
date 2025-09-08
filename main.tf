@@ -229,3 +229,121 @@ module "cbr_rule" {
     tags = var.cbr_rules[count.index].tags
   }]
 }
+
+##############################################################################
+# Key Management services' integration
+##############################################################################
+
+module "kms_key_crn_parser" {
+  count   = var.enable_kms_encryption ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.2.0"
+  crn     = var.app_config_kms_key_crn
+}
+
+# KMS values
+locals {
+  validate_kms_plan           = var.app_config_plan == "enterprise" && var.existing_kms_instance_crn != null
+  kms_service                 = local.validate_kms_plan ? try(module.kms_key_crn_parser[0].service_name, null) : null
+  kms_account_id              = local.validate_kms_plan ? try(module.kms_key_crn_parser[0].account_id, null) : null
+  kms_key_id                  = local.validate_kms_plan ? try(module.kms_key_crn_parser[0].resource, null) : null
+  target_resource_instance_id = local.validate_kms_plan ? try(module.kms_key_crn_parser[0].service_instance, null) : null
+}
+
+resource "ibm_iam_authorization_policy" "kms_policy" {
+  count                       = var.enable_kms_encryption && !var.skip_app_config_kms_same_account_auth_policy ? 1 : 0
+  source_service_name         = "apprapp"
+  source_resource_instance_id = ibm_resource_instance.app_config.guid
+  roles                       = ["Reader"]
+  description                 = "Allow App Configuration instance in the resource group ${local.kms_account_id} to read the ${local.kms_service} key ${local.kms_key_id} from the instance GUID ${local.target_resource_instance_id}"
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = local.kms_service
+  }
+  resource_attributes {
+    name     = "accountId"
+    operator = "stringEquals"
+    value    = local.kms_account_id
+  }
+  resource_attributes {
+    name     = "serviceInstance"
+    operator = "stringEquals"
+    value    = local.target_resource_instance_id
+  }
+  resource_attributes {
+    name     = "resourceType"
+    operator = "stringEquals"
+    value    = "key"
+  }
+  resource_attributes {
+    name     = "resource"
+    operator = "stringEquals"
+    value    = local.kms_key_id
+  }
+  # Scope of policy now includes the key, so ensure to create new policy before
+  # destroying old one to prevent any disruption to every day services.
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+resource "time_sleep" "wait_for_kms_authorization_policy" {
+  count           = var.enable_kms_encryption && !var.skip_app_config_kms_same_account_auth_policy ? 1 : 0
+  depends_on      = [ibm_iam_authorization_policy.kms_policy]
+  create_duration = "30s"
+}
+
+resource "ibm_app_config_integration_kms" "app_config_integration_kms" {
+  depends_on       = [time_sleep.wait_for_kms_authorization_policy]
+  count            = var.enable_kms_encryption ? 1 : 0
+  guid             = ibm_resource_instance.app_config.guid
+  integration_id   = var.app_config_kms_integration_id
+  kms_instance_crn = var.existing_kms_instance_crn
+  kms_endpoint     = var.existing_kms_instance_endpoint
+  root_key_id      = local.kms_key_id
+}
+
+##############################################################################
+# Event Notification services' integration
+##############################################################################
+
+module "en_crn_parser" {
+  count   = var.enable_event_notification ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.2.0"
+  crn     = var.existing_event_notifications_instance_crn
+}
+
+resource "ibm_iam_authorization_policy" "en_policy" {
+  count                       = var.enable_event_notification ? 1 : 0
+  source_service_name         = "apprapp"
+  source_resource_instance_id = ibm_resource_instance.app_config.guid
+  roles                       = ["Event Source Manager"]
+  target_service_name         = "event-notifications"
+  target_resource_instance_id = module.en_crn_parser[0].service_instance
+  # Scope of policy now includes the key, so ensure to create new policy before
+  # destroying old one to prevent any disruption to every day services.
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
+resource "time_sleep" "wait_for_en_authorization_policy" {
+  count           = var.enable_event_notification ? 1 : 0
+  depends_on      = [ibm_iam_authorization_policy.en_policy]
+  create_duration = "30s"
+}
+
+resource "ibm_app_config_integration_en" "app_config_integration_en" {
+  depends_on      = [time_sleep.wait_for_en_authorization_policy]
+  count           = var.enable_event_notification ? 1 : 0
+  guid            = ibm_resource_instance.app_config.guid
+  integration_id  = var.app_config_event_notifications_integration_id
+  en_instance_crn = var.existing_event_notifications_instance_crn
+  en_endpoint     = var.existing_event_notifications_instance_endpoint
+  en_source_name  = var.app_config_event_notifications_source_name
+  description     = var.event_notifications_integration_description
+}

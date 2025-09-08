@@ -259,6 +259,75 @@
                 }
               },
               {
+                "key": "enable_kms_encryption"
+              },
+              {
+                "key": "skip_app_config_kms_iam_auth_policy"
+              },
+              {
+                "key": "ibmcloud_kms_api_key"
+              },
+              {
+                "key": "app_config_kms_integration_id"
+              },
+              {
+                "key": "existing_kms_instance_crn"
+              },
+              {
+                "key": "existing_kms_key_crn"
+              },
+              {
+                "key": "kms_endpoint_type",
+                "options": [
+                  {
+                    "displayname": "Public",
+                    "value": "public"
+                  },
+                  {
+                    "displayname": "Private",
+                    "value": "private"
+                  }
+                ]
+              },
+              {
+                "key": "app_config_key_ring_name"
+              },
+              {
+                "key": "app_config_key_name"
+              },
+              {
+                "key": "enable_event_notification"
+              },
+              {
+                "key": "app_config_event_notifications_integration_id"
+              },
+              {
+                "key": "existing_event_notifications_instance_crn"
+              },
+              {
+                "key": "event_notifications_endpoint_type",
+                "options": [
+                  {
+                    "displayname": "public",
+                    "value": "public"
+                  },
+                  {
+                    "displayname": "private",
+                    "value": "private"
+                  },
+                  {
+                    "displayname": "public-and-private",
+                    "value": "public-and-private"
+                  }
+                ]
+              },
+              {
+                "key": "app_config_event_notifications_source_name"
+              },
+              {
+                "key": "event_notifications_integration_description"
+              },
+              {
                 "key": "provider_visibility",
                 "hidden": true,
                 "options": [
@@ -468,7 +537,7 @@
               "name": "deploy-arch-ibm-activity-tracker",
               "description": "Configure Activity Tracker Event Routing to route the auditing events.",
               "id": "918453c3-4f97-4583-8c4a-83ef12fc7916-global",
-              "version": "v1.2.25",
+              "version": "v1.2.12",
               "flavors": [
                 "fully-configurable"
               ],
@@ -476,6 +545,75 @@
               "optional": true,
               "on_by_default": true,
               "input_mapping": [
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                }
+              ]
+            },
+            {
+              "name": "deploy-arch-ibm-kms",
+              "description": "Configure KMS to encrypt the data from app configuration instance stored in database.",
+              "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
+              "version": "v5.1.19",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "kms_instance_crn",
+                  "version_input": "existing_kms_instance_crn"
+                },
+                {
+                  "version_input": "enable_kms_encryption",
+                  "value": true
+                },
+                {
+                  "dependency_input": "kms_endpoint_type",
+                  "version_input": "kms_endpoint_type",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                }
+              ]
+            },
+            {
+              "name": "deploy-arch-ibm-event-notifications",
+              "description": "Configure Event Notifications to notify any configuration change events.",
+              "id": "c7ac3ee6-4f48-4236-b974-b0cd8c624a46-global",
+               "version": "v2.6.11",
+               "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "optional": true,
+              "on_by_default": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "crn",
+                  "version_input": "existing_event_notifications_instance_crn"
+                },
+                {
+                  "version_input": "enable_event_notification",
+                  "value": true
+                },
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",

@@ -214,3 +214,156 @@ variable "cbr_rules" {
   description = "(Optional, list) A list of context-based restrictions rules to create. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/solutions/fully-configurable/DA-cbr_rules.md)."
   default     = []
 }
+
+##############################################################
+# KMS and EN services' integration
+##############################################################
+
+variable "enable_kms_encryption" {
+  description = "Flag to enable the KMS encryption when the configured plan is 'enterprise'."
+  type        = bool
+  default     = false
+  validation {
+    condition     = !var.enable_kms_encryption || var.app_config_plan == "enterprise"
+    error_message = "KMS encryption is supported only when the configured plan is 'enterprise'."
+  }
+
+  validation {
+    condition     = !var.enable_kms_encryption || (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null)
+    error_message = "If 'enable_kms_encryption' is true, either 'existing_kms_instance_crn' or 'existing_kms_key_crn' must be provided."
+  }
+}
+
+variable "skip_app_config_kms_iam_auth_policy" {
+  type        = bool
+  description = "Set to true to skip the creation of an IAM authorization policy that permits App configuration instances in the resource group to read the encryption key from the KMS instance in the same account. If set to false, pass in a value for the KMS instance in the `existing_kms_instance_crn` variable. If a value is specified for `ibmcloud_kms_api_key`, the policy is created in the other account."
+  default     = false
+}
+
+variable "app_config_kms_integration_id" {
+  type        = string
+  description = "The unique ID for App Configuration and Key Management Service integration."
+  default     = "ac-kms-integration"
+
+  validation {
+    condition     = length(var.app_config_kms_integration_id) <= 30
+    error_message = "The length of 'app_config_kms_integration_id' must be 30 characters or less."
+  }
+}
+
+variable "existing_kms_instance_crn" {
+  type        = string
+  default     = null
+  description = "The CRN of the existing key management service (KMS) that is used to create keys for encrypting the app config instance. If you are not using an existing KMS root key, you must specify this CRN. If you are using an existing KMS root key and auth policy is not set for app config to KMS, you must specify this CRN. This is applicable only for Enterprise plan."
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}kms:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      can(regex("^crn:(.*:){3}hs-crypto:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      var.existing_kms_instance_crn == null,
+    ])
+    error_message = "The provided KMS (Key Protect) instance CRN in not valid."
+  }
+}
+
+variable "existing_kms_key_crn" {
+  type        = string
+  default     = null
+  description = "The CRN of an existing key management service (Key Protect) key to use to encrypt the app config instance that this solution creates. To create a key ring and key, pass a value for the `existing_kms_instance_crn` input variable. This is applicable only for Enterprise plan. Either `existing_kms_key_crn` or `existing_kms_instance_crn` needs to be provided."
+}
+
+variable "kms_endpoint_type" {
+  type        = string
+  description = "The type of endpoint to use for communicating with the Key Protect instance. Possible values: `public`, `private`. Applies only if `existing_kms_key_crn` is specified. This is applicable only for Enterprise plan."
+  default     = "private"
+  validation {
+    condition     = can(regex("public|private", var.kms_endpoint_type))
+    error_message = "Valid values for the `kms_endpoint_type` are `public` or `private`."
+  }
+}
+
+variable "app_config_key_ring_name" {
+  type        = string
+  default     = "apprapp-key-ring"
+  description = "The name of the key ring to create for the app configuration instance. If an existing key is used, this variable is not required. If the prefix input variable is passed, the name of the key ring is prefixed to the value in the `<prefix>-value` format. This is applicable only for Enterprise plan."
+}
+
+variable "app_config_key_name" {
+  type        = string
+  default     = "apprapp-key"
+  description = "The name of the key to create for the app configuration instance. If an existing key is used, this variable is not required. If the prefix input variable is passed, the name of the key is prefixed to the value in the `<prefix>-value` format. This is applicable only for Enterprise plan."
+}
+
+variable "ibmcloud_kms_api_key" {
+  type        = string
+  description = "The IBM Cloud API key that can create a root key and key ring in the key management service (KMS) instance. If not specified, the 'ibmcloud_api_key' variable is used. Specify this key if the instance in `existing_kms_instance_crn` is in an account that's different from the App Configuration instance. Leave this input empty if the same account owns both instances."
+  sensitive   = true
+  default     = null
+
+  validation {
+    condition     = !var.skip_app_config_kms_iam_auth_policy || var.ibmcloud_kms_api_key != null
+    error_message = "The 'ibmcloud_kms_api_key' variable must not be null when 'skip_app_config_kms_iam_auth_policy' is set to true."
+  }
+}
+
+variable "enable_event_notification" {
+  description = "Flag to enable the event notification when the configured plan is 'enterprise'."
+  type        = bool
+  default     = false
+  validation {
+    condition     = !var.enable_event_notification || var.app_config_plan == "enterprise"
+    error_message = "Event notification integration is supported only when the configured plan is 'enterprise'."
+  }
+
+  validation {
+    condition     = !var.enable_event_notification || var.existing_event_notifications_instance_crn != null
+    error_message = "If 'enable_event_notification' is true, 'existing_event_notifications_instance_crn' cannot be null."
+  }
+}
+
+variable "app_config_event_notifications_integration_id" {
+  type        = string
+  description = "The unique ID for App Configuration and Event Notification Service integration."
+  default     = "ac-en-integration"
+
+  validation {
+    condition     = length(var.app_config_event_notifications_integration_id) <= 30
+    error_message = "The length of 'app_config_event_notifications_integration_id' must be 30 characters or less."
+  }
+}
+
+variable "existing_event_notifications_instance_crn" {
+  type        = string
+  description = "The CRN of the existing Event Notifications instance to enable notifications for your App Configuration instance."
+  default     = null
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}event-notifications:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_event_notifications_instance_crn)),
+      var.existing_event_notifications_instance_crn == null,
+    ])
+    error_message = "The provided EN (Event Notifications) instance CRN in not valid."
+  }
+}
+
+variable "event_notifications_endpoint_type" {
+  type        = string
+  description = "The type of endpoint to use for communicating with the Event Notification instance. Possible values: `public`, `private`. Applies only if `existing_event_notifications_instance_crn` is specified. This is applicable only for Enterprise plan."
+  default     = "private"
+  validation {
+    condition     = contains(["public", "private", "public-and-private"], var.event_notifications_endpoint_type)
+    error_message = "The specified endpoint is not supported. The following endpoint options are supported: `public`, `private`, `public-and-private`."
+  }
+}
+
+variable "app_config_event_notifications_source_name" {
+  type        = string
+  description = "The name by which EN source will be created in the existing Event Notification instance."
+  default     = "apprapp-en-source-name"
+}
+
+variable "event_notifications_integration_description" {
+  type        = string
+  description = "The description of integration between Event Notification and App Configuration service."
+  default     = "The app configuration integration to send notifications of events of users"
+}
