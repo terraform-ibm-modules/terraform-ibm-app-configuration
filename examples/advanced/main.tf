@@ -79,7 +79,7 @@ module "key_protect_all_inclusive" {
 
 module "event_notification" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "2.6.18"
+  version           = "2.7.0"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
   tags              = var.resource_tags
@@ -133,13 +133,13 @@ module "app_config" {
       }]
     }
   ]
-  enable_kms_encryption                          = true
-  app_config_kms_integration_id                  = "${var.prefix}-kms-integration"
-  existing_kms_instance_crn                      = module.key_protect_all_inclusive.key_protect_crn
-  app_config_kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].crn
-  existing_kms_instance_endpoint                 = module.key_protect_all_inclusive.kms_public_endpoint
-  enable_event_notification                      = true
-  app_config_event_notifications_integration_id  = "${var.prefix}-en-integration"
-  existing_event_notifications_instance_crn      = module.event_notification.crn
-  existing_event_notifications_instance_endpoint = "https://${var.region}.event-notifications.cloud.ibm.com"
+  kms_encryption_enabled                        = true
+  app_config_kms_integration_id                 = "${var.prefix}-kms-integration"
+  existing_kms_instance_crn                     = module.key_protect_all_inclusive.key_protect_crn
+  root_key_id                                   = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].key_id
+  kms_endpoint_url                              = module.key_protect_all_inclusive.kms_public_endpoint
+  enable_event_notifications                    = true
+  app_config_event_notifications_integration_id = "${var.prefix}-en-integration"
+  existing_event_notifications_instance_crn     = module.event_notification.crn
+  event_notifications_endpoint_url              = module.event_notification.event_notifications_public_endpoint
 }

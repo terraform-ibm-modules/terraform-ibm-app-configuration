@@ -16,36 +16,11 @@ module "resource_group" {
 
 module "event_notifications" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "2.6.18"
+  version           = "2.7.0"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
   tags              = var.resource_tags
   plan              = "lite"
   service_endpoints = "public-and-private"
   region            = var.region
-}
-
-##############################################################################
-# Key Protect
-##############################################################################
-
-module "key_protect" {
-  source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.1.22"
-  key_protect_instance_name = "${var.prefix}-key-protect"
-  resource_group_id         = module.resource_group.resource_group_id
-  region                    = var.region
-  key_ring_endpoint_type    = "public"
-  key_endpoint_type         = "public"
-  keys = [
-    {
-      key_ring_name = "${var.prefix}-ring"
-      keys = [
-        {
-          key_name     = "${var.prefix}-root-key"
-          force_delete = true
-        }
-      ]
-    }
-  ]
 }

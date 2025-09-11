@@ -1,33 +1,19 @@
 locals {
-  prefix    = var.prefix != null ? (trimspace(var.prefix) != "" ? "${trimspace(var.prefix)}-" : "") : ""
-  crn_parts = var.existing_kms_key_crn != null ? split(":", var.existing_kms_key_crn) : null
+  prefix = var.prefix != null ? (trimspace(var.prefix) != "" ? "${trimspace(var.prefix)}-" : "") : ""
 
-  kms_instance_crn = var.existing_kms_instance_crn != null ? var.existing_kms_instance_crn : var.existing_kms_key_crn != null ? "${join(":", slice(local.crn_parts, 0, length(local.crn_parts) - 2))}::" : null
-  kms_key_crn      = var.enable_kms_encryption ? (var.existing_kms_key_crn != null ? var.existing_kms_key_crn : module.kms[0].keys[format("%s.%s", local.kms_key_ring_name, local.kms_key_name)].crn) : null
-
-  kms_region        = var.enable_kms_encryption && (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? module.existing_kms_crn_parser[0].region : null
-  kms_service_name  = var.enable_kms_encryption && (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? module.existing_kms_crn_parser[0].service_name : null
-  kms_instance_guid = var.enable_kms_encryption && (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? module.existing_kms_crn_parser[0].service_instance : null
-  kms_account_id    = var.enable_kms_encryption && (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? module.existing_kms_crn_parser[0].account_id : null
+  existing_kms_instance_crn = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? var.existing_kms_instance_crn : "crn:v1:bluemix:${module.existing_kms_key_crn_parser[0].ctype}:${module.existing_kms_key_crn_parser[0].service_name}:${module.existing_kms_key_crn_parser[0].region}:${module.existing_kms_key_crn_parser[0].scope}:${module.existing_kms_key_crn_parser[0].service_instance}::" : null
+  kms_region                = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.existing_kms_crn_parser[0].region : var.existing_kms_key_crn != null ? module.existing_kms_key_crn_parser[0].region : null : null
+  kms_service_name          = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.existing_kms_crn_parser[0].service_name : var.existing_kms_key_crn != null ? module.existing_kms_key_crn_parser[0].service_name : null : null
+  kms_instance_guid         = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.existing_kms_crn_parser[0].service_instance : var.existing_kms_key_crn != null ? module.existing_kms_key_crn_parser[0].service_instance : null : null
+  kms_account_id            = var.kms_encryption_enabled ? var.existing_kms_instance_crn != null ? module.existing_kms_crn_parser[0].account_id : var.existing_kms_key_crn != null ? module.existing_kms_key_crn_parser[0].account_id : null : null
+  kms_key_id                = var.kms_encryption_enabled ? var.existing_kms_key_crn != null ? module.existing_kms_key_crn_parser[0].resource : var.existing_kms_instance_crn != null ? module.kms[0].keys[format("%s.%s", local.kms_key_ring_name, local.kms_key_name)].key_id : null : null
 
   kms_key_ring_name = var.app_config_key_ring_name != null ? "${local.prefix}${var.app_config_key_ring_name}" : null
   kms_key_name      = var.app_config_key_name != null ? "${local.prefix}${var.app_config_key_name}" : null
 
-  create_kms_cross_account_auth_policy = var.skip_app_config_kms_iam_auth_policy && var.ibmcloud_kms_api_key != null
+  create_kms_cross_account_auth_policy = var.skip_app_config_kms_auth_policy && var.ibmcloud_kms_api_key != null
 
-  en_region = var.enable_event_notification && var.existing_event_notifications_instance_crn != null ? module.existing_en_crn_parser[0].region : null
-
-  kms_endpoint = var.enable_kms_encryption && (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? (
-    local.kms_service_name == "hs-crypto" ? (
-      var.kms_endpoint_type == "private" ? "https://${local.kms_instance_guid}.api.private.${local.kms_region}.hs-crypto.appdomain.cloud" : "https://${local.kms_instance_guid}.api.${local.kms_region}.hs-crypto.appdomain.cloud"
-      ) : (
-      var.kms_endpoint_type == "private" ? "https://${local.kms_region}.${local.kms_service_name}.cloud.ibm.com" : "https://${local.kms_region}.${local.kms_service_name}.cloud.ibm.com"
-    )
-  ) : null
-
-  en_endpoint = var.enable_event_notification && var.existing_event_notifications_instance_crn != null ? var.event_notifications_endpoint_type == "private" ? "https://private.${local.en_region}.event-notifications.cloud.ibm.com" : "https://${local.en_region}.event-notifications.cloud.ibm.com" : null
-
-  kms_key_id = var.enable_kms_encryption && var.existing_kms_key_crn != null ? module.kms_key_crn_parser[0].resource : (var.existing_kms_instance_crn != null && var.enable_kms_encryption ? module.kms[0].keys[format("%s.%s", local.kms_key_ring_name, local.kms_key_name)].key_id : null)
+  existing_en_guid = var.enable_event_notifications && var.existing_event_notifications_instance_crn != null ? module.existing_en_crn_parser[0].service_instance : null
 }
 
 data "ibm_iam_account_settings" "iam_account_settings" {
@@ -50,17 +36,17 @@ module "resource_group" {
 
 # parse KMS details from the existing KMS instance CRN
 module "existing_kms_crn_parser" {
-  count   = var.enable_kms_encryption && (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) ? 1 : 0
+  count   = var.kms_encryption_enabled && var.existing_kms_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.2.0"
-  crn     = local.kms_instance_crn
+  crn     = var.existing_kms_instance_crn
 }
 
-module "kms_key_crn_parser" {
-  count   = var.enable_kms_encryption && var.existing_kms_key_crn != null ? 1 : 0
+module "existing_kms_key_crn_parser" {
+  count   = var.kms_encryption_enabled && var.existing_kms_key_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.2.0"
-  crn     = local.kms_key_crn
+  crn     = var.existing_kms_key_crn
 }
 
 #######################################################################################################################
@@ -69,7 +55,7 @@ module "kms_key_crn_parser" {
 
 # parse EN details from the existing EN instance CRN
 module "existing_en_crn_parser" {
-  count   = var.enable_event_notification && var.existing_event_notifications_instance_crn != null ? 1 : 0
+  count   = var.enable_event_notifications && var.existing_event_notifications_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.2.0"
   crn     = var.existing_event_notifications_instance_crn
@@ -77,7 +63,7 @@ module "existing_en_crn_parser" {
 
 # Create auth policy (scoped to exact KMS key)
 resource "ibm_iam_authorization_policy" "kms_cross_account_policy" {
-  count                    = var.enable_kms_encryption && local.create_kms_cross_account_auth_policy ? 1 : 0
+  count                    = var.kms_encryption_enabled && local.create_kms_cross_account_auth_policy ? 1 : 0
   provider                 = ibm.kms
   source_service_account   = data.ibm_iam_account_settings.iam_account_settings[0].account_id
   source_service_name      = "apprapp"
@@ -118,7 +104,7 @@ resource "ibm_iam_authorization_policy" "kms_cross_account_policy" {
 
 # workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4478
 resource "time_sleep" "wait_for_kms_cross_account_authorization_policy" {
-  count           = var.enable_kms_encryption && local.create_kms_cross_account_auth_policy ? 1 : 0
+  count           = var.kms_encryption_enabled && local.create_kms_cross_account_auth_policy ? 1 : 0
   depends_on      = [ibm_iam_authorization_policy.kms_cross_account_policy]
   create_duration = "30s"
 }
@@ -128,7 +114,7 @@ resource "time_sleep" "wait_for_kms_cross_account_authorization_policy" {
 #######################################################################################################################
 
 module "kms" {
-  count   = var.enable_kms_encryption && var.existing_kms_instance_crn != null && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key
+  count   = var.kms_encryption_enabled && var.existing_kms_instance_crn != null && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key
   source  = "terraform-ibm-modules/kms-all-inclusive/ibm"
   version = "5.1.22"
   providers = {
@@ -179,16 +165,57 @@ module "app_config" {
   config_aggregator_enterprise_account_group_ids_to_assign   = var.config_aggregator_enterprise_account_group_ids_to_assign
   config_aggregator_enterprise_account_ids_to_assign         = var.config_aggregator_enterprise_account_ids_to_assign
   cbr_rules                                                  = var.cbr_rules
-  skip_app_config_kms_same_account_auth_policy               = var.skip_app_config_kms_iam_auth_policy
-  enable_kms_encryption                                      = var.enable_kms_encryption
+  kms_encryption_enabled                                     = var.kms_encryption_enabled
+  skip_app_config_kms_auth_policy                            = var.skip_app_config_kms_auth_policy
   app_config_kms_integration_id                              = "${local.prefix}${var.app_config_kms_integration_id}"
-  existing_kms_instance_crn                                  = local.kms_instance_crn
-  existing_kms_instance_endpoint                             = local.kms_endpoint
-  app_config_kms_key_crn                                     = local.kms_key_crn
-  enable_event_notification                                  = var.enable_event_notification
+  existing_kms_instance_crn                                  = local.existing_kms_instance_crn
+  kms_endpoint_url                                           = var.kms_endpoint_url
+  root_key_id                                                = local.kms_key_id
+  enable_event_notifications                                 = var.enable_event_notifications
+  skip_app_config_event_notifications_auth_policy            = var.skip_app_config_event_notifications_auth_policy
   app_config_event_notifications_integration_id              = "${local.prefix}${var.app_config_event_notifications_integration_id}"
   existing_event_notifications_instance_crn                  = var.existing_event_notifications_instance_crn
-  existing_event_notifications_instance_endpoint             = local.en_endpoint
+  event_notifications_endpoint_url                           = var.event_notifications_endpoint_url
   app_config_event_notifications_source_name                 = "${local.prefix}${var.app_config_event_notifications_source_name}"
   event_notifications_integration_description                = var.event_notifications_integration_description
+}
+
+#######################################################################################################################
+# App Configuration Event Notifications Configuration
+#######################################################################################################################
+
+data "ibm_en_destinations" "en_destinations" {
+  count         = var.enable_event_notifications ? 1 : 0
+  instance_guid = local.existing_en_guid
+}
+
+resource "ibm_en_topic" "en_topic" {
+  count         = var.enable_event_notifications ? 1 : 0
+  depends_on    = [module.app_config]
+  instance_guid = local.existing_en_guid
+  name          = "Topic for SCC instance ${module.app_config.app_config_guid}"
+  description   = "Topic for App Configuration events routing"
+  sources {
+    id = module.app_config.app_config_crn
+    rules {
+      enabled           = true
+      event_type_filter = "$.*"
+    }
+  }
+}
+
+resource "ibm_en_subscription_email" "email_subscription" {
+  count          = var.enable_event_notifications && length(var.event_notifications_email_list) > 0 ? 1 : 0
+  instance_guid  = local.existing_en_guid
+  name           = "Email for App Configuration Subscription"
+  description    = "Subscription for App Configuration Events"
+  destination_id = [for s in toset(data.ibm_en_destinations.en_destinations[count.index].destinations) : s.id if s.type == "smtp_ibm"][0]
+  topic_id       = ibm_en_topic.en_topic[count.index].topic_id
+  attributes {
+    add_notification_payload = true
+    reply_to_mail            = var.event_notifications_reply_to_email
+    reply_to_name            = "Secret Manager Event Notifications Bot"
+    from_name                = var.event_notifications_from_email
+    invited                  = var.event_notifications_email_list
+  }
 }

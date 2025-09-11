@@ -37,7 +37,6 @@ var validRegions = []string{
 	"eu-de",
 	"eu-gb",
 	"eu-es",
-	"eu-fr2",
 	"us-south",
 	"ca-tor",
 	"br-sao",
@@ -216,17 +215,15 @@ func TestFullyConfigurablewithKMSandENIntegration(t *testing.T) {
 			{Name: "app_config_tags", Value: appConfigTags, DataType: "list(string)"},
 			{Name: "prefix", Value: terraform.Output(t, existingTerraformOptions, "prefix"), DataType: "string"},
 			{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
-			{Name: "enable_kms_encryption", Value: true, DataType: "bool"},
-			{Name: "existing_kms_instance_crn", Value: terraform.Output(t, existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
+			{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 			{Name: "app_config_kms_integration_id", Value: "kms-int", DataType: "string"},
-			{Name: "existing_kms_key_crn", Value: terraform.Output(t, existingTerraformOptions, "kms_key_crn"), DataType: "string"},
-			{Name: "kms_endpoint_type", Value: "public", DataType: "string"},
-			{Name: "app_config_key_ring_name", Value: "test-ring", DataType: "string"},
-			{Name: "app_config_key_name", Value: "test-root", DataType: "string"},
-			{Name: "enable_event_notification", Value: true, DataType: "bool"},
+			{Name: "kms_endpoint_type", Value: "private", DataType: "string"},
+			{Name: "kms_endpoint_url", Value: permanentResources["hpcs_south_private_endpoint"], DataType: "string"},
+			{Name: "enable_event_notifications", Value: true, DataType: "bool"},
 			{Name: "existing_event_notifications_instance_crn", Value: terraform.Output(t, existingTerraformOptions, "event_notifications_instance_crn"), DataType: "string"},
 			{Name: "app_config_event_notifications_integration_id", Value: "en-int", DataType: "string"},
-			{Name: "event_notifications_endpoint_type", Value: "public", DataType: "string"},
+			{Name: "event_notifications_endpoint_url", Value: terraform.Output(t, existingTerraformOptions, "event_notification_endpoint_url"), DataType: "string"},
 		}
 
 		err := options.RunSchematicTest()
@@ -317,8 +314,9 @@ func TestApprappDefaultConfiguration(t *testing.T) {
 		"deploy-arch-ibm-apprapp",
 		"fully-configurable",
 		map[string]interface{}{
-			"prefix": options.Prefix,
-			"region": validRegions[rand.Intn(len(validRegions))],
+			"prefix":          options.Prefix,
+			"region":          validRegions[rand.Intn(len(validRegions))],
+			"app_config_plan": "enterprise",
 		},
 	)
 

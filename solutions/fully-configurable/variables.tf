@@ -219,24 +219,34 @@ variable "cbr_rules" {
 # KMS and EN services' integration
 ##############################################################
 
-variable "enable_kms_encryption" {
+variable "kms_encryption_enabled" {
   description = "Flag to enable the KMS encryption when the configured plan is 'enterprise'."
   type        = bool
   default     = false
   validation {
-    condition     = !var.enable_kms_encryption || var.app_config_plan == "enterprise"
+    condition     = !var.kms_encryption_enabled || var.app_config_plan == "enterprise"
     error_message = "KMS encryption is supported only when the configured plan is 'enterprise'."
   }
 
   validation {
-    condition     = !var.enable_kms_encryption || (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null)
-    error_message = "If 'enable_kms_encryption' is true, either 'existing_kms_instance_crn' or 'existing_kms_key_crn' must be provided."
+    condition     = var.kms_encryption_enabled == true ? (var.existing_kms_instance_crn != null || var.existing_kms_key_crn != null) && length(var.kms_endpoint_url) > 0 : true
+    error_message = "You must provide at least one of 'existing_kms_instance_crn' or 'existing_kms_key_crn' and also set the 'kms_endpoint_url' variable if 'kms_encryption_enabled' is set to true."
+  }
+
+  validation {
+    condition     = var.kms_encryption_enabled == false ? (var.existing_kms_key_crn == null && var.existing_kms_instance_crn == null && var.kms_endpoint_url == null) : true
+    error_message = "If 'kms_encryption_enabled' is set to false. You should not pass values for 'existing_kms_instance_crn', 'existing_kms_key_crn' or 'kms_endpoint_url'."
+  }
+
+  validation {
+    condition     = !var.kms_encryption_enabled || var.kms_endpoint_url != null
+    error_message = "If 'kms_encryption_enabled' is true, 'kms_endpoint_url' cannot be null."
   }
 }
 
-variable "skip_app_config_kms_iam_auth_policy" {
+variable "skip_app_config_kms_auth_policy" {
   type        = bool
-  description = "Set to true to skip the creation of an IAM authorization policy that permits App configuration instances in the resource group to read the encryption key from the KMS instance in the same account. If set to false, pass in a value for the KMS instance in the `existing_kms_instance_crn` variable. If a value is specified for `ibmcloud_kms_api_key`, the policy is created in the other account."
+  description = "Set to true to skip the creation of an IAM authorization policy that permits App configuration instances in the resource group to read the encryption key from the KMS instance in the same account. If a value is specified for `ibmcloud_kms_api_key`, the policy is created in the other account."
   default     = false
 }
 
@@ -274,7 +284,7 @@ variable "existing_kms_key_crn" {
 
 variable "kms_endpoint_type" {
   type        = string
-  description = "The type of endpoint to use for communicating with the Key Protect instance. Possible values: `public`, `private`. Applies only if `existing_kms_key_crn` is specified. This is applicable only for Enterprise plan."
+  description = "The type of endpoint to use for communicating with the Key Protect instance. Possible values: `public`, `private`. Only used if not supplying an existing root key. This is applicable only for Enterprise plan."
   default     = "private"
   validation {
     condition     = can(regex("public|private", var.kms_endpoint_type))
@@ -282,16 +292,22 @@ variable "kms_endpoint_type" {
   }
 }
 
+variable "kms_endpoint_url" {
+  description = "The URL of the key management service endpoint to use for key encryption. For more information on the endpoint URL format for Hyper Protect Crypto Services, go to [Instance-based endpoints](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-regions#new-service-endpoints). For more information on the endpoint URL format for Key Protect, go to [Service endpoints](https://cloud.ibm.com/docs/key-protect?topic=key-protect-regions#service-endpoints)."
+  type        = string
+  default     = null
+}
+
 variable "app_config_key_ring_name" {
   type        = string
   default     = "apprapp-key-ring"
-  description = "The name of the key ring to create for the app configuration instance. If an existing key is used, this variable is not required. If the prefix input variable is passed, the name of the key ring is prefixed to the value in the `<prefix>-value` format. This is applicable only for Enterprise plan."
+  description = "The name of the key ring to create for the App Configuration instance. If an existing key is used, this variable is not required. If the prefix input variable is passed, the name of the key ring is prefixed to the value in the `<prefix>-value` format. This is applicable only for Enterprise plan."
 }
 
 variable "app_config_key_name" {
   type        = string
   default     = "apprapp-key"
-  description = "The name of the key to create for the app configuration instance. If an existing key is used, this variable is not required. If the prefix input variable is passed, the name of the key is prefixed to the value in the `<prefix>-value` format. This is applicable only for Enterprise plan."
+  description = "The name of the key to create for the App Configuration instance. If an existing key is used, this variable is not required. If the prefix input variable is passed, the name of the key is prefixed to the value in the `<prefix>-value` format. This is applicable only for Enterprise plan."
 }
 
 variable "ibmcloud_kms_api_key" {
@@ -301,24 +317,35 @@ variable "ibmcloud_kms_api_key" {
   default     = null
 
   validation {
-    condition     = !var.skip_app_config_kms_iam_auth_policy || var.ibmcloud_kms_api_key != null
-    error_message = "The 'ibmcloud_kms_api_key' variable must not be null when 'skip_app_config_kms_iam_auth_policy' is set to true."
+    condition     = !var.skip_app_config_kms_auth_policy || var.ibmcloud_kms_api_key != null
+    error_message = "The 'ibmcloud_kms_api_key' variable must not be null when 'skip_app_config_kms_auth_policy' is set to true."
   }
 }
 
-variable "enable_event_notification" {
+variable "enable_event_notifications" {
   description = "Flag to enable the event notification when the configured plan is 'enterprise'."
   type        = bool
   default     = false
   validation {
-    condition     = !var.enable_event_notification || var.app_config_plan == "enterprise"
+    condition     = !var.enable_event_notifications || var.app_config_plan == "enterprise"
     error_message = "Event notification integration is supported only when the configured plan is 'enterprise'."
   }
 
   validation {
-    condition     = !var.enable_event_notification || var.existing_event_notifications_instance_crn != null
-    error_message = "If 'enable_event_notification' is true, 'existing_event_notifications_instance_crn' cannot be null."
+    condition     = !var.enable_event_notifications || var.existing_event_notifications_instance_crn != null
+    error_message = "If 'enable_event_notifications' is true, 'existing_event_notifications_instance_crn' cannot be null."
   }
+
+  validation {
+    condition     = !var.enable_event_notifications || var.event_notifications_endpoint_url != null
+    error_message = "If 'enable_event_notifications' is true, 'event_notifications_endpoint_url' cannot be null."
+  }
+}
+
+variable "skip_app_config_event_notifications_auth_policy" {
+  type        = bool
+  description = "Set to true to skip the creation of an IAM authorization policy that permits App configuration instances to integrate with Event Notification in the same account."
+  default     = false
 }
 
 variable "app_config_event_notifications_integration_id" {
@@ -342,28 +369,42 @@ variable "existing_event_notifications_instance_crn" {
       can(regex("^crn:(.*:){3}event-notifications:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_event_notifications_instance_crn)),
       var.existing_event_notifications_instance_crn == null,
     ])
-    error_message = "The provided EN (Event Notifications) instance CRN in not valid."
+    error_message = "The provided Event Notifications instance CRN in not valid."
   }
 }
 
-variable "event_notifications_endpoint_type" {
+variable "event_notifications_endpoint_url" {
   type        = string
-  description = "The type of endpoint to use for communicating with the Event Notification instance. Possible values: `public`, `private`. Applies only if `existing_event_notifications_instance_crn` is specified. This is applicable only for Enterprise plan."
-  default     = "private"
-  validation {
-    condition     = contains(["public", "private", "public-and-private"], var.event_notifications_endpoint_type)
-    error_message = "The specified endpoint is not supported. The following endpoint options are supported: `public`, `private`, `public-and-private`."
-  }
+  description = "The URL of the event notifications service endpoint to use for notifying configuration changes. For more information on the endpoint URL for event notifications, go to [Service endpoints](https://cloud.ibm.com/docs/event-notifications?topic=event-notifications-en-regions-endpoints#en-service-endpoints)."
+  default     = null
 }
 
 variable "app_config_event_notifications_source_name" {
   type        = string
-  description = "The name by which EN source will be created in the existing Event Notification instance."
+  description = "The name by which Event Notifications source will be created in the existing Event Notification instance."
   default     = "apprapp-en-source-name"
 }
 
 variable "event_notifications_integration_description" {
   type        = string
   description = "The description of integration between Event Notification and App Configuration service."
-  default     = "The app configuration integration to send notifications of events of users"
+  default     = "The App Configuration integration to send notifications of events of users"
+}
+
+variable "event_notifications_email_list" {
+  type        = list(string)
+  description = "The list of email address to target out when App Configuration triggers an event"
+  default     = []
+}
+
+variable "event_notifications_from_email" {
+  type        = string
+  description = "The email address used to send any App Configuration event coming via Event Notifications"
+  default     = "compliancealert@ibm.com"
+}
+
+variable "event_notifications_reply_to_email" {
+  type        = string
+  description = "The email address specified in the 'reply_to' section for any App Configuration event coming via Event Notifications"
+  default     = "no-reply@ibm.com"
 }

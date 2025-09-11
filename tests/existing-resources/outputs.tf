@@ -13,17 +13,12 @@ output "prefix" {
   value       = var.prefix
 }
 
-output "kms_key_crn" {
-  value       = module.key_protect.keys["${var.prefix}-ring.${var.prefix}-root-key"].crn
-  description = "CRN of created KMS key"
-}
-
-output "kms_instance_crn" {
-  value       = module.key_protect.key_protect_id
-  description = "CRN of created KMS instance"
-}
-
 output "event_notifications_instance_crn" {
   value       = module.event_notifications.crn
   description = "CRN of created event notification"
+}
+
+output "event_notification_endpoint_url" {
+  value       = module.event_notifications.event_notifications_private_endpoint
+  description = "The endpoint URL for event notification instance"
 }
