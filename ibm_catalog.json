@@ -268,9 +268,6 @@
                 "key": "ibmcloud_kms_api_key"
               },
               {
-                "key": "app_config_kms_integration_id"
-              },
-              {
                 "key": "existing_kms_instance_crn"
               },
               {
@@ -306,9 +303,6 @@
                 "key": "skip_app_config_event_notifications_auth_policy"
               },
               {
-                "key": "app_config_event_notifications_integration_id"
-              },
-              {
                 "key": "existing_event_notifications_instance_crn"
               },
               {
@@ -316,9 +310,6 @@
               },
               {
                 "key": "app_config_event_notifications_source_name"
-              },
-              {
-                "key": "event_notifications_integration_description"
               },
               {
                 "key": "event_notifications_email_list"

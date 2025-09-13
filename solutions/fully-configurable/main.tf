@@ -13,7 +13,7 @@ locals {
 
   create_kms_cross_account_auth_policy = var.skip_app_config_kms_auth_policy && var.ibmcloud_kms_api_key != null
 
-  existing_en_guid = var.enable_event_notifications && var.existing_event_notifications_instance_crn != null ? module.existing_en_crn_parser[0].service_instance : null
+  existing_en_guid = var.enable_event_notifications ? module.existing_en_crn_parser[0].service_instance : null
 }
 
 data "ibm_iam_account_settings" "iam_account_settings" {
@@ -114,7 +114,7 @@ resource "time_sleep" "wait_for_kms_cross_account_authorization_policy" {
 #######################################################################################################################
 
 module "kms" {
-  count   = var.kms_encryption_enabled && var.existing_kms_instance_crn != null && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key
+  count   = var.kms_encryption_enabled && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key
   source  = "terraform-ibm-modules/kms-all-inclusive/ibm"
   version = "5.1.22"
   providers = {
@@ -167,17 +167,15 @@ module "app_config" {
   cbr_rules                                                  = var.cbr_rules
   kms_encryption_enabled                                     = var.kms_encryption_enabled
   skip_app_config_kms_auth_policy                            = var.skip_app_config_kms_auth_policy
-  app_config_kms_integration_id                              = "${local.prefix}${var.app_config_kms_integration_id}"
   existing_kms_instance_crn                                  = local.existing_kms_instance_crn
   kms_endpoint_url                                           = var.kms_endpoint_url
   root_key_id                                                = local.kms_key_id
   enable_event_notifications                                 = var.enable_event_notifications
   skip_app_config_event_notifications_auth_policy            = var.skip_app_config_event_notifications_auth_policy
-  app_config_event_notifications_integration_id              = "${local.prefix}${var.app_config_event_notifications_integration_id}"
   existing_event_notifications_instance_crn                  = var.existing_event_notifications_instance_crn
   event_notifications_endpoint_url                           = var.event_notifications_endpoint_url
   app_config_event_notifications_source_name                 = "${local.prefix}${var.app_config_event_notifications_source_name}"
-  event_notifications_integration_description                = var.event_notifications_integration_description
+  event_notifications_integration_description                = var.enable_event_notifications ? "The App Configuration integration to send notifications of events to users from the Event Notifications instance GUID ${local.existing_en_guid}" : null
 }
 
 #######################################################################################################################

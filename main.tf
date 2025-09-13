@@ -234,6 +234,14 @@ module "cbr_rule" {
 # Key Management services' integration
 ##############################################################################
 
+resource "random_string" "kms_integration_id" {
+  count            = var.kms_encryption_enabled ? 1 : 0
+  length           = 10
+  special          = true
+  override_special = "-"
+  upper            = false
+}
+
 module "kms_crn_parser" {
   count   = var.kms_encryption_enabled ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
@@ -298,7 +306,7 @@ resource "ibm_app_config_integration_kms" "app_config_integration_kms" {
   depends_on       = [time_sleep.wait_for_kms_authorization_policy]
   count            = var.kms_encryption_enabled ? 1 : 0
   guid             = ibm_resource_instance.app_config.guid
-  integration_id   = var.app_config_kms_integration_id
+  integration_id   = "kms-${random_string.kms_integration_id[0].result}"
   kms_instance_crn = var.existing_kms_instance_crn
   kms_endpoint     = var.kms_endpoint_url
   root_key_id      = var.root_key_id
@@ -307,6 +315,14 @@ resource "ibm_app_config_integration_kms" "app_config_integration_kms" {
 ##############################################################################
 # Event Notification services' integration
 ##############################################################################
+
+resource "random_string" "en_integration_id" {
+  count            = var.enable_event_notifications ? 1 : 0
+  length           = 10
+  special          = true
+  override_special = "-"
+  upper            = false
+}
 
 module "en_crn_parser" {
   count   = var.enable_event_notifications ? 1 : 0
@@ -341,7 +357,7 @@ resource "ibm_app_config_integration_en" "app_config_integration_en" {
   depends_on      = [time_sleep.wait_for_en_authorization_policy]
   count           = var.enable_event_notifications ? 1 : 0
   guid            = ibm_resource_instance.app_config.guid
-  integration_id  = var.app_config_event_notifications_integration_id
+  integration_id  = "en-${random_string.en_integration_id[0].result}"
   en_instance_crn = var.existing_event_notifications_instance_crn
   en_endpoint     = var.event_notifications_endpoint_url
   en_source_name  = var.app_config_event_notifications_source_name

@@ -133,13 +133,11 @@ module "app_config" {
       }]
     }
   ]
-  kms_encryption_enabled                        = true
-  app_config_kms_integration_id                 = "${var.prefix}-kms-integration"
-  existing_kms_instance_crn                     = module.key_protect_all_inclusive.key_protect_crn
-  root_key_id                                   = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].key_id
-  kms_endpoint_url                              = module.key_protect_all_inclusive.kms_public_endpoint
-  enable_event_notifications                    = true
-  app_config_event_notifications_integration_id = "${var.prefix}-en-integration"
-  existing_event_notifications_instance_crn     = module.event_notification.crn
-  event_notifications_endpoint_url              = module.event_notification.event_notifications_public_endpoint
+  kms_encryption_enabled                    = true
+  existing_kms_instance_crn                 = module.key_protect_all_inclusive.key_protect_crn
+  root_key_id                               = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].key_id
+  kms_endpoint_url                          = module.key_protect_all_inclusive.kms_public_endpoint
+  enable_event_notifications                = true
+  existing_event_notifications_instance_crn = module.event_notification.crn
+  event_notifications_endpoint_url          = module.event_notification.event_notifications_public_endpoint
 }
