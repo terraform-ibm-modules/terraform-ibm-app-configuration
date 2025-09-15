@@ -69,7 +69,7 @@ variable "app_config_name" {
 variable "app_config_plan" {
   type        = string
   description = "Plan for the App Configuration service instance."
-  default     = "standardv2"
+  default     = "enterprise"
   nullable    = false
 }
 
