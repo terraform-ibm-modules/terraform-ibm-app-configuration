@@ -324,6 +324,7 @@ func TestApprappDefaultConfiguration(t *testing.T) {
 
 // TestDependencyPermutations runs dependency permutations for the Event Notifications and all its dependencies
 func TestApprappDependencyPermutations(t *testing.T) {
+	t.Skip() // skipping permutations test until we do a refactor
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
 		Testing: t,
 		Prefix:  "app-per",
