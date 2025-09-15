@@ -42,6 +42,53 @@ module "cbr_zone" {
   }]
 }
 
+##############################################################################
+# Create KMS Instance
+##############################################################################
+
+locals {
+  key_ring_name = "${var.prefix}-ring"
+  key_name      = "${var.prefix}-root-key"
+}
+
+module "key_protect_all_inclusive" {
+  source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
+  version                   = "5.1.22"
+  resource_group_id         = module.resource_group.resource_group_id
+  key_protect_instance_name = "${var.prefix}-kms"
+  region                    = var.region
+  resource_tags             = var.resource_tags
+  key_ring_endpoint_type    = "public"
+  key_endpoint_type         = "public"
+  keys = [
+    {
+      key_ring_name = local.key_ring_name
+      keys = [
+        {
+          key_name     = local.key_name
+          force_delete = true # Setting it to true for testing purpose
+        }
+      ]
+    }
+  ]
+}
+
+##############################################################################
+# Create EN Instance
+##############################################################################
+
+module "event_notification" {
+  source            = "terraform-ibm-modules/event-notifications/ibm"
+  version           = "2.7.0"
+  resource_group_id = module.resource_group.resource_group_id
+  name              = "${var.prefix}-en"
+  tags              = var.resource_tags
+  plan              = "lite"
+  service_endpoints = "public-and-private"
+  region            = var.region
+}
+
+
 ########################################################################################################################
 # App Config
 ########################################################################################################################
@@ -53,7 +100,7 @@ module "app_config" {
   app_config_name                        = "${var.prefix}-app-config"
   app_config_tags                        = var.resource_tags
   enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
-  app_config_plan                        = "standardv2"
+  app_config_plan                        = "enterprise"
   config_aggregator_trusted_profile_name = "${var.prefix}-config-aggregator-trusted-profile"
   app_config_collections = [
     {
@@ -86,4 +133,11 @@ module "app_config" {
       }]
     }
   ]
+  kms_encryption_enabled                    = true
+  existing_kms_instance_crn                 = module.key_protect_all_inclusive.key_protect_crn
+  root_key_id                               = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].key_id
+  kms_endpoint_url                          = module.key_protect_all_inclusive.kms_public_endpoint
+  enable_event_notifications                = true
+  existing_event_notifications_instance_crn = module.event_notification.crn
+  event_notifications_endpoint_url          = module.event_notification.event_notifications_public_endpoint
 }
