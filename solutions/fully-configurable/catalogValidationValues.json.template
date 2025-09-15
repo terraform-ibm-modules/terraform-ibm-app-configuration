@@ -1,6 +1,7 @@
 {
   "ibmcloud_api_key": $VALIDATION_APIKEY,
   "app_config_tags": $TAGS,
+  "app_config_plan": "enterprise",
   "existing_resource_group_name": "geretain-test-resources",
   "prefix": $PREFIX,
   "region": "us-south",
