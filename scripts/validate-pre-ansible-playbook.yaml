@@ -1,0 +1,76 @@
+---
+- name: Find IBM Cloud Monitoring Instance with Platform Metrics
+  hosts: localhost
+  connection: local
+  gather_facts: false # No need to gather facts for localhost operations
+
+  tasks:
+    - name: get running ansible env variables
+      set_fact:
+        ibmcloud_api_key: "{{ lookup('env', 'VALIDATION_APIKEY') }}" # pragma: allowlist secret
+        target_instance_filter: "sysdig-monitor"
+    - name: Check if 'jq' command is available
+      ansible.builtin.command: which jq
+      register: jq_check
+      ignore_errors: true # Allow task to fail without stopping the playbook immediately
+      changed_when: false # This command does not change system state
+
+    - name: Fail if 'jq' is not installed
+      ansible.builtin.fail:
+        msg: "Error: 'jq' is not installed. Please install 'jq' to run this playbook (e.g., sudo apt-get install jq)."
+      when: jq_check.rc != 0
+
+    - name: Log in to IBM Cloud
+      ansible.builtin.shell: |
+        ibmcloud login --apikey "{{ API_KEY }}" --no-region
+      register: ibmcloud_login_result
+      changed_when: false
+      # Fail if the login command returns a non-zero exit code or specific error messages.
+      failed_when: ibmcloud_login_result.rc != 0 or
+                   'FAILED' in ibmcloud_login_result.stderr or
+                   'Error' in ibmcloud_login_result.stderr
+      environment:
+        # Pass the API key as an environment variable to the shell command.
+        API_KEY: "{{ ibmcloud_api_key }}" # pragma: allowlist secret
+
+    - name: Display IBM Cloud login success message
+      ansible.builtin.debug:
+        msg: "Authentication successful."
+      when: ibmcloud_login_result.rc == 0
+
+    - name: List IBM Cloud service instances and filter for Cloud Monitoring instance
+      # Execute the 'ibmcloud resource service-instances' command and pipe its JSON output to 'jq'.
+      # The 'jq' filter matches instances based on the specified criteria (sysdig-monitor, active, platform metrics enabled).
+      ansible.builtin.shell: |
+        ibmcloud resource service-instances --output JSON | \
+        jq -r '
+            .[] | select(
+                ((.id | test("{{ target_instance_filter }}"; "i")) or (.crn | test("{{ target_instance_filter }}"; "i"))) and
+                .state == "active" and
+                .parameters.default_receiver == true
+            ) |
+            "Instance Name: \(.name)\nInstance ID:   \(.guid)\nRegion:        \(.region_id)\n"
+        '
+      register: found_instance_result
+      changed_when: false
+      # 'failed_when: false' because 'jq' will return an empty string (not an error) if no match is found.
+      failed_when: false
+
+    - name: Display found IBM Cloud Monitoring instances
+      ansible.builtin.debug:
+        msg: |
+          Active IBM Cloud Monitoring instances with platform metrics enabled were found:
+          {{ found_instance_result.stdout }}
+      when: found_instance_result.stdout | length > 0
+
+    - name: Inform if no IBM Cloud Monitoring instances were found
+      ansible.builtin.debug:
+        msg: "No active IBM Cloud Monitoring instances with platform metrics enabled were found."
+      when: found_instance_result.stdout | length == 0
+
+    - name: Log out of IBM Cloud
+      # Perform logout as a cleanup step.
+      ansible.builtin.shell: |
+        ibmcloud logout >/dev/null 2>&1
+      changed_when: false
+      failed_when: false # Logout might fail if already logged out or session expired, but it shouldn't stop the playbook.

@@ -50,6 +50,15 @@
             "name": "fully-configurable",
             "index": 1,
             "install_type": "fullstack",
+            "scripts": [
+              {
+                "type": "ansible",
+                "short_description": "Check for Monitoring agent",
+                "path": "scripts/validate-pre-ansible-playbook.yaml",
+                "stage": "pre",
+                "action": "validate"
+              }
+            ],
             "working_directory": "solutions/fully-configurable",
             "compliance": {
               "authority": "scc-v3",
