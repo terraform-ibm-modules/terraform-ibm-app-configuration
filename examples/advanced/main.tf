@@ -18,27 +18,21 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 }
 
 ##############################################################################
-# VPC
-##############################################################################
-resource "ibm_is_vpc" "example_vpc" {
-  name           = "${var.prefix}-vpc"
-  resource_group = module.resource_group.resource_group_id
-  tags           = var.resource_tags
-}
-
-##############################################################################
-# Create CBR Zone
+# Create CBR Zone for Schematics service
 ##############################################################################
 
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.33.0"
-  name             = "${var.prefix}-VPC-network-zone"
-  zone_description = "CBR Network zone representing VPC"
+  version          = "1.33.2"
+  name             = "${var.prefix}-schematics-zone"
+  zone_description = "CBR Network zone containing Schematics"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
   addresses = [{
-    type  = "vpc", # to bind a specific vpc to the zone
-    value = ibm_is_vpc.example_vpc.crn,
+    type = "serviceRef",
+    ref = {
+      account_id   = data.ibm_iam_account_settings.iam_account_settings.account_id
+      service_name = "schematics"
+    }
   }]
 }
 
@@ -77,7 +71,7 @@ module "key_protect_all_inclusive" {
 # Create EN Instance
 ##############################################################################
 
-module "event_notification" {
+module "event_notifications" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
   version           = "2.7.0"
   resource_group_id = module.resource_group.resource_group_id
@@ -111,7 +105,7 @@ module "app_config" {
   ]
   cbr_rules = [
     {
-      description      = "${var.prefix}-APP-CONF access only from vpc"
+      description      = "${var.prefix}-APP-CONF access only from Schematics"
       enforcement_mode = "enabled"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
       tags = [
@@ -138,6 +132,6 @@ module "app_config" {
   root_key_id                               = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.key_name}"].key_id
   kms_endpoint_url                          = module.key_protect_all_inclusive.kms_public_endpoint
   enable_event_notifications                = true
-  existing_event_notifications_instance_crn = module.event_notification.crn
-  event_notifications_endpoint_url          = module.event_notification.event_notifications_public_endpoint
+  existing_event_notifications_instance_crn = module.event_notifications.crn
+  event_notifications_endpoint_url          = module.event_notifications.event_notifications_public_endpoint
 }
