@@ -1,451 +1,451 @@
 {
-    "products": [
-      {
-        "name": "deploy-arch-ibm-apprapp",
-        "label": "Cloud automation for App Configuration",
-        "product_kind": "solution",
-        "tags": [
-            "dev_ops",
-            "ibm_created",
-            "terraform",
-            "solution",
-            "target_terraform",
-            "converged_infra"
-        ],
-        "keywords": [
-          "terraform",
-          "appconfig",
-          "app configuration",
-          "solution",
-          "IaC",
-          "infrastructure as code"
-        ],
-        "short_description": "Creates and configures an App Configuration service with optional integration of Cloud Logs, Monitoring and Activity Tracker Event Routing",
-        "long_description": "This deployable architecture automates the provisioning of IBM Cloud App Configuration along with initial collection to help you manage feature flags and dynamic properties at scale. It also includes support for configuration aggregators, enabling centralized monitoring and management of configurations across multiple App Configuration instances. It simplifies onboarding by preconfiguring key resources and provides support for defining context-based restrictions (CBR) to enhance security and control access based on network policies. Ideal for teams adopting feature flagging, experimentation, or remote configuration strategies in cloud-native applications, this solution accelerates setup while following IBM Cloud best practices. Refer [this](https://cloud.ibm.com/docs/app-configuration) for more information.\n\nℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) assets, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
-        "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/blob/main/README.md",
-        "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/images/app_config-icon.png",
-        "provider_name": "IBM",
-        "features": [
-          {
-            "title": "Collections",
-            "description": "Supports creation of one or more [collections](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-collections) depending on the plan to help manage feature flags and dynamic properties at scale."
+  "products": [
+    {
+      "name": "deploy-arch-ibm-apprapp",
+      "label": "Cloud automation for App Configuration",
+      "product_kind": "solution",
+      "tags": [
+        "dev_ops",
+        "ibm_created",
+        "terraform",
+        "solution",
+        "target_terraform",
+        "converged_infra"
+      ],
+      "keywords": [
+        "terraform",
+        "appconfig",
+        "app configuration",
+        "solution",
+        "IaC",
+        "infrastructure as code"
+      ],
+      "short_description": "Creates and configures an App Configuration service with optional integration of Cloud Logs, Monitoring and Activity Tracker Event Routing",
+      "long_description": "This deployable architecture automates the provisioning of IBM Cloud App Configuration along with initial collection to help you manage feature flags and dynamic properties at scale. It also includes support for configuration aggregators, enabling centralized monitoring and management of configurations across multiple App Configuration instances. It simplifies onboarding by preconfiguring key resources and provides support for defining context-based restrictions (CBR) to enhance security and control access based on network policies. Ideal for teams adopting feature flagging, experimentation, or remote configuration strategies in cloud-native applications, this solution accelerates setup while following IBM Cloud best practices. Refer [this](https://cloud.ibm.com/docs/app-configuration) for more information.\n\nℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) assets, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/blob/main/README.md",
+      "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/images/app_config-icon.png",
+      "provider_name": "IBM",
+      "features": [
+        {
+          "title": "Collections",
+          "description": "Supports creation of one or more [collections](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-collections) depending on the plan to help manage feature flags and dynamic properties at scale."
+        },
+        {
+          "title": "CBR Enhanced Security",
+          "description": "Provides support for defining context-based restrictions ([CBR](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-restrict-access-cbr)) to enhance security and control access based on network policies."
+        },
+        {
+          "title": "Trusted Profile",
+          "description": "Creates [trusted profile](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator#ac-enable-configuration-aggregator-single-account) needed with required access for configuration aggregator."
+        },
+        {
+          "title": "Configuration Aggregator",
+          "description": "Supports creation and management of configuration [aggregator](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator) to manage configurations across multiple App Configuration instances."
+        }
+      ],
+      "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in that repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/issues). Please note this product is not supported via the IBM Cloud Support Center.",
+      "flavors": [
+        {
+          "label": "Fully configurable",
+          "name": "fully-configurable",
+          "index": 1,
+          "install_type": "fullstack",
+          "working_directory": "solutions/fully-configurable",
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "IBM Cloud Framework for Financial Services",
+                "profile_version": "1.7.0"
+              }
+            ]
           },
-          {
-            "title": "CBR Enhanced Security",
-            "description": "Provides support for defining context-based restrictions ([CBR](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-restrict-access-cbr)) to enhance security and control access based on network policies."
-          },
-          {
-            "title": "Trusted Profile",
-            "description": "Creates [trusted profile](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator#ac-enable-configuration-aggregator-single-account) needed with required access for configuration aggregator."
-          },
-          {
-            "title": "Configuration Aggregator",
-            "description": "Supports creation and management of configuration [aggregator](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator) to manage configurations across multiple App Configuration instances."
-          }
-        ],
-        "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in that repository [here](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/issues). Please note this product is not supported via the IBM Cloud Support Center.",
-        "flavors": [
-          {
-            "label": "Fully configurable",
-            "name": "fully-configurable",
-            "index": 1,
-            "install_type": "fullstack",
-            "working_directory": "solutions/fully-configurable",
-            "compliance": {
-              "authority": "scc-v3",
-              "profiles": [
-                {
-                  "profile_name": "IBM Cloud Framework for Financial Services",
-                  "profile_version": "1.7.0"
-                }
-              ]
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key"
             },
-            "configuration": [
-              {
-                "key": "ibmcloud_api_key"
-              },
-              {
-                "key": "prefix",
-                "required": true
-              },
-              {
-                "key": "region",
-                "required": true,
-                "options": [
-                  {
-                    "displayname": "Osaka (jp-osa)",
-                    "value": "jp-osa"
-                  },
-                  {
-                    "displayname": "Sydney (au-syd)",
-                    "value": "au-syd"
-                  },
-                  {
-                    "displayname": "Tokyo (jp-tok)",
-                    "value": "jp-tok"
-                  },
-                  {
-                    "displayname": "Frankfurt (eu-de)",
-                    "value": "eu-de"
-                  },
-                  {
-                    "displayname": "London (eu-gb)",
-                    "value": "eu-gb"
-                  },
-                  {
-                    "displayname": "Madrid (eu-es)",
-                    "value": "eu-es"
-                  },
-                  {
-                    "displayname": "Dallas (us-south)",
-                    "value": "us-south"
-                  },
-                  {
-                    "displayname": "Toronto (ca-tor)",
-                    "value": "ca-tor"
-                  },
-                  {
-                    "displayname": "Washington DC (us-east)",
-                    "value": "us-east"
-                  },
-                  {
-                    "displayname": "Sao Paulo (br-sao)",
-                    "value": "br-sao"
-                  },
-                  {
-                    "displayname": "BNPP_EU",
-                    "value": "eu-fr2"
-                  },
-                  {
-                    "displayname": "Montreal (ca-mon)",
-                    "value": "ca-mon"
-                  }
-                ]
-              },
-              {
-                "key": "app_config_plan",
-                "required": true,
-                "options": [
-                  {
-                    "displayname": "lite",
-                    "value": "lite"
-                  },
-                  {
-                    "displayname": "basic",
-                    "value": "basic"
-                  },
-                  {
-                    "displayname": "standard",
-                    "value": "standardv2"
-                  },
-                  {
-                    "displayname": "enterprise",
-                    "value": "enterprise"
-                  }
-                ]
-              },
-              {
-                "key": "enable_platform_metrics",
-                "type": "boolean",
-                "default_value": false,
-                "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
-                "required": true,
-                "virtual": true,
-                "options": [
-                  {
-                    "displayname": "true",
-                    "value": true
-                  },
-                  {
-                    "displayname": "false",
-                    "value": false
-                  }
-                ]
-              },
-              {
-                "key": "logs_routing_tenant_regions",
-                "type": "array",
-                "default_value": [],
-                "description": "To manage platform logs that are generated by IBM Cloud services in a region of IBM Cloud, you must create a tenant in each region that you operate. Pass a list of regions to create a tenant in. [Learn more](https://cloud.ibm.com/docs/logs-router?topic=logs-router-about-platform-logs).",
-                "required": true,
-                "custom_config": {
-                  "type": "array",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                  "type": "string"
-                  }
+            {
+              "key": "prefix",
+              "required": true
+            },
+            {
+              "key": "region",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Osaka (jp-osa)",
+                  "value": "jp-osa"
                 },
-                "virtual": true
-              },
-              {
-                "key": "existing_resource_group_name",
-                "display_name": "resource_group",
-                "custom_config": {
-                  "type": "resource_group",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                    "identifier": "rg_name"
-                  }
-                }
-              },
-              {
-                "key": "app_config_name"
-              },
-              {
-                "key": "app_config_service_endpoints",
-                "options": [
-                  {
-                    "displayname": "public",
-                    "value": "public"
-                  },
-                  {
-                    "displayname": "public-and-private",
-                    "value": "public-and-private"
-                  }
-                ]
-              },
-              {
-                "key": "app_config_collections",
-                "type": "array",
-                "custom_config": {
-                  "type": "code_editor",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment"
-                }
-              },
-              {
-                "key": "app_config_tags",
-                "custom_config": {
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                    "type": "string"
-                  }
-                }
-              },
-              {
-                "key": "enable_config_aggregator"
-              },
-              {
-                "key": "config_aggregator_trusted_profile_name"
-              },
-              {
-                "key": "config_aggregator_resource_collection_regions"
-              },
-              {
-                "key": "config_aggregator_enterprise_id"
-              },
-              {
-                "key": "config_aggregator_enterprise_trusted_profile_name"
-              },
-              {
-                "key": "config_aggregator_enterprise_trusted_profile_template_name"
-              },
-              {
-                "key": "config_aggregator_enterprise_account_group_ids_to_assign"
-              },
-              {
-                "key": "config_aggregator_enterprise_account_ids_to_assign"
-              },
-              {
-                "key": "cbr_rules",
-                "type": "array",
-                "custom_config": {
-                  "type": "code_editor",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment"
-                }
-              },
-              {
-                "key": "kms_encryption_enabled"
-              },
-              {
-                "key": "skip_app_config_kms_auth_policy"
-              },
-              {
-                "key": "ibmcloud_kms_api_key"
-              },
-              {
-                "key": "existing_kms_instance_crn"
-              },
-              {
-                "key": "existing_kms_key_crn"
-              },
-              {
-                "key": "kms_endpoint_type",
-                "hidden": true,
-                "options": [
-                  {
-                    "displayname": "Public",
-                    "value": "public"
-                  },
-                  {
-                    "displayname": "Private",
-                    "value": "private"
-                  }
-                ]
-              },
-              {
-                "key": "kms_endpoint_url"
-              },
-              {
-                "key": "app_config_key_ring_name"
-              },
-              {
-                "key": "app_config_key_name"
-              },
-              {
-                "key": "enable_event_notifications"
-              },
-              {
-                "key": "skip_app_config_event_notifications_auth_policy"
-              },
-              {
-                "key": "existing_event_notifications_instance_crn"
-              },
-              {
-                "key": "event_notifications_endpoint_url"
-              },
-              {
-                "key": "app_config_event_notifications_source_name"
-              },
-              {
-                "key": "event_notifications_email_list"
-              },
-              {
-                "key": "event_notifications_from_email"
-              },
-              {
-                "key": "event_notifications_reply_to_email"
-              },
-              {
-                "key": "provider_visibility",
-                "hidden": true,
-                "options": [
-                  {
-                    "displayname": "private",
-                    "value": "private"
-                  },
-                  {
-                    "displayname": "public",
-                    "value": "public"
-                  },
-                  {
-                    "displayname": "public-and-private",
-                    "value": "public-and-private"
-                  }
-                ]
-              }
-            ],
-            "iam_permissions": [
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::role:Viewer"
-                ],
-                "service_name": "Resource group only",
-                "notes": "Viewer access is required in the resource group you want to provision in."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::role:Administrator",
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-                ],
-                "service_name": "apprapp",
-                "notes": "Required for provisioning the App Configuration instance."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::role:Administrator"
-                ],
-                "service_name": "All Account Management services",
-                "notes": "[Optional] Required to deploy Cloud automation for account configuration which creates resource group and to create trusted profile for App Configuration aggregator."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::role:Administrator"
-                ],
-                "service_name": "All Identity and Access enabled services",
-                "notes": "[Optional] Required to deploy Cloud automation for account configuration which creates foundational IBM Cloud account resources, like resource group with account settings and to create trusted profile for App Configuration aggregator."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Writer",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ],
-                "service_name": "atracker",
-                "notes": "[Optional] Required when enabling the Activity Tracker Event Routing."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ],
-                "service_name": "sysdig-monitor",
-                "notes": "[Optional] Required to create an instance of Cloud Monitoring."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ],
-                "service_name": "logs",
-                "notes": "[Optional] Required to create an instance of Cloud Logs."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ],
-                "service_name": "hs-crypto",
-                "notes": "[Optional] Required if Hyper Protect Crypto Services is used for encryption."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ],
-                "service_name": "kms",
-                "notes": "[Optional] Required to deploy Cloud automation for Key Protect, so you can use your own managed encryption keys."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ],
-                "service_name": "cloud-object-storage",
-                "notes": "[Optional] Required to deploy Cloud automation for Object Storage."
-              },
-              {
-                "role_crns": [
-                  "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                  "crn:v1:bluemix:public:iam::::role:Editor"
-                ],
-                "service_name": "event-notifications",
-                "notes": "[Optional] Required if you are configuring an Event Notifications instance."
-              }
-            ],
-            "architecture": {
-              "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
-              "features": [
                 {
-                  "title": " ",
-                  "description": "Configured to use IBM secure-by-default standards, but can be edited to fit your use case."
-                }
-              ],
-              "diagrams": [
+                  "displayname": "Sydney (au-syd)",
+                  "value": "au-syd"
+                },
                 {
-                  "diagram": {
-                    "caption": "App Configuration",
-                    "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architecture/app_configuration.svg",
-                    "type": "image/svg+xml"
-                  },
-                  "description": "This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
+                  "displayname": "Tokyo (jp-tok)",
+                  "value": "jp-tok"
+                },
+                {
+                  "displayname": "Frankfurt (eu-de)",
+                  "value": "eu-de"
+                },
+                {
+                  "displayname": "London (eu-gb)",
+                  "value": "eu-gb"
+                },
+                {
+                  "displayname": "Madrid (eu-es)",
+                  "value": "eu-es"
+                },
+                {
+                  "displayname": "Dallas (us-south)",
+                  "value": "us-south"
+                },
+                {
+                  "displayname": "Toronto (ca-tor)",
+                  "value": "ca-tor"
+                },
+                {
+                  "displayname": "Washington DC (us-east)",
+                  "value": "us-east"
+                },
+                {
+                  "displayname": "Sao Paulo (br-sao)",
+                  "value": "br-sao"
+                },
+                {
+                  "displayname": "BNPP_EU",
+                  "value": "eu-fr2"
+                },
+                {
+                  "displayname": "Montreal (ca-mon)",
+                  "value": "ca-mon"
                 }
               ]
             },
-            "dependencies": [
+            {
+              "key": "app_config_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "lite",
+                  "value": "lite"
+                },
+                {
+                  "displayname": "basic",
+                  "value": "basic"
+                },
+                {
+                  "displayname": "standard",
+                  "value": "standardv2"
+                },
+                {
+                  "displayname": "enterprise",
+                  "value": "enterprise"
+                }
+              ]
+            },
+            {
+              "key": "enable_platform_metrics",
+              "type": "boolean",
+              "default_value": false,
+              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "required": true,
+              "virtual": true,
+              "options": [
+                {
+                  "displayname": "true",
+                  "value": true
+                },
+                {
+                  "displayname": "false",
+                  "value": false
+                }
+              ]
+            },
+            {
+              "key": "logs_routing_tenant_regions",
+              "type": "array",
+              "default_value": [],
+              "description": "To manage platform logs that are generated by IBM Cloud services in a region of IBM Cloud, you must create a tenant in each region that you operate. Pass a list of regions to create a tenant in. [Learn more](https://cloud.ibm.com/docs/logs-router?topic=logs-router-about-platform-logs).",
+              "required": true,
+              "custom_config": {
+                "type": "array",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              },
+              "virtual": true
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
+              "key": "app_config_name"
+            },
+            {
+              "key": "app_config_service_endpoints",
+              "options": [
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            },
+            {
+              "key": "app_config_collections",
+              "type": "array",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
+            },
+            {
+              "key": "app_config_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "enable_config_aggregator"
+            },
+            {
+              "key": "config_aggregator_trusted_profile_name"
+            },
+            {
+              "key": "config_aggregator_resource_collection_regions"
+            },
+            {
+              "key": "config_aggregator_enterprise_id"
+            },
+            {
+              "key": "config_aggregator_enterprise_trusted_profile_name"
+            },
+            {
+              "key": "config_aggregator_enterprise_trusted_profile_template_name"
+            },
+            {
+              "key": "config_aggregator_enterprise_account_group_ids_to_assign"
+            },
+            {
+              "key": "config_aggregator_enterprise_account_ids_to_assign"
+            },
+            {
+              "key": "cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
+            },
+            {
+              "key": "kms_encryption_enabled"
+            },
+            {
+              "key": "skip_app_config_kms_auth_policy"
+            },
+            {
+              "key": "ibmcloud_kms_api_key"
+            },
+            {
+              "key": "existing_kms_instance_crn"
+            },
+            {
+              "key": "existing_kms_key_crn"
+            },
+            {
+              "key": "kms_endpoint_type",
+              "hidden": true,
+              "options": [
+                {
+                  "displayname": "Public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "Private",
+                  "value": "private"
+                }
+              ]
+            },
+            {
+              "key": "kms_endpoint_url"
+            },
+            {
+              "key": "app_config_key_ring_name"
+            },
+            {
+              "key": "app_config_key_name"
+            },
+            {
+              "key": "enable_event_notifications"
+            },
+            {
+              "key": "skip_app_config_event_notifications_auth_policy"
+            },
+            {
+              "key": "existing_event_notifications_instance_crn"
+            },
+            {
+              "key": "event_notifications_endpoint_url"
+            },
+            {
+              "key": "app_config_event_notifications_source_name"
+            },
+            {
+              "key": "event_notifications_email_list"
+            },
+            {
+              "key": "event_notifications_from_email"
+            },
+            {
+              "key": "event_notifications_reply_to_email"
+            },
+            {
+              "key": "provider_visibility",
+              "hidden": true,
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            }
+          ],
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Viewer"
+              ],
+              "service_name": "Resource group only",
+              "notes": "Viewer access is required in the resource group you want to provision in."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator",
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+              ],
+              "service_name": "apprapp",
+              "notes": "Required for provisioning the App Configuration instance."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator"
+              ],
+              "service_name": "All Account Management services",
+              "notes": "[Optional] Required to deploy Cloud automation for account configuration which creates resource group and to create trusted profile for App Configuration aggregator."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator"
+              ],
+              "service_name": "All Identity and Access enabled services",
+              "notes": "[Optional] Required to deploy Cloud automation for account configuration which creates foundational IBM Cloud account resources, like resource group with account settings and to create trusted profile for App Configuration aggregator."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Writer",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "atracker",
+              "notes": "[Optional] Required when enabling the Activity Tracker Event Routing."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "sysdig-monitor",
+              "notes": "[Optional] Required to create an instance of Cloud Monitoring."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "logs",
+              "notes": "[Optional] Required to create an instance of Cloud Logs."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if Hyper Protect Crypto Services is used for encryption."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "kms",
+              "notes": "[Optional] Required to deploy Cloud automation for Key Protect, so you can use your own managed encryption keys."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "cloud-object-storage",
+              "notes": "[Optional] Required to deploy Cloud automation for Object Storage."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "event-notifications",
+              "notes": "[Optional] Required if you are configuring an Event Notifications instance."
+            }
+          ],
+          "architecture": {
+            "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
+            "features": [
+              {
+                "title": " ",
+                "description": "Configured to use IBM secure-by-default standards, but can be edited to fit your use case."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "App Configuration",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architecture/app_configuration.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
+              }
+            ]
+          },
+          "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
               "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default. When you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
@@ -603,8 +603,8 @@
               "name": "deploy-arch-ibm-event-notifications",
               "description": "Configure Event Notifications to notify any configuration change events.",
               "id": "c7ac3ee6-4f48-4236-b974-b0cd8c624a46-global",
-               "version": "v2.7.2",
-               "flavors": [
+              "version": "v2.7.2",
+              "flavors": [
                 "fully-configurable"
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
