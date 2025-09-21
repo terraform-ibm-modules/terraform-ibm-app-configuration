@@ -87,10 +87,6 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-		{Name: "kms_endpoint_url", Value: permanentResources["hpcs_south_private_endpoint"], DataType: "string"},
-		{Name: "root_key_crn", Value: permanentResources["hpcs_south_root_key_crn"], DataType: "string"},
-		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list"},
 	}
 
 	err := options.RunSchematicTest()
@@ -297,7 +293,7 @@ func TestAddonsWithDisabledDAs(t *testing.T) {
 		// Opt into Account Config DA
 		{
 			OfferingName:   "deploy-arch-ibm-account-infra-base",
-			OfferingFlavor: "fully-configurable",
+			OfferingFlavor: "resource-groups-with-account-settings",
 			Enabled:        core.BoolPtr(true),
 		},
 		// Disable AT, ICL, Mon, EN and KMS
