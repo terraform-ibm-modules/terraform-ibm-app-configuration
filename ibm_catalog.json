@@ -457,7 +457,6 @@
             }
           ],
           "architecture": {
-            "descriptions": "This architecture supports creating and configuring an IBM Cloud App Configuration",
             "features": [
               {
                 "title": " ",
