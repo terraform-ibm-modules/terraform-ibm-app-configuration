@@ -191,7 +191,7 @@ resource "ibm_en_topic" "en_topic" {
   count         = var.enable_event_notifications ? 1 : 0
   depends_on    = [module.app_config]
   instance_guid = local.existing_en_guid
-  name          = "Topic for SCC instance ${module.app_config.app_config_guid}"
+  name          = "Topic for App Configuration instance ${module.app_config.app_config_guid}"
   description   = "Topic for App Configuration events routing"
   sources {
     id = module.app_config.app_config_crn
@@ -212,7 +212,7 @@ resource "ibm_en_subscription_email" "email_subscription" {
   attributes {
     add_notification_payload = true
     reply_to_mail            = var.event_notifications_reply_to_email
-    reply_to_name            = "Secret Manager Event Notifications Bot"
+    reply_to_name            = "App Configuration Event Notifications Bot"
     from_name                = var.event_notifications_from_email
     invited                  = var.event_notifications_email_list
   }

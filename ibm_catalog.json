@@ -10,7 +10,7 @@
         "terraform",
         "solution",
         "target_terraform",
-        "converged_infra"
+        "platform_engineering"
       ],
       "keywords": [
         "terraform",
@@ -66,14 +66,7 @@
             },
             {
               "key": "prefix",
-              "required": true,
-              "value_constraints": [
-                {
-                  "type": "regex",
-                  "description": "Prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It must not end with a hyphen('-'), and cannot contain consecutive hyphens ('--'). It should not exceed 16 characters",
-                  "value": "^$|^__NULL__$|^[a-z](?!.*--)(?:[a-z0-9-]{0,14}[a-z0-9])?$"
-                }
-              ]
+              "required": true
             },
             {
               "key": "region",
@@ -195,7 +188,9 @@
                 "config_constraints": {
                   "identifier": "rg_name"
                 }
-              }
+              },
+              "default_value": "Default",
+              "description": "The name of an existing resource group to provision the resources."
             },
             {
               "key": "app_config_name"
@@ -275,24 +270,10 @@
               "key": "ibmcloud_kms_api_key"
             },
             {
-              "key": "existing_kms_instance_crn",
-              "value_constraints": [
-                {
-                  "type": "regex",
-                  "description": "The value provided for 'existing_kms_instance_crn' is not valid.",
-                  "value": "^__NULL__$|^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
-                }
-              ]
+              "key": "existing_kms_instance_crn"
             },
             {
-              "key": "existing_kms_key_crn",
-              "value_constraints": [
-                {
-                  "type": "regex",
-                  "description": "The value provided for 'existing_kms_key_crn' is not valid.",
-                  "value": "^__NULL__$|^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}:key:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
-                }
-              ]
+              "key": "existing_kms_key_crn"
             },
             {
               "key": "kms_endpoint_type",
@@ -324,14 +305,7 @@
               "key": "skip_app_config_event_notifications_auth_policy"
             },
             {
-              "key": "existing_event_notifications_instance_crn",
-              "value_constraints": [
-                {
-                  "type": "regex",
-                  "description": "The value provided for 'existing_event_notifications_instance_crn' is not valid.",
-                  "value": "^__NULL__$|^crn:(.*:){3}event-notifications:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
-                }
-              ]
+              "key": "existing_event_notifications_instance_crn"
             },
             {
               "key": "event_notifications_endpoint_url"
@@ -476,7 +450,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default. When you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
+              "description": "Organize your IBM Cloud account with preconfigured resource groups. If not selected, the default resource group is used. Optionally, expand to apply recommended security controls via \"with Account Settings\" variation.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "resource-group-only",
@@ -502,7 +476,7 @@
               ],
               "optional": true,
               "on_by_default": false,
-              "version": "v3.0.7"
+              "version": "v3.0.23"
             },
             {
               "name": "deploy-arch-ibm-cloud-logs",
@@ -512,7 +486,7 @@
                 "fully-configurable"
               ],
               "id": "63d8ae58-fbf3-41ce-b844-0fb5b85882ab-global",
-              "version": "v1.6.11",
+              "version": "v1.6.28",
               "optional": true,
               "on_by_default": true,
               "input_mapping": [
@@ -537,7 +511,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Configure IBM Cloud Monitoring to collect the platform metrics.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.6.4",
+              "version": "v1.7.2",
               "flavors": [
                 "fully-configurable"
               ],
@@ -566,7 +540,7 @@
               "name": "deploy-arch-ibm-activity-tracker",
               "description": "Configure Activity Tracker Event Routing to route the auditing events.",
               "id": "918453c3-4f97-4583-8c4a-83ef12fc7916-global",
-              "version": "v1.2.25",
+              "version": "v1.2.34",
               "flavors": [
                 "fully-configurable"
               ],
@@ -588,9 +562,9 @@
             },
             {
               "name": "deploy-arch-ibm-kms",
-              "description": "Configure KMS to encrypt the data from app configuration instance stored in database.",
+              "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.1.19",
+              "version": "v5.1.27",
               "flavors": [
                 "fully-configurable"
               ],
@@ -631,7 +605,7 @@
               "name": "deploy-arch-ibm-event-notifications",
               "description": "Configure Event Notifications to notify any configuration change events.",
               "id": "c7ac3ee6-4f48-4236-b974-b0cd8c624a46-global",
-              "version": "v2.7.0",
+              "version": "v2.7.2",
               "flavors": [
                 "fully-configurable"
               ],
