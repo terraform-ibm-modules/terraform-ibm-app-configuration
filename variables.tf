@@ -188,3 +188,146 @@ variable "cbr_rules" {
   default     = []
   # Validation happens in the rule module
 }
+
+##############################################################
+# KMS and EN services' integration
+##############################################################
+
+variable "kms_encryption_enabled" {
+  description = "Flag to enable the KMS encryption when the configured plan is 'enterprise'."
+  type        = bool
+  default     = false
+  validation {
+    condition     = !var.kms_encryption_enabled || var.app_config_plan == "enterprise"
+    error_message = "KMS encryption is supported only when the configured plan is 'enterprise'."
+  }
+
+  validation {
+    condition     = !var.kms_encryption_enabled || var.existing_kms_instance_crn != null
+    error_message = "If 'kms_encryption_enabled' is true, 'existing_kms_instance_crn' cannot be null."
+  }
+
+  validation {
+    condition     = !var.kms_encryption_enabled || var.root_key_id != null
+    error_message = "If 'kms_encryption_enabled' is true, 'root_key_id' cannot be null."
+  }
+
+  validation {
+    condition     = !var.kms_encryption_enabled || var.kms_endpoint_url != null
+    error_message = "If 'kms_encryption_enabled' is true, 'kms_endpoint_url' cannot be null."
+  }
+
+  validation {
+    condition = var.kms_encryption_enabled ? anytrue([
+      split(":", var.existing_kms_instance_crn)[5] == split(".", split("//", var.kms_endpoint_url)[1])[0],
+      split(":", var.existing_kms_instance_crn)[5] == split(".", split("//", var.kms_endpoint_url)[1])[1],
+      split(":", var.existing_kms_instance_crn)[5] == split(".", var.kms_endpoint_url)[3],
+      split(":", var.existing_kms_instance_crn)[5] == split(".", var.kms_endpoint_url)[2],
+    ]) : true
+    error_message = "The region specified in the `existing_kms_instance_crn` does not match the region in the `kms_endpoint_url`."
+  }
+}
+
+variable "skip_app_config_kms_auth_policy" {
+  type        = bool
+  description = "Set to true to skip the creation of an IAM authorization policy that permits App configuration instances to read the encryption key from the KMS instance in the same account."
+  default     = false
+}
+
+variable "existing_kms_instance_crn" {
+  type        = string
+  default     = null
+  description = "The CRN of the Hyper Protect Crypto Services or Key Protect instance. Required only if `var.kms_encryption_enabled` is set to `true`."
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}kms:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      can(regex("^crn:(.*:){3}hs-crypto:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_kms_instance_crn)),
+      var.existing_kms_instance_crn == null,
+    ])
+    error_message = "The provided KMS (Key Protect) instance CRN in not valid."
+  }
+}
+
+variable "root_key_id" {
+  type        = string
+  description = "The key ID of a root key, existing in the key management service instance passed in `var.existing_kms_instance_crn`, which is used to encrypt the data encryption keys which are then used to encrypt the data. Required only if `var.kms_encryption_enabled` is set to `true`."
+  default     = null
+}
+
+variable "kms_endpoint_url" {
+  description = "The URL of the key management service endpoint to use for key encryption. For more information on the endpoint URL format for Hyper Protect Crypto Services, go to [Instance-based endpoints](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-regions#new-service-endpoints). For more information on the endpoint URL format for Key Protect, go to [Service endpoints](https://cloud.ibm.com/docs/key-protect?topic=key-protect-regions#service-endpoints). It is required if `kms_encryption_enabled` is set to true."
+  type        = string
+  default     = null
+}
+
+variable "enable_event_notifications" {
+  description = "Flag to enable the event notification when the configured plan is 'enterprise'."
+  type        = bool
+  default     = false
+  validation {
+    condition     = !var.enable_event_notifications || var.app_config_plan == "enterprise"
+    error_message = "Event notification integration is supported only when the configured plan is 'enterprise'."
+  }
+
+  validation {
+    condition     = !var.enable_event_notifications || var.existing_event_notifications_instance_crn != null
+    error_message = "If 'enable_event_notifications' is true, 'existing_event_notifications_instance_crn' cannot be null."
+  }
+
+  validation {
+    condition     = !var.enable_event_notifications || var.event_notifications_endpoint_url != null
+    error_message = "If 'enable_event_notifications' is true, 'event_notifications_endpoint_url' cannot be null."
+  }
+
+  validation {
+    condition     = var.enable_event_notifications == false ? (var.existing_event_notifications_instance_crn == null && var.event_notifications_endpoint_url == null) : true
+    error_message = "If 'enable_event_notifications' is set to false. You should not pass values for 'existing_event_notifications_instance_crn' or 'event_notifications_endpoint_url'."
+  }
+
+  validation {
+    condition = var.enable_event_notifications ? anytrue([
+      split(":", var.existing_event_notifications_instance_crn)[5] == split(".", split("//", var.event_notifications_endpoint_url)[1])[0],
+      split(":", var.existing_event_notifications_instance_crn)[5] == split(".", split("//", var.event_notifications_endpoint_url)[1])[1],
+    ]) : true
+    error_message = "The region specified in the `existing_event_notifications_instance_crn` does not match the region in the `event_notifications_endpoint_url`."
+  }
+}
+
+variable "skip_app_config_event_notifications_auth_policy" {
+  type        = bool
+  description = "Set to true to skip the creation of an IAM authorization policy that permits App configuration instances to integrate with Event Notification in the same account."
+  default     = false
+}
+
+variable "existing_event_notifications_instance_crn" {
+  type        = string
+  description = "The CRN of the existing Event Notifications instance to enable notifications for your App Configuration instance. It is required if `enable_event_notifications` is set to true"
+  default     = null
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}event-notifications:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_event_notifications_instance_crn)),
+      var.existing_event_notifications_instance_crn == null,
+    ])
+    error_message = "The provided Event Notifications instance CRN in not valid."
+  }
+}
+
+variable "event_notifications_endpoint_url" {
+  type        = string
+  description = "The URL of the Event Notifications service endpoint to use for notifying configuration changes. For more information on the endpoint URL for Event Notifications, go to [Service endpoints](https://cloud.ibm.com/docs/event-notifications?topic=event-notifications-en-regions-endpoints#en-service-endpoints). It is required if `enable_event_notifications` is set to true."
+  default     = null
+}
+
+variable "app_config_event_notifications_source_name" {
+  type        = string
+  description = "The name by which Event Notifications source will be created in the existing Event Notification instance."
+  default     = "app-config-en-source-name"
+}
+
+variable "event_notifications_integration_description" {
+  type        = string
+  description = "The description of integration between Event Notification and App Configuration service."
+  default     = "The App Configuration integration to send notifications of events of users"
+}
