@@ -463,7 +463,7 @@
               {
                 "diagram": {
                   "caption": "App Configuration",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architecture/app_configuration.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-app-configuration/main/reference-architectures/app_configuration.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "This architecture automates the setup of IBM Cloud App Configuration. The modular design includes the creation of a collection to streamline the management of feature flags and properties, consolidation of multiple App Cpnfiguration instances via configuration aggregator and optionally integrates context-based restrictions (CBR) to improve access control and align with your network security policies."
