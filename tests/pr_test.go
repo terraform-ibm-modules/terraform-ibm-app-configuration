@@ -260,7 +260,6 @@ func TestAddonsDefaultConfiguration(t *testing.T) {
 		"deploy-arch-ibm-apprapp",
 		"fully-configurable",
 		map[string]interface{}{
-			"prefix": options.Prefix,
 			"region": validRegions[rand.Intn(len(validRegions))],
 		},
 	)
@@ -284,18 +283,11 @@ func TestAddonsWithDisabledDAs(t *testing.T) {
 		"deploy-arch-ibm-apprapp",
 		"fully-configurable",
 		map[string]interface{}{
-			"prefix": options.Prefix,
 			"region": validRegions[rand.Intn(len(validRegions))],
 		},
 	)
 
 	options.AddonConfig.Dependencies = []cloudinfo.AddonConfig{
-		// Opt into Account Config DA
-		{
-			OfferingName:   "deploy-arch-ibm-account-infra-base",
-			OfferingFlavor: "resource-groups-with-account-settings",
-			Enabled:        core.BoolPtr(true),
-		},
 		// Disable AT, ICL, Mon, EN and KMS
 		{
 			OfferingName:   "deploy-arch-ibm-activity-tracker",
