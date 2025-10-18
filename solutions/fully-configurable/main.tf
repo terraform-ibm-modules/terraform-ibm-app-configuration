@@ -26,7 +26,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 #######################################################################################################################
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
-  version                      = "1.3.0"
+  version                      = "1.4.0"
   existing_resource_group_name = var.existing_resource_group_name
 }
 
@@ -116,7 +116,7 @@ resource "time_sleep" "wait_for_kms_cross_account_authorization_policy" {
 module "kms" {
   count   = var.kms_encryption_enabled && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key
   source  = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version = "5.3.4"
+  version = "5.4.2"
   providers = {
     ibm = ibm.kms
   }
