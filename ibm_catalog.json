@@ -545,7 +545,7 @@
               "name": "deploy-arch-ibm-activity-tracker",
               "description": "Configure Activity Tracker Event Routing to route the auditing events.",
               "id": "918453c3-4f97-4583-8c4a-83ef12fc7916-global",
-              "version": "v1.4.0",
+              "version": "v1.4.3",
               "flavors": [
                 "fully-configurable"
               ],
