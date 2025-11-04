@@ -41,3 +41,14 @@ output "next_step_primary_url" {
   value       = "https://cloud.ibm.com/services/apprapp/${module.app_config.app_config_crn}?paneId=manage"
   description = "Primary URL"
 }
+
+output "next_step_secondary_label" {
+  value       = "View App Config Guide"
+  description = "Secondary label"
+}
+
+output "next_step_secondary_url" {
+  value       = "https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-appconfig"
+  description = "Secondary URL"
+}
+
