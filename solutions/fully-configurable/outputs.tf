@@ -51,4 +51,3 @@ output "next_step_secondary_url" {
   value       = "https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-appconfig"
   description = "Secondary URL"
 }
-
