@@ -28,12 +28,12 @@ output "app_config_collection_ids" {
 }
 
 output "next_steps_text" {
-  value       = "Your App Config Environment is ready."
+  value       = "Your App Configuration Environment is ready."
   description = "Next steps text"
 }
 
 output "next_step_primary_label" {
-  value       = "Go to App Config Instance"
+  value       = "Go to App Configuration Instance"
   description = "Primary label"
 }
 
@@ -43,7 +43,7 @@ output "next_step_primary_url" {
 }
 
 output "next_step_secondary_label" {
-  value       = "View App Config Guide"
+  value       = "View App Configuration Guide"
   description = "Secondary label"
 }
 
