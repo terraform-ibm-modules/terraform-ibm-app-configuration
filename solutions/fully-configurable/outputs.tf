@@ -26,3 +26,28 @@ output "app_config_collection_ids" {
   description = "List of IDs for the collections in the App Configuration instance"
   value       = module.app_config.app_config_collection_ids
 }
+
+output "next_steps_text" {
+  value       = "Your App Configuration Environment is ready."
+  description = "Next steps text"
+}
+
+output "next_step_primary_label" {
+  value       = "Go to App Configuration Instance"
+  description = "Primary label"
+}
+
+output "next_step_primary_url" {
+  value       = "https://cloud.ibm.com/services/apprapp/${module.app_config.app_config_crn}?paneId=manage"
+  description = "Primary URL"
+}
+
+output "next_step_secondary_label" {
+  value       = "View App Configuration Guide"
+  description = "Secondary label"
+}
+
+output "next_step_secondary_url" {
+  value       = "https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-appconfig"
+  description = "Secondary URL"
+}
