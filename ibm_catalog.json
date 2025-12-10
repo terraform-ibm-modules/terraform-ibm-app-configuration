@@ -52,6 +52,7 @@
         {
           "label": "Fully configurable",
           "name": "fully-configurable",
+          "short_description": "Ideal for users who want flexibility with a reliable starting point.",
           "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/fully-configurable",
@@ -214,7 +215,12 @@
               "custom_config": {
                 "type": "code_editor",
                 "grouping": "deployment",
-                "original_grouping": "deployment"
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
               }
             },
             {
@@ -257,7 +263,12 @@
               "custom_config": {
                 "type": "code_editor",
                 "grouping": "deployment",
-                "original_grouping": "deployment"
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "supportedLanguages": [
+                    "hcl"
+                  ]
+                }
               }
             },
             {
