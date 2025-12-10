@@ -36,6 +36,14 @@ resource "ibm_app_config_collection" "collections" {
 # Configuration aggregator
 ##############################################################################
 
+# workaround for error "ReplaceSettingsWithContext failed: given app-config instance is not found"
+# https://github.ibm.com/devx-app-services/planning/issues/25953
+resource "time_sleep" "wait" {
+  count           = var.enable_config_aggregator ? 1 : 0
+  depends_on      = [ibm_resource_instance.app_config]
+  create_duration = "30s"
+}
+
 # Create the required Trusted Profile
 module "config_aggregator_trusted_profile" {
   count                       = var.enable_config_aggregator ? 1 : 0
@@ -177,6 +185,7 @@ module "config_aggregator_trusted_profile_template" {
 
 # Define an aggregation
 resource "ibm_config_aggregator_settings" "config_aggregator_settings" {
+  depends_on                  = [time_sleep.wait]
   count                       = var.enable_config_aggregator ? 1 : 0
   instance_id                 = ibm_resource_instance.app_config.guid
   region                      = ibm_resource_instance.app_config.location
