@@ -2,10 +2,10 @@
 package test
 
 import (
-	"math/rand"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
@@ -16,7 +16,7 @@ func TestRunBasicExample(t *testing.T) {
 		Testing:      t,
 		TerraformDir: "examples/basic",
 		Prefix:       "app-conf-basic",
-		Region:       validRegions[rand.Intn(len(validRegions))],
+		Region:       validRegions[common.CryptoIntn(len(validRegions))],
 	})
 
 	output, err := options.RunTestConsistency()
