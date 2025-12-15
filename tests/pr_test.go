@@ -4,12 +4,11 @@ package test
 import (
 	"fmt"
 	"log"
-	"math/rand"
 	"os"
 	"strings"
 	"testing"
 
-	"github.com/IBM/go-sdk-core/core"
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/gruntwork-io/terratest/modules/files"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
@@ -80,7 +79,7 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
 		TerraformVersion:       terraformVersion,
-		Region:                 validRegions[rand.Intn(len(validRegions))],
+		Region:                 validRegions[common.CryptoIntn(len(validRegions))],
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -260,7 +259,7 @@ func TestAddonsDefaultConfiguration(t *testing.T) {
 		"deploy-arch-ibm-apprapp",
 		"fully-configurable",
 		map[string]interface{}{
-			"region": validRegions[rand.Intn(len(validRegions))],
+			"region": validRegions[common.CryptoIntn(len(validRegions))],
 		},
 	)
 
@@ -301,7 +300,7 @@ func TestAddonsWithDisabledDAs(t *testing.T) {
 		"deploy-arch-ibm-apprapp",
 		"fully-configurable",
 		map[string]interface{}{
-			"region": validRegions[rand.Intn(len(validRegions))],
+			"region": validRegions[common.CryptoIntn(len(validRegions))],
 		},
 	)
 
