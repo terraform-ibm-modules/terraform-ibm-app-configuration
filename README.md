@@ -79,7 +79,7 @@ For more information on access and permissions, see <https://cloud.ibm.com/docs/
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.79.1, < 2.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.86.0, < 2.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
 
@@ -87,12 +87,12 @@ For more information on access and permissions, see <https://cloud.ibm.com/docs/
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.33.8 |
-| <a name="module_config_aggregator_trusted_profile"></a> [config\_aggregator\_trusted\_profile](#module\_config\_aggregator\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 3.1.1 |
-| <a name="module_config_aggregator_trusted_profile_enterprise"></a> [config\_aggregator\_trusted\_profile\_enterprise](#module\_config\_aggregator\_trusted\_profile\_enterprise) | terraform-ibm-modules/trusted-profile/ibm | 3.1.1 |
-| <a name="module_config_aggregator_trusted_profile_template"></a> [config\_aggregator\_trusted\_profile\_template](#module\_config\_aggregator\_trusted\_profile\_template) | terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template | 3.1.1 |
-| <a name="module_en_crn_parser"></a> [en\_crn\_parser](#module\_en\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.3.0 |
-| <a name="module_kms_crn_parser"></a> [kms\_crn\_parser](#module\_kms\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.3.0 |
+| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.34.0 |
+| <a name="module_config_aggregator_trusted_profile"></a> [config\_aggregator\_trusted\_profile](#module\_config\_aggregator\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 3.2.13 |
+| <a name="module_config_aggregator_trusted_profile_enterprise"></a> [config\_aggregator\_trusted\_profile\_enterprise](#module\_config\_aggregator\_trusted\_profile\_enterprise) | terraform-ibm-modules/trusted-profile/ibm | 3.2.13 |
+| <a name="module_config_aggregator_trusted_profile_template"></a> [config\_aggregator\_trusted\_profile\_template](#module\_config\_aggregator\_trusted\_profile\_template) | terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template | 3.2.13 |
+| <a name="module_en_crn_parser"></a> [en\_crn\_parser](#module\_en\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.3.7 |
+| <a name="module_kms_crn_parser"></a> [kms\_crn\_parser](#module\_kms\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.3.7 |
 
 ### Resources
 

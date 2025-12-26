@@ -26,7 +26,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 #######################################################################################################################
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
-  version                      = "1.4.0"
+  version                      = "1.4.7"
   existing_resource_group_name = var.existing_resource_group_name
 }
 
@@ -38,14 +38,14 @@ module "resource_group" {
 module "existing_kms_crn_parser" {
   count   = var.kms_encryption_enabled && var.existing_kms_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.3.0"
+  version = "1.3.7"
   crn     = var.existing_kms_instance_crn
 }
 
 module "existing_kms_key_crn_parser" {
   count   = var.kms_encryption_enabled && var.existing_kms_key_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.3.0"
+  version = "1.3.7"
   crn     = var.existing_kms_key_crn
 }
 
@@ -57,7 +57,7 @@ module "existing_kms_key_crn_parser" {
 module "existing_en_crn_parser" {
   count   = var.enable_event_notifications && var.existing_event_notifications_instance_crn != null ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.3.0"
+  version = "1.3.7"
   crn     = var.existing_event_notifications_instance_crn
 }
 
@@ -116,7 +116,7 @@ resource "time_sleep" "wait_for_kms_cross_account_authorization_policy" {
 module "kms" {
   count   = var.kms_encryption_enabled && var.existing_kms_key_crn == null ? 1 : 0 # no need to create any KMS resources if passing an existing key
   source  = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version = "5.4.10"
+  version = "5.5.10"
   providers = {
     ibm = ibm.kms
   }
