@@ -73,7 +73,7 @@ module "key_protect_all_inclusive" {
 
 module "event_notifications" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "2.10.35"
+  version           = "2.10.37"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
   tags              = var.resource_tags
