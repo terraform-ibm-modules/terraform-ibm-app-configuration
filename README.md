@@ -21,8 +21,9 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
 ## Overview
 * [terraform-ibm-app-configuration](#terraform-ibm-app-configuration)
 * [Examples](./examples)
-    * <div style="display: inline-block;"><a href="./examples/advanced">Advanced example</a></div> <div style="display: inline-block; vertical-align: middle;"><a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=ac-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/examples/advanced" target="_blank"><img src="https://cloud.ibm.com/media/docs/images/icons/Deploy_to_cloud.svg" alt="Deploy to IBM Cloud button"></a></div>
-    * <div style="display: inline-block;"><a href="./examples/basic">Basic example</a></div> <div style="display: inline-block; vertical-align: middle;"><a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=ac-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/examples/basic" target="_blank"><img src="https://cloud.ibm.com/media/docs/images/icons/Deploy_to_cloud.svg" alt="Deploy to IBM Cloud button"></a></div>
+:information_source: Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab
+    * <a href="./examples/advanced">Advanced example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=app-configuration-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/examples/advanced"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+    * <a href="./examples/basic">Basic example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=app-configuration-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
@@ -87,7 +88,7 @@ For more information on access and permissions, see <https://cloud.ibm.com/docs/
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.9 |
+| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.10 |
 | <a name="module_config_aggregator_trusted_profile"></a> [config\_aggregator\_trusted\_profile](#module\_config\_aggregator\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 3.2.17 |
 | <a name="module_config_aggregator_trusted_profile_enterprise"></a> [config\_aggregator\_trusted\_profile\_enterprise](#module\_config\_aggregator\_trusted\_profile\_enterprise) | terraform-ibm-modules/trusted-profile/ibm | 3.2.17 |
 | <a name="module_config_aggregator_trusted_profile_template"></a> [config\_aggregator\_trusted\_profile\_template](#module\_config\_aggregator\_trusted\_profile\_template) | terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template | 3.2.17 |
