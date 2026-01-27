@@ -15,7 +15,7 @@ module "resource_group" {
 ########################################################################################################################
 
 module "app_config" {
-  source            = "../.."
+  source            = "terraform-ibm-modules/app-configuration/ibm"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   app_config_name   = "${var.prefix}-app-config"
