@@ -70,6 +70,16 @@ You need the following permissions to run this module.
     * **App Configuration** service
       * `Administrator` platform access
       * `Manager` service access
+    * **All Account Management services** service (If setting enable_config_aggregator to true, for using Trusted Profile API)
+      * `Administrator` platform access
+    * **All Identity and Access enabled services** service (If setting enable_config_aggregator to true, for creating trusted profile policy)
+      * `Administrator` platform access
+* Enterprise (If the module is being deployed to an enterprise account)
+  * **Enterprise** service (For reading enterprise account data [here](https://github.com/terraform-ibm-modules/terraform-ibm-trusted-profile/blob/8b9518b89303f916aa5624334a295ed9f8273138/modules/trusted-profile-template/main.tf#L71))
+    * `Viewer` platform access
+  * **All IAM Account Management services** service (For creation and assignment of trusted profile template)
+    * `Template Administrator` platform access
+    * `Assignment Administrator` platform access
 
 For more information on access and permissions, see <https://cloud.ibm.com/docs/account?topic=account-iam-service-roles-actions#apprapp-roles>
 
