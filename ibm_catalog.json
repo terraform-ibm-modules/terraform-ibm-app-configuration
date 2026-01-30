@@ -378,7 +378,22 @@
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required to to create trusted profile for App Configuration aggregator."
+              "notes": "[Optional] Required to create trusted profile for App Configuration aggregator."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Viewer"
+              ],
+              "service_name": "Enterprise",
+              "notes": "[Optional] Required to read enterprise account related data if using an enterprise account for deployment."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:TemplateAdministrator",
+                "crn:v1:bluemix:public:iam::::role:TemplateAssignmentAdministrator"
+              ],
+              "service_name": "All IAM Account Management services",
+              "notes": "[Optional] Required for creation and assignment of trusted profile template if using an enterprise account for deployment."
             },
             {
               "role_crns": [
