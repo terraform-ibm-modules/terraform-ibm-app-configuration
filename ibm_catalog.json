@@ -297,13 +297,24 @@
             },
             {
               "key": "existing_event_notifications_instance_crn",
+              "display_name": "existing_event_notifications_instance",
               "value_constraints": [
                 {
                   "type": "regex",
                   "description": "The value provided for 'existing_event_notifications_instance_crn' is not valid.",
                   "value": "^__NULL__$|^crn:(.*:){3}event-notifications:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
                 }
-              ]
+              ],
+              "custom_config": {
+                "type": "platform_resource",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "resourceType": "event-notifications",
+                  "selection": "single_select",
+                  "valueType": "crn"
+                }
+              }
             },
             {
               "key": "event_notifications_endpoint_url"
@@ -367,7 +378,22 @@
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required to to create trusted profile for App Configuration aggregator."
+              "notes": "[Optional] Required to create trusted profile for App Configuration aggregator."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Viewer"
+              ],
+              "service_name": "Enterprise",
+              "notes": "[Optional] Required to read enterprise account related data if using an enterprise account for deployment."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:TemplateAdministrator",
+                "crn:v1:bluemix:public:iam::::role:TemplateAssignmentAdministrator"
+              ],
+              "service_name": "All IAM Account Management services",
+              "notes": "[Optional] Required for creation and assignment of trusted profile template if using an enterprise account for deployment."
             },
             {
               "role_crns": [

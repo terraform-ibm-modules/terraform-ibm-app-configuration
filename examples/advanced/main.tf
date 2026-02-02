@@ -23,7 +23,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.35.12"
+  version          = "1.35.13"
   name             = "${var.prefix}-schematics-zone"
   zone_description = "CBR Network zone containing Schematics"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -47,7 +47,7 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.5.24"
+  version                   = "5.5.27"
   resource_group_id         = module.resource_group.resource_group_id
   key_protect_instance_name = "${var.prefix}-kms"
   region                    = var.region
@@ -73,7 +73,7 @@ module "key_protect_all_inclusive" {
 
 module "event_notifications" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "2.11.3"
+  version           = "2.11.11"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
   tags              = var.resource_tags
