@@ -479,7 +479,7 @@
                 "fully-configurable"
               ],
               "id": "63d8ae58-fbf3-41ce-b844-0fb5b85882ab-global",
-              "version": "v1.10.1",
+              "version": "v1.11.1",
               "optional": true,
               "on_by_default": true,
               "input_mapping": [
@@ -509,7 +509,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Configure IBM Cloud Monitoring to collect the platform metrics.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.11.0",
+              "version": "v1.13.3",
               "flavors": [
                 "fully-configurable"
               ],
@@ -543,7 +543,7 @@
               "name": "deploy-arch-ibm-activity-tracker",
               "description": "Configure Activity Tracker Event Routing to route the auditing events.",
               "id": "918453c3-4f97-4583-8c4a-83ef12fc7916-global",
-              "version": "v1.5.6",
+              "version": "v1.6.11",
               "flavors": [
                 "fully-configurable"
               ],
@@ -572,7 +572,7 @@
               "name": "deploy-arch-ibm-kms",
               "description": "Enables managed encryption with your own keys via IBM Cloud Key Protect. If disabled, services will default to IBM-managed encryption.",
               "id": "2cad4789-fa90-4886-9c9e-857081c273ee-global",
-              "version": "v5.5.3",
+              "version": "v5.5.27",
               "flavors": [
                 "fully-configurable"
               ],
@@ -618,7 +618,7 @@
               "name": "deploy-arch-ibm-event-notifications",
               "description": "Configure Event Notifications to notify any configuration change events.",
               "id": "c7ac3ee6-4f48-4236-b974-b0cd8c624a46-global",
-              "version": "v2.10.16",
+              "version": "v2.11.12",
               "flavors": [
                 "fully-configurable"
               ],
