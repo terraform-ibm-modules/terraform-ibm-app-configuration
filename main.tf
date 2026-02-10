@@ -101,7 +101,7 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 # If enterprise account, create trusted profile for App Config enterprise-level permissions
 module "config_aggregator_trusted_profile_enterprise" {
   count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
-  source                      = "terraform-ibm-modules//ibm"
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
   version                     = "3.2.19"
   trusted_profile_name        = var.config_aggregator_enterprise_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator for enterprise accounts"
