@@ -48,7 +48,7 @@ resource "time_sleep" "wait" {
 module "config_aggregator_trusted_profile" {
   count                       = var.enable_config_aggregator ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "3.2.17"
+  version                     = "3.2.19"
   trusted_profile_name        = var.config_aggregator_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   trusted_profile_identity = {
@@ -102,7 +102,7 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 module "config_aggregator_trusted_profile_enterprise" {
   count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "3.2.17"
+  version                     = "3.2.19"
   trusted_profile_name        = var.config_aggregator_enterprise_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator for enterprise accounts"
 
@@ -145,7 +145,7 @@ module "config_aggregator_trusted_profile_enterprise" {
 module "config_aggregator_trusted_profile_template" {
   count                = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source               = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
-  version              = "3.2.17"
+  version              = "3.2.19"
   template_name        = var.config_aggregator_enterprise_trusted_profile_template_name
   template_description = "Trusted Profile template for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   profile_name         = var.config_aggregator_trusted_profile_name
