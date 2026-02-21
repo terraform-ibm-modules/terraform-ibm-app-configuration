@@ -97,7 +97,7 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.14 |
+| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.15 |
 | <a name="module_config_aggregator_trusted_profile"></a> [config\_aggregator\_trusted\_profile](#module\_config\_aggregator\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 3.2.19 |
 | <a name="module_config_aggregator_trusted_profile_enterprise"></a> [config\_aggregator\_trusted\_profile\_enterprise](#module\_config\_aggregator\_trusted\_profile\_enterprise) | terraform-ibm-modules/trusted-profile/ibm | 3.2.19 |
 | <a name="module_config_aggregator_trusted_profile_template"></a> [config\_aggregator\_trusted\_profile\_template](#module\_config\_aggregator\_trusted\_profile\_template) | terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template | 3.2.19 |
