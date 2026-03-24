@@ -24,3 +24,16 @@ module "event_notifications" {
   service_endpoints = "public-and-private"
   region            = var.region
 }
+
+##############################################################################
+# Key Protect
+##############################################################################
+
+module "key_protect" {
+  source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
+  version                   = "5.5.36"
+  key_protect_instance_name = "${var.prefix}-key-protect"
+  resource_group_id         = module.resource_group.resource_group_id
+  region                    = var.region
+  resource_tags             = var.resource_tags
+}

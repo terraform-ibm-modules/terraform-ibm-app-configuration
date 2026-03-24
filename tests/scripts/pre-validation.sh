@@ -30,15 +30,23 @@ TF_VARS_FILE="terraform.tfvars"
   existing_event_notifications_instance_crn_value=$(terraform output -state=terraform.tfstate -raw event_notifications_instance_crn)
   event_notifications_endpoint_url="event_notifications_endpoint_url"
   event_notifications_endpoint_url_value=$(terraform output -state=terraform.tfstate -raw event_notification_endpoint_url)
+  existing_kms_instance_crn="existing_kms_instance_crn"
+  existing_kms_instance_crn_value=$(terraform output -state=terraform.tfstate -raw kms_instance_crn)
+  kms_endpoint_url="kms_endpoint_url"
+  kms_endpoint_url_value=$(terraform output -state=terraform.tfstate -raw kms_endpoint_url)
 
-  echo "Appending '${existing_event_notifications_instance_crn}' and '${event_notifications_endpoint_url}' input variable value to ${JSON_FILE}.."
+  echo "Appending '${existing_event_notifications_instance_crn}', '${event_notifications_endpoint_url}', '${existing_kms_instance_crn}' and '${kms_endpoint_url}' input variable value to ${JSON_FILE}.."
 
   cd "${cwd}"
   jq -r --arg existing_event_notifications_instance_crn "${existing_event_notifications_instance_crn}" \
     --arg existing_event_notifications_instance_crn_value "${existing_event_notifications_instance_crn_value}" \
     --arg event_notifications_endpoint_url "${event_notifications_endpoint_url}" \
     --arg event_notifications_endpoint_url_value "${event_notifications_endpoint_url_value}" \
-    '. + {($existing_event_notifications_instance_crn): $existing_event_notifications_instance_crn_value, ($event_notifications_endpoint_url): $event_notifications_endpoint_url_value}' "${JSON_FILE}" >tmpfile && mv tmpfile "${JSON_FILE}" || exit 1
+    --arg existing_kms_instance_crn "${existing_kms_instance_crn}" \
+    --arg existing_kms_instance_crn_value "${existing_kms_instance_crn_value}" \
+    --arg kms_endpoint_url "${kms_endpoint_url}" \
+    --arg kms_endpoint_url_value "${kms_endpoint_url_value}" \
+    '. + {($existing_event_notifications_instance_crn): $existing_event_notifications_instance_crn_value, ($event_notifications_endpoint_url): $event_notifications_endpoint_url_value, ($existing_kms_instance_crn): $existing_kms_instance_crn_value, ($kms_endpoint_url): $kms_endpoint_url_value}' "${JSON_FILE}" >tmpfile && mv tmpfile "${JSON_FILE}" || exit 1
 
   echo "Pre-validation complete successfully"
 )
