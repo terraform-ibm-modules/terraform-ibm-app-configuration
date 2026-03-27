@@ -22,3 +22,13 @@ output "event_notification_endpoint_url" {
   value       = module.event_notifications.event_notifications_private_endpoint
   description = "The endpoint URL for event notification instance"
 }
+
+output "kms_instance_crn" {
+  value       = module.key_protect.key_protect_crn
+  description = "CRN of created Key Protect instance"
+}
+
+output "kms_endpoint_url" {
+  value       = module.key_protect.kms_private_endpoint
+  description = "The endpoint URL for Key Protect instance"
+}
