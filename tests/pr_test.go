@@ -128,59 +128,36 @@ func provisionPreReq(t *testing.T, p string) (string, *terraform.Options, error)
 
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
+	// ------------------------------------------------------------------------------------
+	// Deploy DA
+	// ------------------------------------------------------------------------------------
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing: t,
+		Prefix:  "app-int",
+		TarIncludePatterns: []string{
+			"*.tf",
+			fullyConfigFlavorDir + "/*.tf",
+		},
+		TemplateFolder:         fullyConfigFlavorDir,
+		Tags:                   []string{"test-schematic", "app-config-da-fc-int"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 60,
+		TerraformVersion:       terraformVersion,
+	})
 
-	prefix, existingTerraformOptions, existErr := provisionPreReq(t, "app-int")
-
-	if existErr != nil {
-		assert.True(t, existErr == nil, "Init and Apply of temp pre-req resource failed")
-	} else {
-		// ------------------------------------------------------------------------------------
-		// Deploy DA
-		// ------------------------------------------------------------------------------------
-		options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-			Testing: t,
-			Prefix:  prefix,
-			TarIncludePatterns: []string{
-				"*.tf",
-				fullyConfigFlavorDir + "/*.tf",
-			},
-			TemplateFolder:         fullyConfigFlavorDir,
-			Tags:                   []string{"test-schematic", "app-config-da-fc-int"},
-			DeleteWorkspaceOnFail:  false,
-			WaitJobCompleteMinutes: 60,
-			TerraformVersion:       terraformVersion,
-		})
-
-		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
-			{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-			{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
-			{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
-			{Name: "app_config_tags", Value: options.Tags, DataType: "list(string)"},
-			{Name: "prefix", Value: terraform.Output(t, existingTerraformOptions, "prefix"), DataType: "string"},
-			{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
-			{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
-			{Name: "existing_kms_instance_crn", Value: terraform.Output(t, existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
-			{Name: "kms_endpoint_url", Value: terraform.Output(t, existingTerraformOptions, "kms_endpoint_url"), DataType: "string"},
-			{Name: "enable_event_notifications", Value: true, DataType: "bool"},
-			{Name: "existing_event_notifications_instance_crn", Value: terraform.Output(t, existingTerraformOptions, "event_notifications_instance_crn"), DataType: "string"},
-			{Name: "event_notifications_endpoint_url", Value: terraform.Output(t, existingTerraformOptions, "event_notification_endpoint_url"), DataType: "string"},
-		}
-
-		err := options.RunSchematicTest()
-		assert.Nil(t, err, "This should not have errored")
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
+		{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
+		{Name: "app_config_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
+		{Name: "kms_encryption_enabled", Value: false, DataType: "bool"},
+		{Name: "enable_event_notifications", Value: false, DataType: "bool"},
 	}
 
-	// Check if "DO_NOT_DESTROY_ON_FAILURE" is set
-	envVal, _ := os.LookupEnv("DO_NOT_DESTROY_ON_FAILURE")
-	// Destroy the temporary existing resources if required
-	if t.Failed() && strings.ToLower(envVal) == "true" {
-		fmt.Println("Terratest failed. Debug the test and delete resources manually.")
-	} else {
-		logger.Log(t, "START: Destroy (prereq resources)")
-		terraform.Destroy(t, existingTerraformOptions)
-		terraform.WorkspaceDelete(t, existingTerraformOptions, prefix)
-		logger.Log(t, "END: Destroy (prereq resources)")
-	}
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
 }
 
 func TestUpgradeFullyConfigurable(t *testing.T) {
