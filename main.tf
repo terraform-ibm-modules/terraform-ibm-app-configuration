@@ -9,7 +9,7 @@ resource "ibm_resource_instance" "app_config" {
   service           = "apprapp"
   plan              = var.app_config_plan
   service_endpoints = var.app_config_service_endpoints
-  tags              = var.app_config_tags
+  resource_tags = var.resource_tags
 }
 
 ##############################################################################
@@ -235,7 +235,7 @@ module "cbr_rule" {
         operator = "stringEquals"
       }
     ],
-    tags = var.cbr_rules[count.index].tags
+    resource_tags = var.resource_tags[count.index].tags
   }]
 }
 

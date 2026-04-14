@@ -19,7 +19,7 @@ module "event_notifications" {
   version           = "2.12.2"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
-  tags              = var.resource_tags
+  resource_tags = var.resource_tags
   plan              = "lite"
   service_endpoints = "public-and-private"
   region            = var.region
@@ -35,5 +35,5 @@ module "key_protect" {
   key_protect_instance_name = "${var.prefix}-key-protect"
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
-  resource_tags             = var.resource_tags
+  resource_tags = var.resource_tags
 }
