@@ -19,5 +19,5 @@ module "app_config" {
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   app_config_name   = "${var.prefix}-app-config"
-  resource_tags = var.resource_tags
+  resource_tags     = var.resource_tags
 }

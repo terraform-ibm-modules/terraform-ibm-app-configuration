@@ -51,7 +51,7 @@ module "key_protect_all_inclusive" {
   resource_group_id         = module.resource_group.resource_group_id
   key_protect_instance_name = "${var.prefix}-kms"
   region                    = var.region
-  resource_tags = var.resource_tags
+  resource_tags             = var.resource_tags
   key_ring_endpoint_type    = "public"
   key_endpoint_type         = "public"
   keys = [
@@ -76,7 +76,7 @@ module "event_notifications" {
   version           = "2.12.2"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
-  resource_tags = var.resource_tags
+  tags              = var.resource_tags
   plan              = "lite"
   service_endpoints = "public-and-private"
   region            = var.region
@@ -92,7 +92,7 @@ module "app_config" {
   resource_group_id                      = module.resource_group.resource_group_id
   region                                 = var.region
   app_config_name                        = "${var.prefix}-app-config"
-  resource_tags = var.resource_tags
+  resource_tags                          = var.resource_tags
   enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
   app_config_plan                        = "enterprise"
   config_aggregator_trusted_profile_name = "${var.prefix}-config-aggregator-trusted-profile"
