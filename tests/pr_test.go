@@ -86,6 +86,7 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list"},
 	}
 
 	err := options.RunSchematicTest()
@@ -150,6 +151,7 @@ func TestFullyConfigurable(t *testing.T) {
 		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
 		{Name: "app_config_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "app_config_access_tags", Value: permanentResources["accessTags"], DataType: "list"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 		{Name: "kms_encryption_enabled", Value: false, DataType: "bool"},

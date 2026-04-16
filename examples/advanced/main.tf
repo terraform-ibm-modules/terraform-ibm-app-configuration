@@ -93,6 +93,7 @@ module "app_config" {
   region                                 = var.region
   app_config_name                        = "${var.prefix}-app-config"
   resource_tags                          = var.resource_tags
+  access_tags                            = var.access_tags
   enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
   app_config_plan                        = "enterprise"
   config_aggregator_trusted_profile_name = "${var.prefix}-config-aggregator-trusted-profile"

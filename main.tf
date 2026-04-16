@@ -13,6 +13,23 @@ resource "ibm_resource_instance" "app_config" {
 }
 
 ##############################################################################
+# Attach Access Tags
+##############################################################################
+
+data "ibm_iam_access_tag" "access_tag" {
+  for_each = length(var.access_tags) != 0 ? toset(var.access_tags) : []
+  name     = each.value
+}
+
+resource "ibm_resource_tag" "en_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tag] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
+  count       = length(var.access_tags) == 0 ? 0 : 1
+  resource_id = ibm_resource_instance.app_config.crn
+  tags        = var.access_tags
+  tag_type    = "access"
+}
+
+##############################################################################
 # Collections
 ##############################################################################
 

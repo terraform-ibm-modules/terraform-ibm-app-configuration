@@ -155,6 +155,7 @@ module "app_config" {
   app_config_plan                                            = var.app_config_plan
   app_config_service_endpoints                               = var.app_config_service_endpoints
   resource_tags                                              = var.app_config_tags
+  access_tags                                                = var.app_config_access_tags
   app_config_collections                                     = var.app_config_collections
   enable_config_aggregator                                   = var.enable_config_aggregator
   config_aggregator_trusted_profile_name                     = "${local.prefix}${var.config_aggregator_trusted_profile_name}"
