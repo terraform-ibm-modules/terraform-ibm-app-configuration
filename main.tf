@@ -9,7 +9,24 @@ resource "ibm_resource_instance" "app_config" {
   service           = "apprapp"
   plan              = var.app_config_plan
   service_endpoints = var.app_config_service_endpoints
-  tags              = var.app_config_tags
+  tags              = var.resource_tags
+}
+
+##############################################################################
+# Attach Access Tags
+##############################################################################
+
+data "ibm_iam_access_tag" "access_tag" {
+  for_each = length(var.access_tags) != 0 ? toset(var.access_tags) : []
+  name     = each.value
+}
+
+resource "ibm_resource_tag" "app_config_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tag] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
+  count       = length(var.access_tags) == 0 ? 0 : 1
+  resource_id = ibm_resource_instance.app_config.crn
+  tags        = var.access_tags
+  tag_type    = "access"
 }
 
 ##############################################################################

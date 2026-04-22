@@ -200,6 +200,17 @@
               }
             },
             {
+              "key": "app_config_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "type": "array",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
               "key": "enable_config_aggregator"
             },
             {
