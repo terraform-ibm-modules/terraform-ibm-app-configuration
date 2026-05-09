@@ -47,7 +47,7 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.6.3"
+  version                   = "5.6.4"
   resource_group_id         = module.resource_group.resource_group_id
   key_protect_instance_name = "${var.prefix}-kms"
   region                    = var.region
@@ -73,7 +73,7 @@ module "key_protect_all_inclusive" {
 
 module "event_notifications" {
   source            = "terraform-ibm-modules/event-notifications/ibm"
-  version           = "2.12.7"
+  version           = "2.12.8"
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
   resource_tags     = var.resource_tags
