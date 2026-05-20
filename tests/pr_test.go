@@ -2,6 +2,7 @@
 package test
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -97,7 +98,7 @@ func provisionPreReq(t *testing.T, p string) (string, *terraform.Options, error)
 	// ------------------------------------------------------------------------------------
 	// Provision existing resources first
 	// ------------------------------------------------------------------------------------
-	prefix := fmt.Sprintf("%s-%s", p, strings.ToLower(random.UniqueId()))
+	prefix := fmt.Sprintf("%s-%s", p, strings.ToLower(random.UniqueID()))
 	realTerraformDir := "./existing-resources"
 	tempTerraformDir, _ := files.CopyTerraformFolderToTemp(realTerraformDir, prefix)
 
@@ -118,8 +119,8 @@ func provisionPreReq(t *testing.T, p string) (string, *terraform.Options, error)
 		Upgrade: true,
 	})
 
-	terraform.WorkspaceSelectOrNew(t, existingTerraformOptions, prefix)
-	_, existErr := terraform.InitAndApplyE(t, existingTerraformOptions)
+	terraform.WorkspaceSelectOrNewContext(t, context.Background(), existingTerraformOptions, prefix)
+	_, existErr := terraform.InitAndApplyContextE(t, context.Background(), existingTerraformOptions)
 	if existErr != nil {
 		// assert.True(t, existErr == nil, "Init and Apply of temp existing resource failed")
 		return "", nil, existErr
@@ -193,14 +194,14 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 			{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 			{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
 			{Name: "app_config_tags", Value: options.Tags, DataType: "list(string)"},
-			{Name: "prefix", Value: terraform.Output(t, existingTerraformOptions, "prefix"), DataType: "string"},
+			{Name: "prefix", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "prefix"), DataType: "string"},
 			{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 			{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
-			{Name: "existing_kms_instance_crn", Value: terraform.Output(t, existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
-			{Name: "kms_endpoint_url", Value: terraform.Output(t, existingTerraformOptions, "kms_endpoint_url"), DataType: "string"},
+			{Name: "existing_kms_instance_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
+			{Name: "kms_endpoint_url", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_endpoint_url"), DataType: "string"},
 			{Name: "enable_event_notifications", Value: true, DataType: "bool"},
-			{Name: "existing_event_notifications_instance_crn", Value: terraform.Output(t, existingTerraformOptions, "event_notifications_instance_crn"), DataType: "string"},
-			{Name: "event_notifications_endpoint_url", Value: terraform.Output(t, existingTerraformOptions, "event_notification_endpoint_url"), DataType: "string"},
+			{Name: "existing_event_notifications_instance_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "event_notifications_instance_crn"), DataType: "string"},
+			{Name: "event_notifications_endpoint_url", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "event_notification_endpoint_url"), DataType: "string"},
 		}
 
 		err := options.RunSchematicUpgradeTest()
@@ -217,8 +218,8 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 		fmt.Println("Terratest failed. Debug the test and delete resources manually.")
 	} else {
 		logger.Log(t, "START: Destroy (prereq resources)")
-		terraform.Destroy(t, existingTerraformOptions)
-		terraform.WorkspaceDelete(t, existingTerraformOptions, prefix)
+		terraform.DestroyContext(t, context.Background(), existingTerraformOptions)
+		terraform.WorkspaceDeleteContext(t, context.Background(), existingTerraformOptions, prefix)
 		logger.Log(t, "END: Destroy (prereq resources)")
 	}
 }
