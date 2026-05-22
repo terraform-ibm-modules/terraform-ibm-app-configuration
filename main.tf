@@ -230,7 +230,7 @@ resource "ibm_config_aggregator_settings" "config_aggregator_settings" {
 module "cbr_rule" {
   count            = length(var.cbr_rules) > 0 ? length(var.cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.36.2"
+  version          = "1.36.3"
   rule_description = var.cbr_rules[count.index].description
   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules[count.index].rule_contexts
@@ -271,7 +271,7 @@ resource "random_string" "kms_integration_id" {
 module "kms_crn_parser" {
   count   = var.kms_encryption_enabled ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.5.0"
+  version = "1.6.0"
   crn     = var.existing_kms_instance_crn
 }
 
@@ -353,7 +353,7 @@ resource "random_string" "en_integration_id" {
 module "en_crn_parser" {
   count   = var.enable_event_notifications ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.5.0"
+  version = "1.6.0"
   crn     = var.existing_event_notifications_instance_crn
 }
 
