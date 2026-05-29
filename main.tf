@@ -65,7 +65,7 @@ resource "time_sleep" "wait" {
 module "config_aggregator_trusted_profile" {
   count                       = var.enable_config_aggregator ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "4.0.0"
+  version                     = "4.1.0"
   trusted_profile_name        = var.config_aggregator_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   trusted_profile_identity = {
@@ -119,7 +119,7 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 module "config_aggregator_trusted_profile_enterprise" {
   count                       = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "4.0.0"
+  version                     = "4.1.0"
   trusted_profile_name        = var.config_aggregator_enterprise_trusted_profile_name
   trusted_profile_description = "Trusted Profile for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator for enterprise accounts"
 
@@ -162,7 +162,7 @@ module "config_aggregator_trusted_profile_enterprise" {
 module "config_aggregator_trusted_profile_template" {
   count                = var.enable_config_aggregator && var.config_aggregator_enterprise_id != null ? 1 : 0
   source               = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
-  version              = "4.0.0"
+  version              = "4.1.0"
   template_name        = var.config_aggregator_enterprise_trusted_profile_template_name
   template_description = "Trusted Profile template for App Configuration instance ${ibm_resource_instance.app_config.guid} with required access for configuration aggregator"
   profile_name         = var.config_aggregator_trusted_profile_name
@@ -271,7 +271,7 @@ resource "random_string" "kms_integration_id" {
 module "kms_crn_parser" {
   count   = var.kms_encryption_enabled ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.6.0"
+  version = "1.6.1"
   crn     = var.existing_kms_instance_crn
 }
 
@@ -353,7 +353,7 @@ resource "random_string" "en_integration_id" {
 module "en_crn_parser" {
   count   = var.enable_event_notifications ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.6.0"
+  version = "1.6.1"
   crn     = var.existing_event_notifications_instance_crn
 }
 
