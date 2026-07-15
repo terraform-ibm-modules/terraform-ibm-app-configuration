@@ -240,6 +240,8 @@ func TestAddonsDefaultConfiguration(t *testing.T) {
 		"fully-configurable",
 		map[string]interface{}{
 			"region": validRegions[common.CryptoIntn(len(validRegions))],
+			// Use a unique EN source name per run to prevent "Duplicate source name" error
+			"app_config_event_notifications_source_name": fmt.Sprintf("%s-app-config-en", options.Prefix),
 		},
 	)
 
@@ -281,6 +283,7 @@ func TestAddonsWithDisabledDAs(t *testing.T) {
 		"fully-configurable",
 		map[string]interface{}{
 			"region": validRegions[common.CryptoIntn(len(validRegions))],
+			"app_config_event_notifications_source_name": fmt.Sprintf("%s-app-config", options.Prefix),
 		},
 	)
 

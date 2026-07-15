@@ -386,6 +386,6 @@ resource "ibm_app_config_integration_en" "app_config_integration_en" {
   integration_id  = "en-${random_string.en_integration_id[0].result}"
   en_instance_crn = var.existing_event_notifications_instance_crn
   en_endpoint     = var.event_notifications_endpoint_url
-  en_source_name  = "${var.app_config_event_notifications_source_name}-${random_string.en_integration_id[0].result}"
+  en_source_name  = var.app_config_event_notifications_source_name
   description     = var.event_notifications_integration_description
 }
