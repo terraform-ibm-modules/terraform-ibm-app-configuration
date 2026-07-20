@@ -240,6 +240,7 @@ func TestAddonsDefaultConfiguration(t *testing.T) {
 		"fully-configurable",
 		map[string]interface{}{
 			"region": validRegions[common.CryptoIntn(len(validRegions))],
+			"app_config_event_notifications_source_name": fmt.Sprintf("%s-app-cfg-en", options.Prefix),
 		},
 	)
 
@@ -281,6 +282,7 @@ func TestAddonsWithDisabledDAs(t *testing.T) {
 		"fully-configurable",
 		map[string]interface{}{
 			"region": validRegions[common.CryptoIntn(len(validRegions))],
+			"app_config_event_notifications_source_name": fmt.Sprintf("%s-app-cfg", options.Prefix),
 		},
 	)
 
