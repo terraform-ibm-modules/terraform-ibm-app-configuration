@@ -27,6 +27,7 @@ Global variables
 */
 const resourceGroup = "geretain-test-resources"
 const advancedExampleDir = "examples/advanced"
+const fscloudExampleDir = "examples/fscloud"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 const fullyConfigFlavorDir = "solutions/fully-configurable"
 const terraformVersion = "terraform_v1.12.2" // This should match the version in the ibm_catalog.json
@@ -87,6 +88,39 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list"},
+	}
+
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
+}
+
+func TestFSCloudInSchematics(t *testing.T) {
+	t.Parallel()
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing: t,
+		Prefix:  "app-fs",
+		TarIncludePatterns: []string{
+			"*.tf",
+			fscloudExampleDir + "/*.tf",
+			"modules/fscloud/*.tf",
+		},
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         fscloudExampleDir,
+		Tags:                   []string{"test-schematic", "app-config-fscloud"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 60,
+		TerraformVersion:       terraformVersion,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "region", Value: validRegions[common.CryptoIntn(len(validRegions))], DataType: "string"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "existing_kms_instance_crn", Value: permanentResources["kp_dedicated_us_south_crn"], DataType: "string"},
+		{Name: "kms_endpoint_url", Value: permanentResources["kp_dedicated_us_south_private_endpoint"], DataType: "string"},
+		{Name: "root_key_crn", Value: permanentResources["kp_dedicated_us_south_root_key_crn"], DataType: "string"},
 		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list"},
 	}
 
