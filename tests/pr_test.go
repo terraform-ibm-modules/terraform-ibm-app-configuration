@@ -98,9 +98,27 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 func TestFSCloudInSchematics(t *testing.T) {
 	t.Parallel()
 
+	prefix, existingTerraformOptions, existErr := provisionPreReq(t, "app-fs")
+	if existErr != nil {
+		assert.True(t, existErr == nil, "Init and Apply of temp pre-req resource failed")
+		return
+	}
+
+	defer func() {
+		envVal, _ := os.LookupEnv("DO_NOT_DESTROY_ON_FAILURE")
+		if t.Failed() && strings.ToLower(envVal) == "true" {
+			fmt.Println("Terratest failed. Debug the test and delete resources manually.")
+		} else {
+			logger.Log(t, "START: Destroy (prereq resources)")
+			terraform.DestroyContext(t, context.Background(), existingTerraformOptions)
+			terraform.WorkspaceDeleteContext(t, context.Background(), existingTerraformOptions, prefix)
+			logger.Log(t, "END: Destroy (prereq resources)")
+		}
+	}()
+
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
-		Prefix:  "app-fs",
+		Prefix:  prefix,
 		TarIncludePatterns: []string{
 			"*.tf",
 			fscloudExampleDir + "/*.tf",
@@ -116,11 +134,11 @@ func TestFSCloudInSchematics(t *testing.T) {
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "region", Value: validRegions[common.CryptoIntn(len(validRegions))], DataType: "string"},
-		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-		{Name: "existing_kms_instance_crn", Value: permanentResources["kp_dedicated_us_south_crn"], DataType: "string"},
-		{Name: "kms_endpoint_url", Value: permanentResources["kp_dedicated_us_south_private_endpoint"], DataType: "string"},
-		{Name: "root_key_crn", Value: permanentResources["kp_dedicated_us_south_root_key_crn"], DataType: "string"},
+		{Name: "prefix", Value: prefix, DataType: "string"},
+		{Name: "resource_group", Value: resourceGroup, DataType: "string"},
+		{Name: "existing_kms_instance_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
+		{Name: "kms_endpoint_url", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_endpoint_url"), DataType: "string"},
+		{Name: "root_key_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_root_key_crn"), DataType: "string"},
 		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list"},
 	}
 

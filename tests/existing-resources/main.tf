@@ -36,4 +36,20 @@ module "key_protect" {
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
   resource_tags             = var.resource_tags
+  keys = [
+    {
+      key_ring_name         = "${var.prefix}-app-config-key-ring"
+      existing_key_ring     = false
+      force_delete_key_ring = true
+      keys = [
+        {
+          key_name                 = "${var.prefix}-app-config-root-key"
+          standard_key             = false
+          rotation_interval_month  = 3
+          dual_auth_delete_enabled = false
+          force_delete             = true
+        }
+      ]
+    }
+  ]
 }

@@ -254,6 +254,13 @@ module "cbr_rule" {
     ],
     tags = var.cbr_rules[count.index].tags
   }]
+  # CBR rules must be created last
+  # restricts the App Config endpoint and would block the provider from completing
+  # the KMS and EN integration API calls that happen before this resource.
+  depends_on = [
+    ibm_app_config_integration_kms.app_config_integration_kms,
+    ibm_app_config_integration_en.app_config_integration_en,
+  ]
 }
 
 ##############################################################################

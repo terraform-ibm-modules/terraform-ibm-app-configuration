@@ -21,8 +21,7 @@ variable "prefix" {
 
 variable "resource_group" {
   type        = string
-  description = "The name of an existing resource group to provision resources in to. If not set a new resource group will be created using the prefix variable"
-  default     = null
+  description = "The name of an existing resource group to provision resources in to."
 }
 
 variable "resource_tags" {

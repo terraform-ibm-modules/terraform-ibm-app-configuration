@@ -13,21 +13,19 @@ module "app_config_fscloud" {
   resource_group_id         = "a8cff104f1764e98aac9ab879198230a" # pragma: allowlist secret
   app_config_name           = "app-config-fs-cloud"
   region                    = "us-south"
-  existing_kms_instance_crn = "crn:v1:bluemix:public:hs-crypto:us-south:a/abac0df06b644a9cabc6e44f55b3880e:e6dce284-e80f-46e1-a3c1-830f7adff7a9::"
-  root_key_id               = "76170fae-4e0c-48c3-8ebe-326059ebb533"
-  kms_endpoint_url          = "https://e6dce284-e80f-46e1-a3c1-830f7adff7a9.api.private.us-south.hs-crypto.appdomain.cloud"
+  # Key Protect only — App Configuration no longer supports HPCS integrations as of March 2026.
+  # See: https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-relnotes#app-configuration-Mar172026
+  existing_kms_instance_crn = "crn:v1:bluemix:public:kms:us-south:a/abac0df06b644a9cabc6e44f55b3880e:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx::"
+  root_key_id               = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  kms_endpoint_url          = "https://xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.api.private.us-south.kms.appdomain.cloud"
 
   cbr_rules = [
     {
-      description      = "App Configuration access only from Schematics"
+      description      = "App Configuration access only from a network zone"
       enforcement_mode = "enabled"
       account_id       = "abac0df06b644a9cabc6e44f55b3880e" # pragma: allowlist secret
       rule_contexts = [{
         attributes = [
-          {
-            name  = "endpointType"
-            value = "private"
-          },
           {
             name  = "networkZoneId"
             value = "93a51a1debe2674193217209601dde6f" # pragma: allowlist secret

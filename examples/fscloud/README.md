@@ -13,17 +13,16 @@ An end-to-end example that uses the [Profile for IBM Cloud Framework for Financi
 
 The example uses the IBM Cloud Terraform provider to create the following infrastructure:
 
-- A resource group, if one is not passed in.
-- An IAM authorization between the App Configuration instance and the KMS instance that is passed in.
-- An App Configuration instance on the `enterprise` plan, encrypted with the KMS root key that is passed in.
+- An existing resource group (required — a permanent group must be passed in).
+- An IAM authorization between the App Configuration instance and the Key Protect instance that is passed in.
+- An App Configuration instance on the `enterprise` plan, encrypted with the Key Protect root key that is passed in.
 - A context-based restriction (CBR) rule to only allow App Configuration to be accessible from Schematics.
 
 :exclamation: **Important:** In this example, only the App Configuration instance complies with the IBM Cloud Framework for Financial Services. Other parts of the infrastructure do not necessarily comply.
 
 ## Before you begin
 
-- You need a Hyper Protect Crypto Services instance and root key available in the region that you want to deploy your App Configuration instance to.
-- To ensure compliance with FSCloud standards, it is required to use HPCS only.
+- You need a Key Protect instance and root key available in `us-south`. App Configuration no longer supports new Hyper Protect Crypto Services (HPCS) integrations as of March 2026. [Learn more](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-relnotes#app-configuration-Mar172026).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
@@ -57,7 +56,7 @@ The example uses the IBM Cloud Terraform provider to create the following infras
 | <a name="input_kms_endpoint_url"></a> [kms\_endpoint\_url](#input\_kms\_endpoint\_url) | The KMS endpoint URL to use when you configure KMS encryption. | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | Prefix to append to all resources created by this example | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region to provision all resources created by this example | `string` | `"us-south"` | no |
-| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | The name of an existing resource group to provision resources in to. If not set a new resource group will be created using the prefix variable | `string` | `null` | no |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | The name of an existing resource group to provision resources in to. | `string` | n/a | yes |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to created resources | `list(string)` | `[]` | no |
 | <a name="input_root_key_crn"></a> [root\_key\_crn](#input\_root\_key\_crn) | The CRN of a root key, existing in the KMS instance passed in var.existing\_kms\_instance\_crn, which will be used to encrypt the data encryption keys (DEKs) which are then used to encrypt the data. | `string` | n/a | yes |
 
