@@ -98,7 +98,7 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 func TestFSCloudInSchematics(t *testing.T) {
 	t.Parallel()
 
-	prefix, existingTerraformOptions, existErr := provisionPreReq(t, "app-fs")
+	prefix, region, existingTerraformOptions, existErr := provisionPreReq(t, "app-fs")
 	if existErr != nil {
 		assert.True(t, existErr == nil, "Init and Apply of temp pre-req resource failed")
 		return
@@ -130,11 +130,13 @@ func TestFSCloudInSchematics(t *testing.T) {
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
 		TerraformVersion:       terraformVersion,
+		Region:                 region,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: prefix, DataType: "string"},
+		{Name: "region", Value: region, DataType: "string"},
 		{Name: "resource_group", Value: resourceGroup, DataType: "string"},
 		{Name: "existing_kms_instance_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
 		{Name: "kms_endpoint_url", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_endpoint_url"), DataType: "string"},
@@ -146,11 +148,12 @@ func TestFSCloudInSchematics(t *testing.T) {
 	assert.Nil(t, err, "This should not have errored")
 }
 
-func provisionPreReq(t *testing.T, p string) (string, *terraform.Options, error) {
+func provisionPreReq(t *testing.T, p string) (string, string, *terraform.Options, error) {
 	// ------------------------------------------------------------------------------------
 	// Provision existing resources first
 	// ------------------------------------------------------------------------------------
 	prefix := fmt.Sprintf("%s-%s", p, strings.ToLower(random.UniqueID()))
+	region := validRegions[common.CryptoIntn(len(validRegions))]
 	realTerraformDir := "./existing-resources"
 	tempTerraformDir, _ := files.CopyTerraformFolderToTemp(realTerraformDir, prefix)
 
@@ -165,6 +168,7 @@ func provisionPreReq(t *testing.T, p string) (string, *terraform.Options, error)
 		TerraformDir: tempTerraformDir,
 		Vars: map[string]interface{}{
 			"prefix": prefix,
+			"region": region,
 		},
 		// Set Upgrade to true to ensure latest version of providers and modules are used by terratest.
 		// This is the same as setting the -upgrade=true flag with terraform.
@@ -175,9 +179,9 @@ func provisionPreReq(t *testing.T, p string) (string, *terraform.Options, error)
 	_, existErr := terraform.InitAndApplyContextE(t, context.Background(), existingTerraformOptions)
 	if existErr != nil {
 		// assert.True(t, existErr == nil, "Init and Apply of temp existing resource failed")
-		return "", nil, existErr
+		return "", "", nil, existErr
 	}
-	return prefix, existingTerraformOptions, nil
+	return prefix, region, existingTerraformOptions, nil
 }
 
 func TestFullyConfigurable(t *testing.T) {
@@ -218,7 +222,7 @@ func TestFullyConfigurable(t *testing.T) {
 func TestUpgradeFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
-	prefix, existingTerraformOptions, existErr := provisionPreReq(t, "app-upg")
+	prefix, _, existingTerraformOptions, existErr := provisionPreReq(t, "app-upg")
 
 	if existErr != nil {
 		assert.True(t, existErr == nil, "Init and Apply of temp pre-req resource failed")

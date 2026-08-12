@@ -39,6 +39,7 @@ The example uses the IBM Cloud Terraform provider to create the following infras
 | <a name="module_app_config"></a> [app\_config](#module\_app\_config) | ../../modules/fscloud | n/a |
 | <a name="module_cbr_zone_schematics"></a> [cbr\_zone\_schematics](#module\_cbr\_zone\_schematics) | terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module | 1.36.7 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform-ibm-modules/resource-group/ibm | 1.6.1 |
+| <a name="module_root_key_crn_parser"></a> [root\_key\_crn\_parser](#module\_root\_key\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
 
 ### Resources
 

@@ -38,8 +38,14 @@ module "cbr_zone_schematics" {
 # Parse info from KMS key CRN
 ##############################################################################
 
+module "root_key_crn_parser" {
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.9.0"
+  crn     = var.root_key_crn
+}
+
 locals {
-  root_key_id = element(split(":", var.root_key_crn), length(split(":", var.root_key_crn)) - 1)
+  root_key_id = module.root_key_crn_parser.resource
 }
 
 ##############################################################################
