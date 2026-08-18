@@ -32,3 +32,13 @@ output "kms_endpoint_url" {
   value       = module.key_protect.kms_private_endpoint
   description = "The endpoint URL for Key Protect instance"
 }
+
+output "kms_root_key_crn" {
+  value       = module.key_protect.keys["${var.prefix}-app-config-key-ring.${var.prefix}-app-config-root-key"].crn
+  description = "CRN of the root key created for App Configuration"
+}
+
+output "region" {
+  value       = var.region
+  description = "Region in which the pre-req resources are provisioned"
+}
