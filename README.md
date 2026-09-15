@@ -66,7 +66,7 @@ module "app_config" {
   app_config_name              = "my-app-config-name"
   app_config_plan              = "lite"
   app_config_service_endpoints = "public"
-  app_config_tags              = ["list", "of", "tags"]
+  resource_tags                = ["list", "of", "tags"]
 
   app_config_collections = [
     {
