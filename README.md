@@ -110,7 +110,7 @@ You need the following permissions to run this module.
 ### Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.89.0, < 3.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5.1, < 4.0.0 |
@@ -119,7 +119,7 @@ You need the following permissions to run this module.
 ### Modules
 
 | Name | Source | Version |
-| ---- | ------ | ------- |
+|------|--------|---------|
 | <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.36.8 |
 | <a name="module_config_aggregator_trusted_profile"></a> [config\_aggregator\_trusted\_profile](#module\_config\_aggregator\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |
 | <a name="module_config_aggregator_trusted_profile_enterprise"></a> [config\_aggregator\_trusted\_profile\_enterprise](#module\_config\_aggregator\_trusted\_profile\_enterprise) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |
@@ -130,7 +130,7 @@ You need the following permissions to run this module.
 ### Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [ibm_app_config_collection.collections](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/app_config_collection) | resource |
 | [ibm_app_config_integration_en.app_config_integration_en](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/app_config_integration_en) | resource |
 | [ibm_app_config_integration_kms.app_config_integration_kms](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/app_config_integration_kms) | resource |
@@ -150,7 +150,7 @@ You need the following permissions to run this module.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the App Configuration instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_app_config_collections"></a> [app\_config\_collections](#input\_app\_config\_collections) | A list of collections to be added to the App Configuration instance | <pre>list(object({<br/>    name          = string<br/>    collection_id = string<br/>    description   = optional(string, null)<br/>    tags          = optional(string, null)<br/>  }))</pre> | `[]` | no |
 | <a name="input_app_config_event_notifications_source_name"></a> [app\_config\_event\_notifications\_source\_name](#input\_app\_config\_event\_notifications\_source\_name) | The name by which Event Notifications source will be created in the existing Event Notification instance. | `string` | `"app-config-en-source-name"` | no |
@@ -183,7 +183,7 @@ You need the following permissions to run this module.
 ### Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_app_config_account_id"></a> [app\_config\_account\_id](#output\_app\_config\_account\_id) | Account ID of the App Configuration instance |
 | <a name="output_app_config_collection_ids"></a> [app\_config\_collection\_ids](#output\_app\_config\_collection\_ids) | List of IDs for the collections in the App Configuration instance |
 | <a name="output_app_config_crn"></a> [app\_config\_crn](#output\_app\_config\_crn) | CRN of the App Configuration instance |
