@@ -229,7 +229,7 @@ resource "ibm_config_aggregator_settings" "config_aggregator_settings" {
 
 module "cbr_rule" {
   source  = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version = "1.36.8"
+  version = "1.36.9"
   count   = length(var.cbr_rules) > 0 ? length(var.cbr_rules) : 0
   # CBR rules must be created last
   # restricts the App Config endpoint and would block the provider from completing
