@@ -222,7 +222,7 @@ func TestFullyConfigurable(t *testing.T) {
 func TestUpgradeFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
-	prefix, _, existingTerraformOptions, existErr := provisionPreReq(t, "app-upg")
+	prefix, region, existingTerraformOptions, existErr := provisionPreReq(t, "app-upg")
 
 	if existErr != nil {
 		assert.True(t, existErr == nil, "Init and Apply of temp pre-req resource failed")
@@ -251,6 +251,7 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 			{Name: "app_config_collections", Value: appConfigCollection, DataType: "list(object)"},
 			{Name: "app_config_tags", Value: options.Tags, DataType: "list(string)"},
 			{Name: "prefix", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "prefix"), DataType: "string"},
+			{Name: "region", Value: region, DataType: "string"},
 			{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 			{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
 			{Name: "existing_kms_instance_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
