@@ -89,6 +89,7 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list"},
+		{Name: "existing_kms_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
