@@ -406,6 +406,6 @@ check "warn_hpcs_deprecation" {
     condition = !(
       (var.existing_kms_instance_crn != null && can(regex(".*hs-crypto.*", var.existing_kms_instance_crn)))
     )
-    error_message = "WARNING (Non-fatal, execution will continue): An IBM Cloud Hyper Protect Crypto Services (hs-crypto) instance or key CRN was provided. Note that IBM Cloud Hyper Protect Crypto Services is set to be deprecated soon. Consider migrating to a supported alternative."
+    error_message = "WARNING (Non-fatal, execution will continue): An IBM Cloud Hyper Protect Crypto Services (hs-crypto) instance or key CRN was provided. Note that IBM Cloud Hyper Protect Crypto Services is set to be deprecated soon. Consider migrating to a supported alternative such as IBM Cloud Key Protect."
   }
 }
