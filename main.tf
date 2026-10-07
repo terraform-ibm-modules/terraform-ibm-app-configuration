@@ -401,7 +401,7 @@ resource "ibm_app_config_integration_en" "app_config_integration_en" {
 # Check Blocks
 ##############################################################################
 
-check "warn_hs_crypto_key" {
+check "warn_hs_crypto" {
   assert {
     condition = !(
       (var.existing_kms_instance_crn != null && can(regex(".*hs-crypto.*", var.existing_kms_instance_crn)))
