@@ -46,16 +46,14 @@ locals {
 }
 
 module "key_protect_all_inclusive" {
-  source                      = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                     = "5.6.5"
-  create_key_protect_instance = var.existing_kms_crn == null
-  existing_kms_instance_crn   = var.existing_kms_crn
-  resource_group_id           = module.resource_group.resource_group_id
-  key_protect_instance_name   = "${var.prefix}-kms"
-  region                      = var.region
-  resource_tags               = var.resource_tags
-  key_ring_endpoint_type      = "public"
-  key_endpoint_type           = "public"
+  source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
+  version                   = "5.6.5"
+  resource_group_id         = module.resource_group.resource_group_id
+  key_protect_instance_name = "${var.prefix}-kms"
+  region                    = var.region
+  resource_tags             = var.resource_tags
+  key_ring_endpoint_type    = "public"
+  key_endpoint_type         = "public"
   keys = [
     {
       key_ring_name = local.key_ring_name

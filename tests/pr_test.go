@@ -89,7 +89,6 @@ func TestRunAdvancedExampleInSchematics(t *testing.T) {
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list"},
-		{Name: "existing_kms_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -214,6 +213,7 @@ func TestFullyConfigurable(t *testing.T) {
 		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 		{Name: "kms_encryption_enabled", Value: false, DataType: "bool"},
 		{Name: "enable_event_notifications", Value: false, DataType: "bool"},
+		{Name: "existing_kms_instance_cr", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
@@ -255,7 +255,7 @@ func TestUpgradeFullyConfigurable(t *testing.T) {
 			{Name: "region", Value: region, DataType: "string"},
 			{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 			{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
-			{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+			{Name: "existing_kms_instance_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_instance_crn"), DataType: "string"},
 			{Name: "kms_endpoint_url", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "kms_endpoint_url"), DataType: "string"},
 			{Name: "enable_event_notifications", Value: true, DataType: "bool"},
 			{Name: "existing_event_notifications_instance_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "event_notifications_instance_crn"), DataType: "string"},
