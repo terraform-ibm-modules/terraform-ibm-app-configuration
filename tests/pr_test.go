@@ -213,7 +213,7 @@ func TestFullyConfigurable(t *testing.T) {
 		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
 		{Name: "kms_encryption_enabled", Value: false, DataType: "bool"},
 		{Name: "enable_event_notifications", Value: false, DataType: "bool"},
-		{Name: "existing_kms_instance_cr", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
