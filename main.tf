@@ -396,3 +396,16 @@ resource "ibm_app_config_integration_en" "app_config_integration_en" {
   en_source_name  = var.app_config_event_notifications_source_name
   description     = var.event_notifications_integration_description
 }
+
+##############################################################################
+# Check Blocks
+##############################################################################
+
+check "warn_hpcs_deprecation" {
+  assert {
+    condition = !(
+      (var.existing_kms_instance_crn != null && can(regex(".*hs-crypto.*", var.existing_kms_instance_crn)))
+    )
+    error_message = "WARNING (Non-fatal, execution will continue): An IBM Cloud Hyper Protect Crypto Services (hs-crypto) instance or key CRN was provided. Note that IBM Cloud Hyper Protect Crypto Services is set to be deprecated soon. Consider migrating to a supported alternative such as IBM Cloud Key Protect."
+  }
+}
