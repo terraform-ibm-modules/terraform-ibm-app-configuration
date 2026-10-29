@@ -21,3 +21,8 @@ output "app_config_account_id" {
   description = "Account ID of the App Configuration instance"
   value       = module.app_config.app_config_account_id
 }
+
+output "app_config_collection_ids" {
+  description = "App Configuration Collection IDs"
+  value       = module.app_config.app_config_collection_ids
+}
