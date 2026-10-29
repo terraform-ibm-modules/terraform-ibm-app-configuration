@@ -264,6 +264,11 @@ variable "existing_kms_instance_crn" {
     ])
     error_message = "The provided KMS (Key Protect) instance CRN in not valid."
   }
+
+  validation {
+    condition     = !can(regex("^crn:(.*:){3}hs-crypto:", var.existing_kms_instance_crn)) || var.region == "eu-fr2"
+    error_message = "If `existing_kms_instance_crn` is a Hyper Protect Crypto Services (hs-crypto) instance, `region` must be `eu-fr2`."
+  }
 }
 
 variable "root_key_id" {

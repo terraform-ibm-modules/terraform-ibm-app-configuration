@@ -211,10 +211,8 @@ func TestFullyConfigurable(t *testing.T) {
 		{Name: "app_config_access_tags", Value: permanentResources["accessTags"], DataType: "list"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "enable_config_aggregator", Value: true, DataType: "bool"},
-		{Name: "kms_encryption_enabled", Value: true, DataType: "bool"},
+		{Name: "kms_encryption_enabled", Value: false, DataType: "bool"},
 		{Name: "enable_event_notifications", Value: false, DataType: "bool"},
-		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_eufr2_crn"], DataType: "string"},
-		{Name: "kms_endpoint_url", Value: permanentResources["hpcs_eufr2_private_endpoint"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
