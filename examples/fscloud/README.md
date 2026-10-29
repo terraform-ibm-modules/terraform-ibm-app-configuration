@@ -38,6 +38,7 @@ The example uses the IBM Cloud Terraform provider to create the following infras
 | ---- | ------ | ------- |
 | <a name="module_app_config"></a> [app\_config](#module\_app\_config) | ../../modules/fscloud | n/a |
 | <a name="module_cbr_zone_schematics"></a> [cbr\_zone\_schematics](#module\_cbr\_zone\_schematics) | terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module | 1.37.2 |
+| <a name="module_event_notifications"></a> [event\_notifications](#module\_event\_notifications) | terraform-ibm-modules/event-notifications/ibm | 3.0.6 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform-ibm-modules/resource-group/ibm | 1.6.1 |
 | <a name="module_root_key_crn_parser"></a> [root\_key\_crn\_parser](#module\_root\_key\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
 
@@ -66,9 +67,13 @@ The example uses the IBM Cloud Terraform provider to create the following infras
 | Name | Description |
 | ---- | ----------- |
 | <a name="output_app_config_account_id"></a> [app\_config\_account\_id](#output\_app\_config\_account\_id) | Account ID of the App Configuration instance |
+| <a name="output_app_config_collection_ids"></a> [app\_config\_collection\_ids](#output\_app\_config\_collection\_ids) | App Configuration Collection IDs |
 | <a name="output_app_config_crn"></a> [app\_config\_crn](#output\_app\_config\_crn) | CRN of the App Configuration instance |
 | <a name="output_app_config_guid"></a> [app\_config\_guid](#output\_app\_config\_guid) | App Configuration GUID |
 | <a name="output_app_config_id"></a> [app\_config\_id](#output\_app\_config\_id) | ID of the App Configuration instance |
+| <a name="output_prefix"></a> [prefix](#output\_prefix) | The prefix used to name all provisioned resources |
+| <a name="output_region"></a> [region](#output\_region) | The region all resources were provisioned in |
 | <a name="output_resource_group_id"></a> [resource\_group\_id](#output\_resource\_group\_id) | Resource group ID |
 | <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | Resource group name |
+| <a name="output_resource_tags"></a> [resource\_tags](#output\_resource\_tags) | List of resource tags |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
