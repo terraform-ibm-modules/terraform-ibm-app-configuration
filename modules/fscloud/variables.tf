@@ -39,6 +39,72 @@ variable "access_tags" {
   default     = []
 }
 
+variable "app_config_collections" {
+  description = "A list of collections to be added to the App Configuration instance"
+  type = list(object({
+    name          = string
+    collection_id = string
+    description   = optional(string, null)
+    tags          = optional(string, null)
+  }))
+  default = []
+}
+
+##############################################################################
+# Configuration aggregator
+##############################################################################
+
+variable "enable_config_aggregator" {
+  description = "Set to true to enable configuration aggregator. By setting to true a trusted profile will be created with the required access to record configuration data from all resources across regions in your account. [Learn more](https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator)."
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "config_aggregator_trusted_profile_name" {
+  description = "The name to give the trusted profile that will be created if `enable_config_aggregator` is set to `true`."
+  type        = string
+  default     = "config-aggregator-trusted-profile"
+}
+
+variable "config_aggregator_resource_collection_regions" {
+  type        = list(string)
+  description = "From which region do you want to collect configuration data? Only applies if `enable_config_aggregator` is set to true."
+  default     = ["all"]
+}
+
+variable "config_aggregator_enterprise_id" {
+  type        = string
+  description = "If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID). "
+  default     = null
+}
+
+variable "config_aggregator_enterprise_trusted_profile_name" {
+  description = "The name to give the enterprise viewer trusted profile with that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`."
+  type        = string
+  default     = "config-aggregator-enterprise-trusted-profile"
+}
+
+variable "config_aggregator_enterprise_trusted_profile_template_name" {
+  description = "The name to give the trusted profile template that will be created if `enable_config_aggregator` is set to `true` and a value is passed for `config_aggregator_enterprise_id`."
+  type        = string
+  default     = "config-aggregator-trusted-profile-template"
+}
+
+variable "config_aggregator_enterprise_account_group_ids_to_assign" {
+  type        = list(string)
+  default     = ["all"]
+  description = "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `enable_config_aggregator` is true and a value is being passed for `config_aggregator_enterprise_id`."
+  nullable    = false
+}
+
+variable "config_aggregator_enterprise_account_ids_to_assign" {
+  type        = list(string)
+  default     = []
+  description = "A list of enterprise account IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all accounts. Only applies if `enable_config_aggregator` is true and a value is being passed for `config_aggregator_enterprise_id`."
+  nullable    = false
+}
+
 ##############################################################################
 # KMS Encryption (REQUIRED FOR FSCLOUD)
 ##############################################################################
@@ -55,7 +121,7 @@ variable "root_key_id" {
 
 variable "kms_endpoint_url" {
   type        = string
-  description = "The KMS endpoint URL to use when you configure KMS encryption."
+  description = "The URL of the key management service endpoint to use for key encryption. For more information on the endpoint URL format for Key Protect, go to [Service endpoints](https://cloud.ibm.com/docs/key-protect?topic=key-protect-regions#service-endpoints)."
 }
 
 variable "skip_app_config_kms_auth_policy" {
@@ -84,7 +150,7 @@ variable "cbr_rules" {
     }))
     enforcement_mode = string
   }))
-  description = "The list of context-based restrictions rules to create."
+  description = "The context-based restrictions rule to create. Only one rule is allowed."
   default     = []
 }
 
@@ -106,7 +172,7 @@ variable "existing_event_notifications_instance_crn" {
 
 variable "event_notifications_endpoint_url" {
   type        = string
-  description = "The URL of the Event Notifications service endpoint to use for notifying configuration changes."
+  description = "The URL of the Event Notifications service endpoint to use for notifying configuration changes. For more information on the endpoint URL for Event Notifications, go to [Service endpoints](https://cloud.ibm.com/docs/event-notifications?topic=event-notifications-en-regions-endpoints#en-service-endpoints). It is required if `enable_event_notifications` is set to true."
   default     = null
 }
 
