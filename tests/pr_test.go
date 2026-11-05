@@ -133,6 +133,15 @@ func TestFSCloudInSchematics(t *testing.T) {
 		Region:                 region,
 	})
 
+	// The fscloud example enables the collection and configuration aggregator inputs exposed by the fscloud submodule.
+	// Verify the matching outputs are returned after the apply.
+	options.PostApplyHook = func(options *testschematic.TestSchematicOptions) error {
+		for _, name := range []string{"app_config_collection_ids", "config_aggregator_trusted_profile_id"} {
+			assert.Contains(t, options.LastTestTerraformOutputs, name, "expected output %q to be present in the fscloud example", name)
+		}
+		return nil
+	}
+
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "prefix", Value: prefix, DataType: "string"},

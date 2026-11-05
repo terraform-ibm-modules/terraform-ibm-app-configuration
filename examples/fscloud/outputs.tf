@@ -31,3 +31,13 @@ output "app_config_account_id" {
   description = "Account ID of the App Configuration instance"
   value       = module.app_config.app_config_account_id
 }
+
+output "app_config_collection_ids" {
+  description = "List of IDs for the collections in the App Configuration instance"
+  value       = module.app_config.app_config_collection_ids
+}
+
+output "config_aggregator_trusted_profile_id" {
+  description = "ID of the config aggregator trusted profile"
+  value       = module.app_config.config_aggregator_trusted_profile_id
+}
