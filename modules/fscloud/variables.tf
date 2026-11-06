@@ -75,7 +75,7 @@ variable "config_aggregator_resource_collection_regions" {
 
 variable "config_aggregator_enterprise_id" {
   type        = string
-  description = "If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID). "
+  description = "If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID)."
   default     = null
 }
 
