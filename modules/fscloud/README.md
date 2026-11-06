@@ -95,6 +95,9 @@ No resources.
 | <a name="output_app_config_crn"></a> [app\_config\_crn](#output\_app\_config\_crn) | CRN of the App Configuration instance |
 | <a name="output_app_config_guid"></a> [app\_config\_guid](#output\_app\_config\_guid) | GUID of the App Configuration instance |
 | <a name="output_app_config_id"></a> [app\_config\_id](#output\_app\_config\_id) | ID of the App Configuration instance |
+| <a name="output_config_aggregator_enterprise_trusted_profile_id"></a> [config\_aggregator\_enterprise\_trusted\_profile\_id](#output\_config\_aggregator\_enterprise\_trusted\_profile\_id) | ID of the config aggregator trusted profile for enterprise access |
+| <a name="output_config_aggregator_enterprise_trusted_profile_template_id"></a> [config\_aggregator\_enterprise\_trusted\_profile\_template\_id](#output\_config\_aggregator\_enterprise\_trusted\_profile\_template\_id) | ID of the config aggregator trusted profile enterprise template ID |
+| <a name="output_config_aggregator_trusted_profile_id"></a> [config\_aggregator\_trusted\_profile\_id](#output\_config\_aggregator\_trusted\_profile\_id) | ID of the config aggregator trusted profile |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- BEGIN_TF_DOCS -->
@@ -157,4 +160,7 @@ No resources.
 | <a name="output_app_config_crn"></a> [app\_config\_crn](#output\_app\_config\_crn) | CRN of the App Configuration instance |
 | <a name="output_app_config_guid"></a> [app\_config\_guid](#output\_app\_config\_guid) | GUID of the App Configuration instance |
 | <a name="output_app_config_id"></a> [app\_config\_id](#output\_app\_config\_id) | ID of the App Configuration instance |
+| <a name="output_config_aggregator_enterprise_trusted_profile_id"></a> [config\_aggregator\_enterprise\_trusted\_profile\_id](#output\_config\_aggregator\_enterprise\_trusted\_profile\_id) | ID of the config aggregator trusted profile for enterprise access |
+| <a name="output_config_aggregator_enterprise_trusted_profile_template_id"></a> [config\_aggregator\_enterprise\_trusted\_profile\_template\_id](#output\_config\_aggregator\_enterprise\_trusted\_profile\_template\_id) | ID of the config aggregator trusted profile enterprise template ID |
+| <a name="output_config_aggregator_trusted_profile_id"></a> [config\_aggregator\_trusted\_profile\_id](#output\_config\_aggregator\_trusted\_profile\_id) | ID of the config aggregator trusted profile |
 <!-- END_TF_DOCS -->
