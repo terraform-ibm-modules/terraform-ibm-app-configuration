@@ -17,6 +17,17 @@ module "app_config" {
   cbr_rules                       = var.cbr_rules
   access_tags                     = var.access_tags
   resource_tags                   = var.resource_tags
+  app_config_collections          = var.app_config_collections
+
+  # Configuration aggregator (optional)
+  enable_config_aggregator                                   = var.enable_config_aggregator
+  config_aggregator_trusted_profile_name                     = var.config_aggregator_trusted_profile_name
+  config_aggregator_resource_collection_regions              = var.config_aggregator_resource_collection_regions
+  config_aggregator_enterprise_id                            = var.config_aggregator_enterprise_id
+  config_aggregator_enterprise_trusted_profile_name          = var.config_aggregator_enterprise_trusted_profile_name
+  config_aggregator_enterprise_trusted_profile_template_name = var.config_aggregator_enterprise_trusted_profile_template_name
+  config_aggregator_enterprise_account_group_ids_to_assign   = var.config_aggregator_enterprise_account_group_ids_to_assign
+  config_aggregator_enterprise_account_ids_to_assign         = var.config_aggregator_enterprise_account_ids_to_assign
 
   # Event Notifications (optional)
   enable_event_notifications                      = var.enable_event_notifications
