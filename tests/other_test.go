@@ -67,7 +67,7 @@ func TestAddonsDefaultConfiguration(t *testing.T) {
 		Testing:       t,
 		Prefix:        "app-def",
 		ResourceGroup: resourceGroup,
-		QuietMode:     true, // Suppress logs except on failure
+		QuietMode:     false, // Suppress logs except on failure
 	})
 
 	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
@@ -109,7 +109,7 @@ func TestAddonsWithDisabledDAs(t *testing.T) {
 		Testing:       t,
 		Prefix:        "appcon-dis",
 		ResourceGroup: resourceGroup,
-		QuietMode:     true, // Suppress logs except on failure
+		QuietMode:     false, // Suppress logs except on failure
 	})
 
 	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
